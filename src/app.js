@@ -1,18 +1,24 @@
+'use strict';
+
 let offsetX;
-let isDragging = false;
+let isDraggingX = false;
 let lastXPos;
 let pageNum = 2;
-
 let header = document.querySelector("h1");
-const nodeList = document.querySelectorAll(".page");
-const pages = Array.from(nodeList).map((page) => page.id);
+
+const root = getComputedStyle(document.documentElement);
+const secondaryColor = root.getPropertyValue('--secondary');
+const textColor = root.getPropertyValue('--text');
 
 const container = document.querySelector("#container");
 let containerPosInPx = parseFloat(
     getComputedStyle(container).transform.split(",")[4]
     );
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-let containerPosInVw = (containerPosInPx / vw) * 100;
+let containerXPosInVw = (containerPosInPx / vw) * 100;
+
+const pageList = document.querySelectorAll(".page");
+const pages = Array.from(pageList).map((page) => page.id);
 
 pages.forEach((id) => {
     const page = document.getElementById(id);
@@ -22,11 +28,20 @@ pages.forEach((id) => {
     page.addEventListener("touchend", endDrag);
 });
 
+const buttonList = document.querySelectorAll("i");
+const buttons = Array.from(buttonList).map((button) => button.id);
+
+buttons.forEach((id) => {
+    const button = document.getElementById(id);
+
+    button.addEventListener("click", buttonClicked);
+});
+
 function handleTouchStart(event) {
     const firstTouch = event.touches[0];
     offsetX = firstTouch.clientX;
 
-    isDragging = true;
+    isDraggingX = true;
     lastXPos = 0;
 }
 
@@ -45,43 +60,54 @@ function handleTouchMove(event) {
 }
 
 function endDrag(event) {
-    if (!isDragging) return;
+    if (!isDraggingX) return;
     
-    isDragging = false;
+    isDraggingX = false;
 
-    if (lastXPos >= 100 && event.currentTarget.id != "exercises") {
+    if (lastXPos <= 100 && lastXPos > 0) {
+        container.style.transform = `translateX(${containerXPosInVw}vw)`;
+
+    } else if (lastXPos >= -100 && lastXPos < 0) {
+        container.style.transform = `translateX(${containerXPosInVw}vw)`;
+
+    } else if (lastXPos >= 100 && event.currentTarget.id != "exercises") {
 
         pageNum --;
-        container.style.transform = `translateX(${containerPosInVw + 100}vw)`;    
+        container.style.transform = `translateX(${containerXPosInVw + 100}vw)`;    
     } else if (lastXPos <= -100 && event.currentTarget.id != "settings") {
 
         pageNum ++;
-        container.style.transform = `translateX(${containerPosInVw - 100}vw)`;
+        container.style.transform = `translateX(${containerXPosInVw - 100}vw)`;
     } else if (0 == lastXPos) {
         return;
     }
 
     updateContainerPos();
-    updateHeader(pageNum);
+    updatePageElems(pageNum);
+}
+
+function buttonClicked(event) {
+    container.style.transform = `translateX(${buttons.indexOf(event.currentTarget.id) * -100}vw)`;
+    pageNum =  buttons.indexOf(event.currentTarget.id);
+
+    updateContainerPos();
+    updatePageElems(pageNum);
 }
 
 function updateContainerPos() {
 
-    if (lastXPos <= 100 && lastXPos > 0) {
-        container.style.transform = `translateX(${containerPosInVw}vw)`;
-    } else if (lastXPos >= -100 && lastXPos < 0) {
-        container.style.transform = `translateX(${containerPosInVw}vw)`;
-    }
     containerPosInPx = parseFloat(
         getComputedStyle(container).transform.split(",")[4]
     );
-    containerPosInVw = (containerPosInPx / vw) * 100;
+    containerXPosInVw = (containerPosInPx / vw) * 100;
 }
 
-function updateHeader(pageNum) {
-    pages.forEach(page => {
-        if (pages.indexOf(page) == pageNum) {
-            header.textContent = `${page}`;
-        }
-    });
+function updatePageElems(pageNum) {
+    for (let i = 0; i < pages.length; i++) {
+        buttonList[i].style.color = textColor;
+        if (i == pageNum) {
+            header.textContent = `${pages[i]}`;
+            buttonList[pageNum].style.color = secondaryColor;
+        }   
+    }
 }
