@@ -7,6 +7,7 @@
     overflow: hidden;
     background-color: var(--background);
     color: var(--text);
+    font-family: 'Montserrat', sans-serif;
 }
 
 :root {
@@ -34,7 +35,6 @@ i {
 }
 
 #header {
-    font-family: 'Montserrat', sans-serif;
     background-color: var(--primary);
     position: absolute;
     height: 12.5vh;
@@ -96,14 +96,26 @@ i {
     display: none;
 }
 
-.img-container {
-    padding: 1vw 1vw 1vw 1vw;
-    width: 30vw;
-    height: 30vw;
+.exercise-container {
+    width: 35vw;
+    height: 17.5vh;
     text-align: center;
     border: 2px solid var(--secondary);
     border-radius: 5px;
     display: flex;
+    flex-direction: column;
     align-self: center;
     justify-self: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.exercise-gif {
+    width: 27.5vw;
+    height: 25vw;  
+}
+
+.exercise-p {
+    font-size: 14px;
+    margin-top: 5%;
 }
