@@ -87,7 +87,7 @@ i {
     padding: 15vh 0vw 0vh 0vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: 2.5vh;
+    row-gap: 5vh;
     width: 100vw;
     overflow-y: scroll;
 }
@@ -98,7 +98,8 @@ i {
 
 .exercise-container {
     width: 35vw;
-    height: 17.5vh;
+    min-height: 17.5vh;
+    height: fit-content;
     text-align: center;
     border: 2px solid var(--secondary);
     border-radius: 5px;

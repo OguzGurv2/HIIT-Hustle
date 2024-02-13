@@ -5,7 +5,7 @@ import fs from 'fs';
 const app = express();
 const PORT = 8080;
 
-const exercisesData = JSON.parse(fs.readFileSync('src/content/json/exercises.json', 'utf-8'));
+const exercisesData = JSON.parse(fs.readFileSync('src/contents/json/exercises.json', 'utf-8'));
 
 app.use(express.static('src'));
 

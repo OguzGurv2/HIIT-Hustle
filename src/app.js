@@ -19,8 +19,21 @@ fetch('/exercises')
             exerciseDiv.appendChild(exerciseP);
             pageContainer.appendChild(exerciseDiv);
         });
+        fixContentLength();
       })
       .catch(error => {
         console.error('Error fetching exercise data:', error);
       });
     
+function fixContentLength(){
+    const children = document.querySelectorAll('.exercise-container');
+
+    let maxHeight = 0;
+    children.forEach(child => {
+        maxHeight = Math.max(maxHeight, child.offsetHeight);
+    });
+
+    children.forEach(child => {
+        child.style.height = maxHeight + 'px';
+    });
+};
