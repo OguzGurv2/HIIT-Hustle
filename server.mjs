@@ -17,4 +17,16 @@ app.get('/exercises', (req, res) => {
   res.json(exercisesData);
 });
 
+app.get('/exercises/:exerciseId', (req, res) => {
+  const exerciseId = req.params.exerciseId;
+
+  const exerciseData = exercisesData.find(exercise => exercise.id === exerciseId);
+  
+  if (!exerciseData) {
+    return res.status(404).json({ error: 'Exercise not found' });
+  }
+
+  res.json(exerciseData);
+});
+
 open(`http://localhost:${PORT}/`);

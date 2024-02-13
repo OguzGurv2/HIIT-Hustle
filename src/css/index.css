@@ -34,6 +34,10 @@ i {
     overflow: hidden;
 }
 
+a {
+    text-decoration: none;
+}
+
 #header {
     background-color: var(--primary);
     position: absolute;
@@ -82,7 +86,7 @@ i {
     color: var(--secondary);
 }
 
-.page-container{
+.grid-container{
     margin-bottom: 12.5vh;
     padding: 15vh 0vw 0vh 0vw;
     display: grid;
@@ -92,7 +96,7 @@ i {
     overflow-y: scroll;
 }
 
-.page-container::-webkit-scrollbar {
+.grid-container::-webkit-scrollbar {
     display: none;
 }
 
