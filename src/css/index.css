@@ -15,6 +15,7 @@
     --text: #ffffff;
     --primary: #333333;
     --secondary: #6883BA;
+    --tertiary: #B80C09;
 }
 
 h1 {
@@ -50,7 +51,7 @@ a {
 #container {
     display: flex;
     width: 500vw;
-    transform: translateX(-200vw);
+    /* transform: translateX(-200vw); */
     z-index: 0;
 }
 
@@ -82,9 +83,9 @@ a {
     align-items: center;
 }
 
-#home-btn {
+/* #home-btn {
     color: var(--secondary);
-}
+} */
 
 .grid-container{
     margin-bottom: 12.5vh;

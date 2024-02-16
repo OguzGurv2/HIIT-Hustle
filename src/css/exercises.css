@@ -51,6 +51,35 @@ a {
     height: auto;
 }
 
+#body-part {
+    font-size: large;
+    font-weight: 700;
+    margin-top: 1vh;
+    width: 80%;
+    height: fit-content;
+    text-align: center;
+}
+
+#body-part::before {
+    content: "Body Part: ";
+    color: var(--tertiary);
+}
+
+#instruction-list {
+    margin-top: 2vh;
+    padding: 2vh 3vw;
+    border: 2px solid var(--secondary);
+    border-radius: 6%;
+}
+
+#instruction-header {
+    font-size: xx-large;
+    font-weight: 900;
+    color: var(--secondary);
+    text-align: center;
+    width: 100%;
+}
+
 .exercise-p {
     font-size: 20px;
     width: 75vw;

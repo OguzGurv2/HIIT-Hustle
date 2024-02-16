@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
     <script type="module" defer src="static/index.js"></script>
-    <script type="module" src="static/slider.js"></script>
+    <script type="module" src="static/pageManager.js"></script>
     <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
     <title>App</title>
 </head>
@@ -17,16 +17,18 @@
     </div>
     <div id="container">
         <div id="exercises" class="page">
+            <div id="exercise-grid" class="grid-container"></div>
+        </div>
+        <div id="workouts" class="page">
             <div class="grid-container"></div>
         </div>
-        <div id="workouts" class="page"></div>
         <div id="home" class="page"></div>
         <div id="social" class="page"></div>
         <div id="settings" class="page"></div>
     </div>
     <div id="footer">
-        <i id="exercises-btn" class="fa-solid fa-person-walking"></i>
-        <i id="workouts-btn" class="fa-solid fa-dumbbell"></i>
+        <i id="exercises-btn" class="fa-solid fa-dumbbell"></i>
+        <i id="workouts-btn" class="fa-solid fa-list-check"></i>
         <i id="home-btn" class="fa-solid fa-house"></i>
         <i id="social-btn" class="fa-solid fa-user-group"></i>
         <i id="settings-btn" class="fa-solid fa-gear"></i>

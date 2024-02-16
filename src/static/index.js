@@ -2,7 +2,7 @@
 
 import { fixContentLength } from './contentManager.js';
 
-const gridContainer = document.querySelector(".grid-container");
+const gridContainer = document.querySelector("#exercise-grid");
 
 fetch('/exercises')
       .then(response => response.json())

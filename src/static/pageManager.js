@@ -14,11 +14,26 @@ const container = document.querySelector("#container");
 let containerPosInPx = parseFloat(
     getComputedStyle(container).transform.split(",")[4]
     );
+
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 let containerXPosInVw = (containerPosInPx / vw) * 100;
 
 const pageList = document.querySelectorAll(".page");
 const pages = Array.from(pageList).map((page) => page.id);
+
+document.addEventListener("DOMContentLoaded", () => {
+    let storedData = localStorage.getItem("pageIndex");
+    
+    if(storedData) {
+        pageNum = storedData;
+        localStorage.clear();
+    } 
+    
+    container.style.transform = `translateX(${pageNum * -100}vw)`;
+
+    updateContainerPos();
+    updatePageElems(pageNum);
+});
 
 pages.forEach((id) => {
     const page = document.getElementById(id);
