@@ -51,7 +51,6 @@ a {
 #container {
     display: flex;
     width: 500vw;
-    /* transform: translateX(-200vw); */
     z-index: 0;
 }
 
@@ -83,11 +82,8 @@ a {
     align-items: center;
 }
 
-/* #home-btn {
-    color: var(--secondary);
-} */
 
-.grid-container{
+.grid-wrapper {
     margin-bottom: 12.5vh;
     padding: 15vh 0vw 0vh 0vw;
     display: grid;
@@ -97,11 +93,11 @@ a {
     overflow-y: scroll;
 }
 
-.grid-container::-webkit-scrollbar {
+.grid-wrapper::-webkit-scrollbar {
     display: none;
 }
 
-.exercise-container {
+.grid-container {
     width: 35vw;
     min-height: 17.5vh;
     height: fit-content;
@@ -118,10 +114,15 @@ a {
 
 .exercise-gif {
     width: 27.5vw;
-    height: 25vw;  
+    height: 25vw;
 }
 
 .exercise-p {
     font-size: 14px;
     margin-top: 5%;
+}
+
+#create-workout {
+    color: var(--secondary);
+    font-size: 4em;
 }

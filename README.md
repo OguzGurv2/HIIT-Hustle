@@ -8,3 +8,7 @@ https://coolors.co
 https://www.flaticon.com/free-icons/favicon
 
 https://www.healthline.com/
+
+https://www.sqlitetutorial.net/sqlite-nodejs/
+
+https://www.sqlite.org/datatype3.html

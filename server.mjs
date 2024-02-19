@@ -1,11 +1,9 @@
 import express from 'express';
 import open from 'open';
-import fs from 'fs';
+import db from './database.js'
 
 const app = express();
 const PORT = 8080;
-
-const exercisesData = JSON.parse(fs.readFileSync('src/contents/json/exercises.json', 'utf-8'));
 
 app.use(express.static('src'));
 
@@ -14,19 +12,26 @@ app.listen(PORT, () => {
 });
 
 app.get('/exercises', (req, res) => {
-  res.json(exercisesData);
+  db.all('SELECT * FROM exercises', (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
 });
 
-app.get('/exercises/:exerciseId', (req, res) => {
-  const exerciseId = req.params.exerciseId;
+app.get('/exercises/:exerciseID', (req, res) => {
+    const exerciseID = req.params.exerciseID;
 
-  const exerciseData = exercisesData.find(exercise => exercise.id === exerciseId);
-  
-  if (!exerciseData) {
-    return res.status(404).json({ error: 'Exercise not found' });
-  }
-
-  res.json(exerciseData);
+  db.get('SELECT * FROM exercises WHERE name = ?', [exerciseID], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Exercise not found' });
+    }
+    res.json(row);
+  });
 });
 
 open(`http://localhost:${PORT}/`);

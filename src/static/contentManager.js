@@ -1,7 +1,7 @@
 'use strict'
 
-function fixContentLength(){
-    const children = document.querySelectorAll('.exercise-container');
+function fixContentLength() {
+    const children = document.querySelectorAll('.child');
 
     let maxHeight = 0;
     children.forEach(child => {

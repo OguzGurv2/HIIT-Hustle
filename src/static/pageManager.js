@@ -13,7 +13,7 @@ const textColor = root.getPropertyValue('--text');
 const container = document.querySelector("#container");
 let containerPosInPx = parseFloat(
     getComputedStyle(container).transform.split(",")[4]
-    );
+);
 
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 let containerXPosInVw = (containerPosInPx / vw) * 100;
@@ -23,12 +23,12 @@ const pages = Array.from(pageList).map((page) => page.id);
 
 document.addEventListener("DOMContentLoaded", () => {
     let storedData = localStorage.getItem("pageIndex");
-    
-    if(storedData) {
+
+    if (storedData) {
         pageNum = storedData;
         localStorage.clear();
-    } 
-    
+    }
+
     container.style.transform = `translateX(${pageNum * -100}vw)`;
 
     updateContainerPos();
@@ -43,7 +43,7 @@ pages.forEach((id) => {
     page.addEventListener("touchend", endDrag);
 });
 
-const buttonList = document.querySelectorAll("i");
+const buttonList = document.querySelectorAll(".btn");
 const buttons = Array.from(buttonList).map((button) => button.id);
 
 buttons.forEach((id) => {
@@ -68,15 +68,15 @@ function handleTouchMove(event) {
 
     lastXPos = distanceX;
 
-    if ((lastXPos < 0  && event.currentTarget.id != "settings") || 
-    (lastXPos > 0 && event.currentTarget.id != "exercises")) {
+    if ((lastXPos < 0 && event.currentTarget.id != "settings") ||
+        (lastXPos > 0 && event.currentTarget.id != "exercises")) {
         container.style.transform = `translateX(${containerPosInPx + lastXPos}px)`;
     }
 }
 
 function endDrag(event) {
     if (!isDraggingX) return;
-    
+
     isDraggingX = false;
 
     if (lastXPos <= 100 && lastXPos > 0) {
@@ -87,11 +87,11 @@ function endDrag(event) {
 
     } else if (lastXPos >= 100 && event.currentTarget.id != "exercises") {
 
-        pageNum --;
-        container.style.transform = `translateX(${containerXPosInVw + 100}vw)`;    
+        pageNum--;
+        container.style.transform = `translateX(${containerXPosInVw + 100}vw)`;
     } else if (lastXPos <= -100 && event.currentTarget.id != "settings") {
 
-        pageNum ++;
+        pageNum++;
         container.style.transform = `translateX(${containerXPosInVw - 100}vw)`;
     } else if (0 == lastXPos) {
         return;
@@ -103,7 +103,7 @@ function endDrag(event) {
 
 function buttonClicked(event) {
     container.style.transform = `translateX(${buttons.indexOf(event.currentTarget.id) * -100}vw)`;
-    pageNum =  buttons.indexOf(event.currentTarget.id);
+    pageNum = buttons.indexOf(event.currentTarget.id);
 
     updateContainerPos();
     updatePageElems(pageNum);
@@ -123,6 +123,6 @@ function updatePageElems(pageNum) {
         if (i == pageNum) {
             header.textContent = `${pages[i]}`;
             buttonList[pageNum].style.color = secondaryColor;
-        }   
+        }
     }
 }

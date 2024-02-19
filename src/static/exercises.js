@@ -13,7 +13,7 @@ fetch(`exercises/${exerciseName}`)
         exerciseHeader.textContent = data.name;
         exerciseGif.src = data.url;
 
-        bodyPart.textContent = bodyPart.textContent + data.bodyPart;
+        bodyPart.textContent = bodyPart.textContent + data.body_part;
 
         const paragraphs = data.description.split(/\d+\.\s/);
 
@@ -26,7 +26,7 @@ fetch(`exercises/${exerciseName}`)
     })
     .catch(error => {
         console.error('Error fetching exercise data:', error);
-});
+    });
 
 document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("pageIndex", 0);
