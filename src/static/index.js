@@ -1,19 +1,18 @@
 'use strict';
 
+import { fetchExercises } from './fetchData.js';
 import { fixContentLength } from './contentManager.js';
 
 const gridContainer = document.querySelector("#exercise-grid");
 
-fetch('/exercises')
-  .then(response => response.json())
+fetchExercises()
   .then(exercises => {
-
     exercises.forEach(exercise => {
       const exerciseCon = document.createElement('a');
       exerciseCon.classList.add("grid-container");
       exerciseCon.classList.add("child");
       exerciseCon.id = exercise.name;
-      exerciseCon.href = `exercises.html?exercise=${exercise.name}`;
+      exerciseCon.href = `exercise.html?exercise=${exercise.name}`;
 
       const exerciseGif = document.createElement('img');
       exerciseGif.classList.add("exercise-gif");

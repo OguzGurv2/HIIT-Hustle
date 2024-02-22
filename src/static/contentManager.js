@@ -1,7 +1,15 @@
 'use strict'
 
-function fixContentLength() {
-    const children = document.querySelectorAll('.child');
+import { addExerciseToWorkout } from "./workoutHandler.js";
+
+export function fixContentLength(bool) {
+    
+    let children;
+    if (bool) {
+        children = document.querySelector('#workout-content').childNodes;
+    } else {
+        children = document.querySelectorAll('.child');
+    }
 
     let maxHeight = 0;
     children.forEach(child => {
@@ -13,6 +21,14 @@ function fixContentLength() {
     children.forEach(child => {
         child.style.height = vhMaxHeight + 'vh';
     });
+
+
 };
 
-export { fixContentLength };
+export function addClickEventToContent() {
+    const children = document.querySelectorAll('.child');
+    
+    children.forEach(child => {
+        child.addEventListener("click", addExerciseToWorkout);
+    });
+}

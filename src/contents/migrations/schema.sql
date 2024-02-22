@@ -1,3 +1,5 @@
+-- EXERCISES TABLE:
+
 CREATE TABLE IF NOT EXISTS exercises (
   id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
   name VARCHAR(20) NOT NULL,
@@ -6,6 +8,17 @@ CREATE TABLE IF NOT EXISTS exercises (
   duration INT NOT NULL,
   description TEXT NOT NULL
 );
+
+-- WORKOUTS TABLE:
+
+CREATE TABLE IF NOT EXISTS exercises (
+  id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(15) NOT NULL,
+  exercise_list TEXT, 
+  FOREIGN KEY (exercise_list) REFERENCES exercises(exercise_id)
+);
+
+-- EXERCISES DATA:
 
 INSERT INTO
   exercises (
@@ -244,3 +257,4 @@ VALUES
     30,
     "1. Assume a standard push-up position with your hands shoulder with apart. Hands should be position under your shoulders on the floor. 2. Begin exercise by bending at the elbows and lowering your body to the ground, while keeping your body in a straight line. 3. Next, explode up from the down position and push yourself off the ground so that your hands leave the floor. 4. Drop back down onto your hands and immediately lower back down into the next push-up."
   );
+  

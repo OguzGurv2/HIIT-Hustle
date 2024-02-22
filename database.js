@@ -7,7 +7,7 @@ const db = new sqlite3.Database('./database.db', (err) => {
     } else {
         console.log('Connected to the SQLite database.');
 
-        const schema = fs.readFileSync('src/contents/db/schema.sql', 'utf8');
+        const schema = fs.readFileSync('src/contents/migrations/schema.sql', 'utf8');
         db.exec(schema, (err) => {
             if (err) {
                 console.error('Error executing schema:', err.message);

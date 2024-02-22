@@ -1,5 +1,7 @@
 'use strict'
 
+import { fetchExerciseByID } from './fetchData.js';
+
 const urlParams = new URLSearchParams(window.location.search);
 const exerciseName = urlParams.get('exercise');
 const exerciseHeader = document.querySelector('.exercise-header');
@@ -7,10 +9,9 @@ const exerciseGif = document.querySelector('.exercise-gif');
 const instructions = document.querySelector('#instruction-list');
 const bodyPart = document.querySelector('#body-part');
 
-fetch(`exercises/${exerciseName}`)
-    .then(response => response.json())
+fetchExerciseByID(exerciseName)
     .then(data => {
-        exerciseHeader.textContent = data.name;
+        exerciseHeader.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
         exerciseGif.src = data.url;
 
         bodyPart.textContent = bodyPart.textContent + data.body_part;

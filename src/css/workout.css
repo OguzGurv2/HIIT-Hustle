@@ -1,0 +1,98 @@
+@import 'exercise.css';
+
+.hidden{
+    display: none;
+}
+
+#darken-background{
+    position: fixed;
+    top: 0%;
+    z-index: 2;
+    width: 100%;
+    height: 25%;
+    background-color: black;
+    opacity: 0.5;
+}   
+
+#popup-wrapper {
+    overflow: auto;
+    z-index: 3;
+    background-color: var(--primary);
+    position: fixed;
+    top: 25%;
+    height: 100%;
+}
+
+#popup-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+#popup-wrapper h2 {
+    z-index: 3;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background-color: var(--primary);
+}
+
+#popup-grid {
+    padding-top: 17.5%;  
+    margin-bottom: 10%;
+    background-color: var(--primary);
+}
+
+.exercise-gif {
+    width: 27.5vw;
+    height: 25vw;
+}
+
+.exercise-p {
+    font-size: 14px;
+    margin-top: 5%;
+    width: auto;
+}
+
+#popup-msg {
+    width: 100%;
+    text-align: center;
+    z-index: 4;
+    position: fixed;
+    bottom: -6.5%;
+    padding-bottom: 5%;
+    padding-top: 2.5%;
+    background-color: var(--green);
+}
+
+.animate-up {
+    animation: positionUp 1s forwards;
+}
+
+@keyframes positionUp {
+    from {
+        bottom: -6.5%;
+    }
+    to {
+        bottom: 0%;
+    }
+  }
+  
+.animate-down {
+    animation: positionDown 1s forwards;
+}
+
+@keyframes positionDown {
+    from {
+        bottom: 0%;
+    }
+    to {
+        bottom: -6.5%;
+    }
+  }
+
+#popup-msg p {
+    background-color: var(--green);
+    font-size: large;
+    font-weight: 700;
+}

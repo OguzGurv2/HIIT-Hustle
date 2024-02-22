@@ -23,6 +23,7 @@ a {
     align-items: center;
     height: 12.5vh;
     position: fixed;
+    z-index: 2;
 }
 
 .nav-btn {
@@ -62,7 +63,7 @@ a {
 
 #body-part::before {
     content: "Body Part: ";
-    color: var(--tertiary);
+    color: var(--red);
 }
 
 #instruction-list {

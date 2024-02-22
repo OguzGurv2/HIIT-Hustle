@@ -21,7 +21,7 @@ app.get('/exercises', (req, res) => {
 });
 
 app.get('/exercises/:exerciseID', (req, res) => {
-    const exerciseID = req.params.exerciseID;
+  const exerciseID = req.params.exerciseID;
 
   db.get('SELECT * FROM exercises WHERE name = ?', [exerciseID], (err, row) => {
     if (err) {
