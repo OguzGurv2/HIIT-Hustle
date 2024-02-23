@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.mjs",
   "scripts": {
-    "start": "node server.mjs",
+    "start": "node --watch server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

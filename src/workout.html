@@ -11,19 +11,23 @@
 </head>
 
 <body>
-    <div id="darken-background" class="hidden"></div>
+    <div id="darken-background"></div>
     <div id="nav">
         <a class="nav-btn" href="http://localhost:8080"> &lt; </a>
         <h1 class="exercise-header">New Workout</h1>
-
     </div>
     <div class="page">
         <div id="workout-content" class="grid-wrapper"></div>
+    </div>
+    <div id="popup-name" class="hidden">
+        <p>Name your workout!</p>
+        <input type="text" id="name-input" placeholder="New Workout" maxlength="20"/>
     </div>
     <div id="popup-wrapper" class="hidden">     
         <h2>Add Exercise</h2>   
         <div id="popup-grid" class="grid-wrapper"></div>
     </div>
+    <button id="save" class="hidden">Save Workout</button>
     <div id="popup-msg">
         <p>Execise Added!</p>
     </div>

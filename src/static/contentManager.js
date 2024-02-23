@@ -1,6 +1,7 @@
 'use strict'
 
-import { addExerciseToWorkout } from "./workoutHandler.js";
+import { addExerciseToWorkout, handleDelete } from "./workoutHandler.js";
+import { handleDarkenAnim, handleEditBtn, handleNameInput, handlePopupBtn, handleSave } from "./buttonHandler.js";
 
 export function fixContentLength(bool) {
     
@@ -21,14 +22,27 @@ export function fixContentLength(bool) {
     children.forEach(child => {
         child.style.height = vhMaxHeight + 'vh';
     });
-
-
 };
 
-export function addClickEventToContent() {
-    const children = document.querySelectorAll('.child');
-    
-    children.forEach(child => {
-        child.addEventListener("click", addExerciseToWorkout);
-    });
+export function addEventListenersToContents(elem) {
+    if (elem.id === "popup-grid") {
+        return elem.childNodes.forEach(child => {
+            child.addEventListener("click", addExerciseToWorkout);
+        });
+    }
+
+    elem.addEventListener("click", ()=> {
+        if (elem.id === "name-input") {
+            return elem.addEventListener("keydown", handleNameInput);
+        } else if (elem.id === "popup-btn") {
+            return elem.addEventListener("click", handlePopupBtn);
+        } else if (elem.id === "darken-background") {
+            return elem.addEventListener("click", handleDarkenAnim);
+        } else if (elem.id === "edit") {
+            return elem.addEventListener("click", handleEditBtn);
+        } else if (elem.id === "save") {
+            return elem.addEventListener("click", handleSave);
+        }
+        elem.addEventListener("click", handleDelete);
+    }); 
 }

@@ -23,7 +23,7 @@ a {
     align-items: center;
     height: 12.5vh;
     position: fixed;
-    z-index: 2;
+    z-index: 1;
 }
 
 .nav-btn {
