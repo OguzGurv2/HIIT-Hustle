@@ -1,7 +1,8 @@
 'use strict'
 
-import { exerciseAdded } from "./workoutHandler.js";
-import { darkenBg, popupWrapper, popupName, workoutName, saveBtn, title } from './workout.js';
+import { darkenBg, popupWrapper, popupName, workoutName, title } from './workout.js';
+import { exerciseAdded } from './workoutHandler.js';
+import { sendWorkout } from './dataHandler.js';
 
 export function handleNameInput(event) {
 
@@ -39,5 +40,16 @@ export function handleEditBtn() {
 }
 
 export function handleSave() {
-    saveBtn.classList.add("hidden");
+    const workoutName = document.querySelector('.exercise-header').textContent;
+    const nodeList = document.querySelector('#workout-content').childNodes;
+    const exerciseList = getNodeListIds(nodeList);
+    sendWorkout(workoutName, exerciseList);
+}
+
+function getNodeListIds(nodeList) {
+    const ids = [];
+    nodeList.forEach(node => {
+        ids.push(node.id);
+    });
+    return ids;
 }

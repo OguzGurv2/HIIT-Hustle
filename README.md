@@ -15,3 +15,5 @@ https://www.sqlitetutorial.net/sqlite-nodejs/
 https://www.sqlite.org/datatype3.html
 
 https://developer.mozilla.org/en-US/
+
+https://www.sqlite.org/json1.html

@@ -1,44 +1,68 @@
-'use strict';
+"use strict";
 
-import { fetchExercises } from './fetchData.js';
-import { fixContentLength } from './contentManager.js';
+import { fixContentLength, capitalizeWords } from "./contentManager.js";
+import { fetchExercises, fetchWorkouts } from "./dataHandler.js";
 
-const gridContainer = document.querySelector("#exercise-grid");
+const exerciseGrid = document.querySelector("#exercise-grid");
+const workoutRows = document.querySelector("#workout-rows");
 
 fetchExercises()
-  .then(exercises => {
-    exercises.forEach(exercise => {
-      const exerciseCon = document.createElement('a');
+  .then((exercises) => {
+    exercises.forEach((exercise) => {
+      const exerciseCon = document.createElement("a");
       exerciseCon.classList.add("grid-container");
       exerciseCon.classList.add("child");
       exerciseCon.id = exercise.name;
       exerciseCon.href = `exercise.html?exercise=${exercise.name}`;
 
-      const exerciseGif = document.createElement('img');
+      const exerciseGif = document.createElement("img");
       exerciseGif.classList.add("exercise-gif");
       exerciseGif.src = exercise.url;
 
-      const exerciseP = document.createElement('p');
+      const exerciseP = document.createElement("p");
       exerciseP.classList.add("exercise-p");
-
-      let words = exercise.name.split(/-/);
-
-      let exerciseName = words.map(word => {
-        if (word.length > 0) {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        } else {
-          return word;
-        }
-      }).join(' ');
-
-      exerciseP.textContent = exerciseName;
+      const editedName = capitalizeWords(exercise.name.split(/-/));
+      exerciseP.textContent = editedName;
 
       exerciseCon.appendChild(exerciseGif);
       exerciseCon.appendChild(exerciseP);
-      gridContainer.appendChild(exerciseCon);
+      exerciseGrid.appendChild(exerciseCon);
     });
     fixContentLength();
   })
-  .catch(error => {
-    console.error('Error fetching exercise data:', error);
+  .catch((error) => {
+    console.error("Error fetching exercise data:", error);
+  });
+
+fetchWorkouts()
+  .then((workouts) => {
+    workouts.forEach((workout) => {
+      const workoutCon = document.createElement("a");
+      workoutCon.classList.add("workout-child");
+      workoutCon.id = workout.name;
+      workoutCon.href = `workout.html?workout=${workout.name}`;
+
+      const workoutP = document.createElement("p");
+
+      let words = workout.name.split(/-/);
+
+      let workoutName = words
+        .map((word) => {
+          if (word.length > 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          } else {
+            return word;
+          }
+        })
+        .join(" ");
+
+      workoutP.textContent = workoutName;
+        
+      workoutCon.appendChild(workoutP);
+      workoutRows.appendChild(workoutCon);
+    });
+    fixContentLength();
+  })
+  .catch((error) => {
+    console.error("Error fetching workout data:", error);
   });

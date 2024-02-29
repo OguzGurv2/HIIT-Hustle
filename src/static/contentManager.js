@@ -1,6 +1,6 @@
 'use strict'
 
-import { addExerciseToWorkout, handleDelete } from "./workoutHandler.js";
+import { handleExercises, handleDelete } from "./workoutHandler.js";
 import { handleDarkenAnim, handleEditBtn, handleNameInput, handlePopupBtn, handleSave } from "./buttonHandler.js";
 
 export function fixContentLength(bool) {
@@ -27,7 +27,7 @@ export function fixContentLength(bool) {
 export function addEventListenersToContents(elem) {
     if (elem.id === "popup-grid") {
         return elem.childNodes.forEach(child => {
-            child.addEventListener("click", addExerciseToWorkout);
+            child.addEventListener("click", handleExercises);
         });
     }
 
@@ -45,4 +45,16 @@ export function addEventListenersToContents(elem) {
         }
         elem.addEventListener("click", handleDelete);
     }); 
+}
+
+export function capitalizeWords(words) {
+    let editedName = words.map((word) => {
+      if (word.length > 0) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      } else {
+        return word;
+      }
+    }).join(" ");
+  
+    return editedName;
 }
