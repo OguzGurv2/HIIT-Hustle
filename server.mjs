@@ -1,5 +1,4 @@
 import express from 'express';
-import open from 'open';
 import * as mb from './database.js';
 import multer from 'multer';
 
@@ -32,7 +31,7 @@ async function getWorkouts(req, res) {
 }
 
 async function getWorkout(req, res) {
-  const result = await mb.findWorkout(req.params.workoutName);
+  const result = await mb.findWorkout(req.params.workoutID);
   if (result) {
     res.json(result);
   } else {
@@ -47,10 +46,17 @@ async function postWorkout(req, res) {
   res.json(workouts);
 }
 
+async function putWorkout(req, res) {
+  const workoutName = req.body.workoutName;
+  const id = req.body.id;
+  const exerciseList = JSON.parse(req.body.exerciseList);
+  const workouts = await mb.editWorkout(workoutName, exerciseList, id);
+  res.json(workouts);
+}
+
 app.get('/exercises', getExercises);
 app.get('/exercises/:exerciseName', getExercise);
 app.get('/workouts', getWorkouts);
-app.get('/workouts/:workoutName', getWorkout);
+app.get('/workouts/:workoutID', getWorkout);
 app.post('/workouts', postWorkout);
-
-open(`http://localhost:${PORT}/`);
+app.put('/workouts', putWorkout);

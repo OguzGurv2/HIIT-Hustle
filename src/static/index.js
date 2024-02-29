@@ -40,7 +40,7 @@ fetchWorkouts()
       const workoutCon = document.createElement("a");
       workoutCon.classList.add("workout-child");
       workoutCon.id = workout.name;
-      workoutCon.href = `workout.html?workout=${workout.name}`;
+      workoutCon.href = `workout.html?workout=${workout.id}`;
 
       const workoutP = document.createElement("p");
 

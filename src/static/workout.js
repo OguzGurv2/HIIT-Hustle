@@ -1,5 +1,6 @@
 "use strict";
 
+import { handleSaveParam } from "./buttonHandler.js";
 import { fixContentLength, addEventListenersToContents, capitalizeWords } from "./contentManager.js";
 import { fetchExercises, fetchWorkoutByID } from "./dataHandler.js";
 import { handleExercises } from "./workoutHandler.js";
@@ -10,7 +11,7 @@ const popupGrid = document.querySelector("#popup-grid");
 const darkenBg = document.querySelector("#darken-background");
 const nameInput = document.querySelector("#name-input");
 const saveBtn = document.querySelector("#save");
-const popupBtn = document.querySelector("#popup-btn");
+const addExercise = document.querySelector("#add-exercise");
 const editBtn = document.querySelector("#edit");
 const popupWrapper = document.querySelector("#popup-wrapper");
 const popupName = document.querySelector("#popup-name");
@@ -19,7 +20,6 @@ const title = document.querySelector("title");
 const popupMsg = document.querySelector('#popup-msg');
 
 if (workoutParam) {
-  
   
   fetchExercises()
   .then(exercises => {
@@ -52,7 +52,7 @@ if (workoutParam) {
     fixContentLength();
     addEventListenersToContents(popupGrid);
     addEventListenersToContents(nameInput);
-    addEventListenersToContents(popupBtn);
+    addEventListenersToContents(addExercise);
     addEventListenersToContents(darkenBg);
     addEventListenersToContents(editBtn);
     addEventListenersToContents(saveBtn);
@@ -61,10 +61,13 @@ if (workoutParam) {
     console.error("Error fetching exercise data:", error);
   });
   
+console.log(workoutParam);
+
   if(workoutParam !== "newWorkout") {
     popupName.style.display = "none";
     darkenBg.classList.add('hidden');
-    
+    handleSaveParam();
+
     fetchWorkoutByID(workoutParam)
     .then(data => {
       const editedName = capitalizeWords(data.name.split(/-/));

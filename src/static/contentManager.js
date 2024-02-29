@@ -1,7 +1,7 @@
 'use strict'
 
 import { handleExercises, handleDelete } from "./workoutHandler.js";
-import { handleDarkenAnim, handleEditBtn, handleNameInput, handlePopupBtn, handleSave } from "./buttonHandler.js";
+import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSave } from "./buttonHandler.js";
 
 export function fixContentLength(bool) {
     
@@ -34,8 +34,8 @@ export function addEventListenersToContents(elem) {
     elem.addEventListener("click", ()=> {
         if (elem.id === "name-input") {
             return elem.addEventListener("keydown", handleNameInput);
-        } else if (elem.id === "popup-btn") {
-            return elem.addEventListener("click", handlePopupBtn);
+        } else if (elem.id === "add-exercise") {
+            return elem.addEventListener("click", addExercise);
         } else if (elem.id === "darken-background") {
             return elem.addEventListener("click", handleDarkenAnim);
         } else if (elem.id === "edit") {

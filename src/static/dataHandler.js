@@ -43,18 +43,18 @@ export async function fetchWorkouts() {
   }
 }
 
-export async function fetchWorkoutByID(workoutName) {
+export async function fetchWorkoutByID(workoutID) {
     
   try {
-    const response = await fetch(`/workouts/${workoutName}`);
+    const response = await fetch(`/workouts/${workoutID}`);
     if (!response.ok) {
-      throw new Error(`Failed to fetch workout with name ${workoutName}`);
+      throw new Error(`Failed to fetch workout with id ${workoutID}`);
     }
     const workout = await response.json();
     workout.exercise_list = JSON.parse(workout.exercise_list);
     return workout;
   } catch (error) {
-    console.error(`Error fetching workout with name ${workoutName}:`, error);
+    console.error(`Error fetching workout with id ${workoutID}:`, error);
     throw error;
   }
 }
@@ -76,3 +76,19 @@ export async function sendWorkout(workoutName, exerciseList) {
   }
 }
 
+export async function putWorkout(workoutName, exerciseList) {
+  const payload = new FormData();
+  payload.append('workoutName', workoutName);
+  payload.append('exerciseList', JSON.stringify(exerciseList));
+
+  const response = await fetch('/workouts', {
+    method: 'PUT',
+    body: payload  
+  });
+
+  if (response.ok) {
+    console.log('workout posted successfully');
+  } else {
+    console.log('failed to post workout', response);
+  }
+}

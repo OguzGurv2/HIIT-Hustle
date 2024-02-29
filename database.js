@@ -35,9 +35,9 @@ export async function listWorkouts() {
   return workouts;
 }
 
-export async function findWorkout(workoutName) {
+export async function findWorkout(id) {
   const db = await dbConn;
-  const workout = db.get('SELECT * FROM workouts WHERE name = ?', workoutName);
+  const workout = db.get('SELECT * FROM workouts WHERE id = ?', id);
   return workout;
 }
 
@@ -47,4 +47,16 @@ export async function addWorkout(workoutName, exerciseList) {
     const id = uuid();
     const exerciseListJson = JSON.stringify(exerciseList);
     await db.run('INSERT INTO workouts VALUES (?, ?, ?)', [id, workoutName, exerciseListJson]);  
+}
+
+export async function editWorkout(workoutName, exerciseList, id) {
+  const db = await dbConn;
+  
+  const exerciseListJson = JSON.stringify(exerciseList);
+
+  const statement = await db.run('UPDATE workouts SET name = ? , exercise_list = ? WHERE id = ?', [workoutName, exerciseListJson, id]);
+
+  if (statement.changes === 0) throw new Error('workout not found');
+
+  return findMessage(id);
 }
