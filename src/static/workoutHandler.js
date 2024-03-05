@@ -63,4 +63,5 @@ export function handleDelete(event) {
     handleSaveBtn();
 }
 
+
 export { exerciseAdded, workoutCon };
