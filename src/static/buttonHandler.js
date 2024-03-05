@@ -1,10 +1,7 @@
 'use strict'
 
-import { darkenBg, popupWrapper, popupName, workoutName, title } from './workout.js';
-import { exerciseAdded } from './workoutHandler.js';
+import { darkenBg, popupWrapper, popupName, workoutName, title, isSaved, isUpdated, handleSaveParam } from './workout.js';
 import { sendWorkout } from './dataHandler.js';
-
-let isSaved = false;
 
 export function handleNameInput(event) {
 
@@ -20,7 +17,7 @@ export function addExercise() {
     darkenBg.classList.remove("hidden");
     popupWrapper.classList.remove("hidden");
   
-    if (exerciseAdded) {
+    if (isUpdated || isSaved) {
       document.querySelectorAll(".delete-exercise").forEach((elem) => {
         elem.classList.add("hidden");
       });
@@ -34,14 +31,14 @@ export function handleDarkenAnim() {
 }
 
 export function handleEditBtn() {
-    if (exerciseAdded) {
+    if (isUpdated || isSaved) {
         document.querySelectorAll(".delete-exercise").forEach((elem) => {
             elem.classList.toggle("hidden");
         });
     }
 }
 
-export function handleSave(event) {
+export function handleSaveBtn(event) {
     const workoutName = document.querySelector('.exercise-header').textContent;
     const nodeList = document.querySelector('#workout-content').childNodes;
     const exerciseList = getNodeListIds(nodeList);
@@ -49,15 +46,12 @@ export function handleSave(event) {
 
     if (!isSaved) {
         console.log("saved")
+        handleSaveParam();
         sendWorkout(workoutName, exerciseList);
-        isSaved = true;
         return;
     }
     console.log("updated");
-}
-
-export function handleSaveParam() {
-    isSaved = true;
+    putWorkout(workoutName, exerciseList);
 }
 
 function getNodeListIds(nodeList) {
@@ -67,5 +61,3 @@ function getNodeListIds(nodeList) {
     });
     return ids;
 }
-
-export { isSaved };

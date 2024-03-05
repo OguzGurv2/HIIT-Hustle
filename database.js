@@ -19,7 +19,7 @@ const dbConn = init();
 
 export async function listExercises() {
     const db = await dbConn;
-    const exercises = await db.all('SELECT * FROM exercises');
+    const exercises = await db.all('SELECT name, url, duration FROM exercises');
     return exercises;
 }
   
@@ -31,7 +31,7 @@ export async function findExercise(exerciseName) {
 
 export async function listWorkouts() {
   const db = await dbConn;
-  const workouts = await db.all('SELECT * FROM workouts');
+  const workouts = await db.all('SELECT id, name FROM workouts');
   return workouts;
 }
 
@@ -42,11 +42,13 @@ export async function findWorkout(id) {
 }
 
 export async function addWorkout(workoutName, exerciseList) {
-    const db = await dbConn;
+  const db = await dbConn;
+
+  const id = uuid();
+  const exerciseListJson = JSON.stringify(exerciseList);
+  await db.run('INSERT INTO workouts VALUES (?, ?, ?)', [id, workoutName, exerciseListJson]); 
   
-    const id = uuid();
-    const exerciseListJson = JSON.stringify(exerciseList);
-    await db.run('INSERT INTO workouts VALUES (?, ?, ?)', [id, workoutName, exerciseListJson]);  
+  return { id }; 
 }
 
 export async function editWorkout(workoutName, exerciseList, id) {

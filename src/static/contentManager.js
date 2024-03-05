@@ -1,25 +1,18 @@
 'use strict'
 
 import { handleExercises, handleDelete } from "./workoutHandler.js";
-import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSave } from "./buttonHandler.js";
+import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSaveBtn } from "./buttonHandler.js";
 
-export function fixContentLength(bool) {
+export function fixContentLength(nodeList) {
     
-    let children;
-    if (bool) {
-        children = document.querySelector('#workout-content').childNodes;
-    } else {
-        children = document.querySelectorAll('.child');
-    }
-
     let maxHeight = 0;
-    children.forEach(child => {
+    nodeList.forEach(child => {
         maxHeight = Math.max(maxHeight, child.offsetHeight);
     });
 
     const vhMaxHeight = (maxHeight / window.innerHeight) * 100;
 
-    children.forEach(child => {
+    nodeList.forEach(child => {
         child.style.height = vhMaxHeight + 'vh';
     });
 };
@@ -41,7 +34,7 @@ export function addEventListenersToContents(elem) {
         } else if (elem.id === "edit") {
             return elem.addEventListener("click", handleEditBtn);
         } else if (elem.id === "save") {
-            return elem.addEventListener("click", handleSave);
+            return elem.addEventListener("click", handleSaveBtn);
         }
         elem.addEventListener("click", handleDelete);
     }); 

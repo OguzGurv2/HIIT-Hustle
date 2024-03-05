@@ -28,7 +28,8 @@ fetchExercises()
       exerciseCon.appendChild(exerciseP);
       exerciseGrid.appendChild(exerciseCon);
     });
-    fixContentLength();
+    const childList = document.querySelectorAll(".child");
+    fixContentLength(childList);
   })
   .catch((error) => {
     console.error("Error fetching exercise data:", error);
@@ -61,7 +62,6 @@ fetchWorkouts()
       workoutCon.appendChild(workoutP);
       workoutRows.appendChild(workoutCon);
     });
-    fixContentLength();
   })
   .catch((error) => {
     console.error("Error fetching workout data:", error);

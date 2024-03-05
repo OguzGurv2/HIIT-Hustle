@@ -1,57 +1,45 @@
 'use strict';
 
 import { addEventListenersToContents, fixContentLength } from "./contentManager.js";
-import { popupMsg } from "./workout.js";
-import { isSaved } from "./buttonHandler.js";
+import { popupMsg, isUpdated, handleUpdateParam } from "./workout.js";
 
-let exerciseAdded = false;
 let workoutCon = document.querySelector('#workout-content');
 
 export function handleExercises(param) {
-    let clonedExercise;
-
-    if (param.currentTarget) {
-        clonedExercise = param.currentTarget.cloneNode(true)
+    workoutCon = document.querySelector('#workout-content');
+    const clonedExercise = param.currentTarget.cloneNode(true)
         
-        popupMsg.textContent = "Exercise Added!";
-        popupMsg.classList.remove('animate-down');
-        popupMsg.classList.add('animate-up');
-        
-        setTimeout(() => {
-            popupMsg.classList.remove('animate-up');
-            popupMsg.classList.add('animate-down');
-        }, 1500);
+    popupMsg.textContent = "Exercise Added!";
+    popupMsg.classList.remove('animate-down');
+    popupMsg.classList.add('animate-up');
+    
+    setTimeout(() => {
+        popupMsg.classList.remove('animate-up');
+        popupMsg.classList.add('animate-down');
+    }, 1500);
 
-    } else {
-        clonedExercise = document.getElementById(param).cloneNode(true);
-    }
-
-    const deleteExercise = document.createElement("div");
-    deleteExercise.classList.add("delete-exercise");
-    deleteExercise.classList.add("hidden");
-    deleteExercise.textContent = "X";
-
-    clonedExercise.appendChild(deleteExercise);
     workoutCon.appendChild(clonedExercise);
-
-    fixContentLength(true);
-    handleSaveBtn();
+    handleUpdateParam(true);
+    const childList = document.querySelectorAll("child");
+    fixContentLength(childList);
+    handleSave();
     addEventListenersToContents(clonedExercise);
 }
 
-function handleSaveBtn() {
+function handleSave() {
     workoutCon = document.querySelector('#workout-content');
-    if (workoutCon.childNodes.length > 0 && !isSaved) {
+    if (workoutCon.childNodes.length > 0 && isUpdated) {
         document.querySelector("#save").classList.remove('hidden');
-        exerciseAdded = true;
+        handleUpdateParam(true);
         return;
     };
     document.querySelector("#save").classList.add('hidden');
 }
 
 export function handleDelete(event) {
-    event.target.parentNode.remove();
     workoutCon = document.querySelector('#workout-content');
+    console.log(event.target.parentNode);
+    event.target.parentNode.remove();
 
     popupMsg.textContent = "Exercise Deleted!";
     popupMsg.classList.remove('animate-down');
@@ -60,8 +48,5 @@ export function handleDelete(event) {
         popupMsg.classList.remove('animate-up');
         popupMsg.classList.add('animate-down');
     }, 1500);
-    handleSaveBtn();
+    handleSave();
 }
-
-
-export { exerciseAdded, workoutCon };
