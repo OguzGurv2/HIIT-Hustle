@@ -48,7 +48,7 @@ async function postWorkout(req, res) {
 
 async function putWorkout(req, res) {
   const workoutName = req.body.workoutName;
-  const id = req.body.id;
+  const id = req.body.workoutID;
   const exerciseList = JSON.parse(req.body.exerciseList);
   const workouts = await mb.editWorkout(workoutName, exerciseList, id);
   res.json(workouts);
@@ -59,4 +59,4 @@ app.get('/exercises/:exerciseName', getExercise);
 app.get('/workouts', getWorkouts);
 app.get('/workouts/:workoutID', getWorkout);
 app.post('/workouts', postWorkout);
-app.put('/workouts', putWorkout);
+app.put('/workouts/:workoutID', putWorkout);

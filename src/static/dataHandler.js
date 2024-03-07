@@ -1,5 +1,7 @@
 'use strict';
 
+import { workoutParam } from "./workout.js";
+
 export async function fetchExercises() {
     try {
       const response = await fetch('/exercises');
@@ -74,8 +76,7 @@ export async function sendWorkout(workoutName, exerciseList) {
 
   if (response.ok) {
     const workout = await response.json();
-    const workoutId = workout.id;
-    window.location.href = `/workout.html?workout=${workoutId}`;
+    window.location.href = `/workout.html?workout=${workout.id}`;
     console.log('workout successfully posted', response);
   } else {
     console.log('failed to post workout', response);
@@ -83,18 +84,21 @@ export async function sendWorkout(workoutName, exerciseList) {
 }
 
 export async function putWorkout(workoutName, exerciseList) {
-  // const payload = new FormData();
-  // payload.append('workoutName', workoutName);
-  // payload.append('exerciseList', JSON.stringify(exerciseList));
+  const id = workoutParam;
+  const payload = new FormData();
+  payload.append('workoutID', id)
+  payload.append('workoutName', workoutName);
+  payload.append('exerciseList', JSON.stringify(exerciseList));
 
-  // const response = await fetch('/workouts', {
-  //   method: 'PUT',
-  //   body: payload  
-  // });
+  const response = await fetch(`/workouts/${id}`, {
+    method: 'PUT',
+    body: payload  
+  });
 
-  // if (response.ok) {
-  //   console.log('workout posted successfully');
-  // } else {
-  //   console.log('failed to post workout', response);
-  // }
+  if (response.ok) {
+    window.location.href = `/workout.html?workout=${id}`;
+    console.log('workout updated successfully');
+  } else {
+    console.log('failed to updated workout', response);
+  }
 }

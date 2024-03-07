@@ -48,7 +48,7 @@ export async function addWorkout(workoutName, exerciseList) {
   const exerciseListJson = JSON.stringify(exerciseList);
   await db.run('INSERT INTO workouts VALUES (?, ?, ?)', [id, workoutName, exerciseListJson]); 
   
-  return { id }; 
+  return findWorkout(id); 
 }
 
 export async function editWorkout(workoutName, exerciseList, id) {
@@ -60,5 +60,5 @@ export async function editWorkout(workoutName, exerciseList, id) {
 
   if (statement.changes === 0) throw new Error('workout not found');
 
-  return findMessage(id);
+  return findWorkout(id);
 }

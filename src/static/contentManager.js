@@ -2,6 +2,7 @@
 
 import { handleExercises, handleDelete } from "./workoutHandler.js";
 import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSaveBtn } from "./buttonHandler.js";
+import { savedList } from "./workout.js";
 
 export function fixContentLength(nodeList) {
     
@@ -50,4 +51,8 @@ export function capitalizeWords(words) {
     }).join(" ");
   
     return editedName;
+}
+
+export function checkExerciseList() {
+    console.log(savedList);
 }

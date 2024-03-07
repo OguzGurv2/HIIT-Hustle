@@ -1,7 +1,7 @@
 'use strict'
 
 import { darkenBg, popupWrapper, popupName, workoutName, title, isSaved, isUpdated, handleSaveParam } from './workout.js';
-import { sendWorkout } from './dataHandler.js';
+import { sendWorkout, putWorkout } from './dataHandler.js';
 
 export function handleNameInput(event) {
 
@@ -45,12 +45,10 @@ export function handleSaveBtn(event) {
     event.target.classList.add('hidden');
 
     if (!isSaved) {
-        console.log("saved")
         handleSaveParam();
         sendWorkout(workoutName, exerciseList);
         return;
     }
-    console.log("updated");
     putWorkout(workoutName, exerciseList);
 }
 

@@ -30,7 +30,7 @@ function handleSave() {
     workoutCon = document.querySelector('#workout-content');
     if (workoutCon.childNodes.length > 0 && isUpdated) {
         document.querySelector("#save").classList.remove('hidden');
-        handleUpdateParam(true);
+        handleUpdateParam(false);
         return;
     };
     document.querySelector("#save").classList.add('hidden');
@@ -38,12 +38,12 @@ function handleSave() {
 
 export function handleDelete(event) {
     workoutCon = document.querySelector('#workout-content');
-    console.log(event.target.parentNode);
     event.target.parentNode.remove();
 
     popupMsg.textContent = "Exercise Deleted!";
     popupMsg.classList.remove('animate-down');
     popupMsg.classList.add('animate-up');
+    handleUpdateParam(true);
     setTimeout(() => {
         popupMsg.classList.remove('animate-up');
         popupMsg.classList.add('animate-down');

@@ -1,6 +1,6 @@
 "use strict";
 
-import { fixContentLength, addEventListenersToContents, capitalizeWords } from "./contentManager.js";
+import { fixContentLength, addEventListenersToContents, capitalizeWords, checkExerciseList } from "./contentManager.js";
 import { fetchExerciseByID, fetchExercises, fetchWorkoutByID } from "./dataHandler.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -17,6 +17,7 @@ const workoutName = document.querySelector(".exercise-header");
 const title = document.querySelector("title");
 const popupMsg = document.querySelector('#popup-msg');
 const workoutCon = document.querySelector("#workout-content");
+let savedList = [];
 let isSaved = false;
 let isUpdated = false;
 
@@ -69,8 +70,6 @@ if (workoutParam) {
     console.error("Error fetching exercise data:", error);
   });
   
-console.log(workoutParam);
-
   if(workoutParam !== "newWorkout") {
     isSaved = true;
     popupName.style.display = "none";
@@ -88,6 +87,7 @@ console.log(workoutParam);
           exerciseCon.classList.add("grid-container");
           exerciseCon.classList.add("child");
           exerciseCon.id = data.name;
+          savedList.push(data.name);
           
           const exerciseGif = document.createElement("img");
           exerciseGif.classList.add("exercise-gif");
@@ -124,6 +124,8 @@ console.log(workoutParam);
   localStorage.setItem("pageIndex", 1);
 }
 
+
+
 export function handleSaveParam() {
   isSaved = true;
 }
@@ -132,4 +134,4 @@ export function handleUpdateParam(bool) {
   isUpdated = bool;
 }
 
-export { darkenBg, popupWrapper, popupName, workoutName, saveBtn, title, popupMsg, workoutParam, isSaved, isUpdated };
+export { darkenBg, popupWrapper, popupName, workoutName, saveBtn, title, popupMsg, workoutParam, isSaved, isUpdated, savedList };
