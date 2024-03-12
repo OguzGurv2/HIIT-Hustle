@@ -1,7 +1,7 @@
 'use strict';
 
 import { addEventListenersToContents, fixContentLength } from "./contentManager.js";
-import { popupMsg, isUpdated, handleUpdateParam } from "./workout.js";
+import { popupMsg, isUpdated, handleUpdateParam, isSaved, startBtn } from "./workout.js";
 
 let workoutCon = document.querySelector('#workout-content');
 
@@ -23,6 +23,7 @@ export function handleExercises(param) {
     const childList = document.querySelectorAll("child");
     fixContentLength(childList);
     handleSave();
+    handleStartBtn();
     addEventListenersToContents(clonedExercise);
 }
 
@@ -31,9 +32,10 @@ function handleSave() {
     if (workoutCon.childNodes.length > 0 && isUpdated) {
         document.querySelector("#save").classList.remove('hidden');
         handleUpdateParam(false);
-        return;
-    };
-    document.querySelector("#save").classList.add('hidden');
+    } else {
+        document.querySelector("#save").classList.add('hidden');
+    }
+    handleStartBtn();
 }
 
 export function handleDelete(event) {
@@ -49,4 +51,12 @@ export function handleDelete(event) {
         popupMsg.classList.add('animate-down');
     }, 1500);
     handleSave();
+    handleStartBtn();
+}
+
+export function handleStartBtn() {
+    if (isSaved && !isUpdated) {
+        return startBtn.classList.remove("hidden");
+    }
+    startBtn.classList.add("hidden");
 }

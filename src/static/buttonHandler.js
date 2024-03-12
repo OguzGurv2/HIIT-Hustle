@@ -1,6 +1,6 @@
 'use strict'
 
-import { darkenBg, popupWrapper, popupName, workoutName, title, isSaved, isUpdated, handleSaveParam } from './workout.js';
+import { darkenBg, popupWrapper, popupName, workoutName, title, isSaved, isUpdated, handleSaveParam, workoutParam } from './workout.js';
 import { sendWorkout, putWorkout } from './dataHandler.js';
 
 export function handleNameInput(event) {
@@ -46,9 +46,8 @@ export function handleSaveBtn(event) {
 
     if (!isSaved) {
         handleSaveParam();
-        sendWorkout(workoutName, exerciseList);
-        return;
-    }
+        return sendWorkout(workoutName, exerciseList);
+    } 
     putWorkout(workoutName, exerciseList);
 }
 
@@ -58,4 +57,8 @@ function getNodeListIds(nodeList) {
         ids.push(node.id);
     });
     return ids;
+}
+
+export function startWorkout() {
+    window.location.href = `startWorkout.html?workout=${workoutParam}`;
 }

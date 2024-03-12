@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
-    <script type="module" defer src="static/index.js"></script>
-    <script type="module" src="static/pageManager.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <script type="module" defer src="./static/index.js"></script>
+    <script type="module" src="./static/pageManager.js"></script>
     <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
     <title>App</title>
 </head>
@@ -20,8 +20,8 @@
             <div id="exercise-grid" class="grid-wrapper"></div>
         </div>
         <div id="workouts" class="page">
-            <div id="workout-rows">
-                <a id="create-workout" href="/workout.html?workout=newWorkout" class="workout-child">
+            <div class="row-grid">
+                <a id="create-workout" href="/workout.html?workout=newWorkout" class="row-child">
                     <p>Add new workout</p>
                     <i id="workout-icon" class="fa-solid fa-circle-plus"></i>
                 </a>

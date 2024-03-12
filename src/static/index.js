@@ -4,7 +4,7 @@ import { fixContentLength, capitalizeWords } from "./contentManager.js";
 import { fetchExercises, fetchWorkouts } from "./dataHandler.js";
 
 const exerciseGrid = document.querySelector("#exercise-grid");
-const workoutRows = document.querySelector("#workout-rows");
+const workoutGrid = document.querySelector(".row-grid");
 
 fetchExercises()
   .then((exercises) => {
@@ -39,7 +39,7 @@ fetchWorkouts()
   .then((workouts) => {
     workouts.forEach((workout) => {
       const workoutCon = document.createElement("a");
-      workoutCon.classList.add("workout-child");
+      workoutCon.classList.add("row-child");
       workoutCon.id = workout.name;
       workoutCon.href = `workout.html?workout=${workout.id}`;
 
@@ -60,7 +60,7 @@ fetchWorkouts()
       workoutP.textContent = workoutName;
         
       workoutCon.appendChild(workoutP);
-      workoutRows.appendChild(workoutCon);
+      workoutGrid.appendChild(workoutCon);
     });
   })
   .catch((error) => {

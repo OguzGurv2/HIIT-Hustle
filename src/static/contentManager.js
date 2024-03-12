@@ -1,8 +1,7 @@
 'use strict'
 
 import { handleExercises, handleDelete } from "./workoutHandler.js";
-import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSaveBtn } from "./buttonHandler.js";
-import { savedList } from "./workout.js";
+import { handleDarkenAnim, handleEditBtn, handleNameInput, addExercise, handleSaveBtn, startWorkout } from "./buttonHandler.js";
 
 export function fixContentLength(nodeList) {
     
@@ -36,6 +35,8 @@ export function addEventListenersToContents(elem) {
             return elem.addEventListener("click", handleEditBtn);
         } else if (elem.id === "save") {
             return elem.addEventListener("click", handleSaveBtn);
+        } else if (elem.id === "start") {
+            return elem.addEventListener("click", startWorkout);
         }
         elem.addEventListener("click", handleDelete);
     }); 
@@ -51,8 +52,4 @@ export function capitalizeWords(words) {
     }).join(" ");
   
     return editedName;
-}
-
-export function checkExerciseList() {
-    console.log(savedList);
 }
