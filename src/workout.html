@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/workout.css">
+    <link rel="stylesheet" href="./styles/workout.css">
     <script type="module" defer src="./static/workout.js"></script>
     <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
     <title>New Workout</title>
@@ -12,9 +12,9 @@
 
 <body>
     <div id="darken-background"></div>
-    <div id="nav">
-        <a class="nav-btn" href="http://localhost:8080"> &lt; </a>
-        <h1 class="exercise-header">New Workout</h1>
+    <div class="nav-bar">
+        <a href="http://localhost:8080"> &lt; </a>
+        <h1 class="nav-header">New Workout</h1>
     </div>
     <div class="page">
         <div id="workout-content" class="grid-wrapper"></div>
@@ -32,7 +32,7 @@
     <div id="popup-msg">
         <p>Execise Added!</p>
     </div>
-    <div id="footer">
+    <div class="footer">
         <i id="add-exercise" class="fa-solid fa-plus"></i>
         <i id="edit" class="fa-solid fa-pen"></i>
     </div>

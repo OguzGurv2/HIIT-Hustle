@@ -10,7 +10,7 @@ const root = getComputedStyle(document.documentElement);
 const secondaryColor = root.getPropertyValue('--secondary');
 const textColor = root.getPropertyValue('--text');
 
-const container = document.querySelector("#container");
+const container = document.querySelector("section");
 let containerPosInPx = parseFloat(
     getComputedStyle(container).transform.split(",")[4]
 );

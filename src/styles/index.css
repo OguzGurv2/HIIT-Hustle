@@ -41,6 +41,11 @@ a {
     text-decoration: none;
 }
 
+section {
+    display: flex;
+    width: 500vw;
+}
+
 #header {
     background-color: var(--primary);
     position: absolute;
@@ -48,11 +53,6 @@ a {
     width: 100%;
     z-index: 1;
     text-transform: capitalize;
-}
-
-#container {
-    display: flex;
-    width: 500vw;
 }
 
 .page {
@@ -71,7 +71,7 @@ a {
     justify-content: center;
 }
 
-#footer {
+.footer {
     background-color: var(--primary);
     position: fixed;
     bottom: 0;
@@ -82,7 +82,6 @@ a {
     justify-content: space-evenly;
     align-items: center;
 }
-
 
 .grid-wrapper {
     margin-bottom: 12.5vh;
@@ -126,12 +125,12 @@ a {
 .row-grid {
     margin-bottom: 12.5vh;
     padding: 15vh 0vw 0vh 0vw;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     row-gap: 2.5vh;
     width: 100vw;
     overflow-y: scroll;
-    align-items: center;
+    row-gap: 2.5vh;
 }
 
 .row-child {
@@ -143,6 +142,7 @@ a {
     border: 2px solid var(--secondary);
     border-radius: 5px;
     position: relative;
+    justify-self: center;
 }
 
 .row-child>i {
@@ -156,4 +156,8 @@ a {
     position: absolute;
     left: 5%;
     font-size: 1.5em;
+}
+
+.hidden{
+    display: none;
 }

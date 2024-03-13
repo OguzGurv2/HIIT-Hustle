@@ -4,7 +4,7 @@ import { fetchExerciseByID } from "./dataHandler.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const exerciseName = urlParams.get('exercise');
-const exerciseHeader = document.querySelector('.exercise-header');
+const exerciseHeader = document.querySelector('.nav-header');
 const exerciseGif = document.querySelector('.exercise-gif');
 const instructions = document.querySelector('#instruction-list');
 const bodyPart = document.querySelector('#body-part');

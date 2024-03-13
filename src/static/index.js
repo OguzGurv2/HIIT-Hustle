@@ -37,6 +37,10 @@ fetchExercises()
 
 fetchWorkouts()
   .then((workouts) => {
+    if (workouts.length === 10) {
+      const createWorkout = document.querySelector('#create-workout');
+      createWorkout.classList.add('hidden');
+    }
     workouts.forEach((workout) => {
       const workoutCon = document.createElement("a");
       workoutCon.classList.add("row-child");
@@ -47,15 +51,7 @@ fetchWorkouts()
 
       let words = workout.name.split(/-/);
 
-      let workoutName = words
-        .map((word) => {
-          if (word.length > 0) {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-          } else {
-            return word;
-          }
-        })
-        .join(" ");
+      let workoutName = capitalizeWords(words);
 
       workoutP.textContent = workoutName;
         

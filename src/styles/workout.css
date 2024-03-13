@@ -1,9 +1,5 @@
 @import 'exercise.css';
 
-.hidden{
-    display: none;
-}
-
 #darken-background{
     position: fixed;
     top: 0%;
@@ -64,32 +60,6 @@
     padding-top: 2.5%;
     background-color: var(--green);
 }
-
-.animate-up {
-    animation: positionUp 1s forwards;
-}
-
-@keyframes positionUp {
-    from {
-        bottom: -6.5%;
-    }
-    to {
-        bottom: 0%;
-    }
-  }
-  
-.animate-down {
-    animation: positionDown 1s forwards;
-}
-
-@keyframes positionDown {
-    from {
-        bottom: 0%;
-    }
-    to {
-        bottom: -6.5%;
-    }
-  }
 
 #popup-msg p {
     background-color: var(--green);
@@ -169,4 +139,30 @@ input:focus {
 
 .grid-container {
     position: relative;
+}
+
+.animate-up {
+    animation: positionUp 1s forwards;
+}
+
+@keyframes positionUp {
+    from {
+        bottom: -6.5%;
+    }
+    to {
+        bottom: 0%;
+    }
+}
+  
+.animate-down {
+    animation: positionDown 1s forwards;
+}
+
+@keyframes positionDown {
+    from {
+        bottom: 0%;
+    }
+    to {
+        bottom: -6.5%;
+    }
 }
