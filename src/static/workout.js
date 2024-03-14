@@ -6,16 +6,16 @@ import { fetchExerciseByID, fetchExercises, fetchWorkoutByID } from "./dataHandl
 const urlParams = new URLSearchParams(window.location.search);
 const workoutParam = urlParams.get('workout');
 const popupGrid = document.querySelector("#popup-grid");
-const darkenBg = document.querySelector("#darken-background");
+const darkenBg = document.querySelector(".darken-background");
 const nameInput = document.querySelector("#name-input");
 const saveBtn = document.querySelector("#save");
 const addExercise = document.querySelector("#add-exercise");
 const editBtn = document.querySelector("#edit");
 const popupWrapper = document.querySelector("#popup-wrapper");
-const popupName = document.querySelector("#popup-name");
+const popupName = document.querySelector(".popup-name");
 const workoutName = document.querySelector(".nav-header");
 const title = document.querySelector("title");
-const popupMsg = document.querySelector('#popup-msg');
+const popupMsg = document.querySelector('.popup-msg');
 let workoutCon = document.querySelector("#workout-content");
 const startBtn = document.querySelector("#start");
 
@@ -44,7 +44,7 @@ if (workoutParam) {
       
       const duration = document.createElement("p");
       duration.classList.add("exercise-p");
-      duration.id = "duration";
+      duration.classList.add("duration");
       duration.textContent = exercise.duration + "s";
       
       const deleteExercise = document.createElement("div");
@@ -87,34 +87,38 @@ if (workoutParam) {
       data.exercise_list.forEach((exercise) => {
         fetchExerciseByID(exercise)
         .then(data => {
-          const exerciseCon = document.createElement("a");
-          exerciseCon.classList.add("grid-container");
-          exerciseCon.classList.add("child");
+          const exerciseCon = document.createElement("div");
+          exerciseCon.classList.add("row-child");
           exerciseCon.id = data.name;
           
           const exerciseGif = document.createElement("img");
-          exerciseGif.classList.add("exercise-gif");
           exerciseGif.src = data.url;
           
+          const textWrapper = document.createElement("div");
+          textWrapper.classList.add("text-wrapper");
+
           const exerciseName = document.createElement("p");
-          exerciseName.classList.add("exercise-p");
           const editedName = capitalizeWords(data.name.split(/-/));
           exerciseName.textContent = editedName;
           
           const duration = document.createElement("p");
-          duration.classList.add("exercise-p");
-          duration.id = "duration";
+          duration.classList.add("duration");
           duration.textContent = data.duration + "s";
           
           const deleteExercise = document.createElement("div");
           deleteExercise.classList.add("delete-exercise");
           deleteExercise.classList.add("hidden");
-          deleteExercise.textContent = "X";
+          const icon = document.createElement("i");
+          icon.classList.add("fa-solid");
+          icon.classList.add("fa-trash");
+          deleteExercise.appendChild(icon);
       
-          exerciseCon.appendChild(deleteExercise);
           exerciseCon.appendChild(exerciseGif);
-          exerciseCon.appendChild(exerciseName);
-          exerciseCon.appendChild(duration);
+          exerciseCon.appendChild(textWrapper);
+          textWrapper.appendChild(exerciseName);
+          textWrapper.appendChild(duration);
+          exerciseCon.appendChild(textWrapper);
+          exerciseCon.appendChild(deleteExercise);
           workoutCon.appendChild(exerciseCon);
         })
         const childList = document.querySelectorAll(".child");
@@ -126,6 +130,8 @@ if (workoutParam) {
 
   };
   localStorage.setItem("pageIndex", 1);
+  localStorage.removeItem("pageName");
+  localStorage.setItem("pageName", "workout");
 }
 
 export function handleSaveParam() {
@@ -171,7 +177,7 @@ function handleSave() {
 
 export function handleDelete(event) {
     workoutCon = document.querySelector('#workout-content');
-    event.target.parentNode.remove();
+    event.target.parentNode.parentNode.remove();
 
     popupMsg.textContent = "Exercise Deleted!";
     popupMsg.classList.remove('animate-down');

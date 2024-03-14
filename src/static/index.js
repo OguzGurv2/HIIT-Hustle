@@ -1,32 +1,27 @@
 "use strict";
 
-import { fixContentLength, capitalizeWords } from "./contentManager.js";
-import { fetchExercises, fetchWorkouts } from "./dataHandler.js";
+import { addEventListenersToContents, fixContentLength } from "./contentManager.js";
+import { fetchExercises, fetchWorkouts, editData } from "./dataHandler.js";
 
-const exerciseGrid = document.querySelector("#exercise-grid");
-const workoutGrid = document.querySelector(".row-grid");
+
+const darkenBg = document.querySelector(".darken-background");
+const editName = document.querySelector("#edit-name");
+const nameInput = document.querySelector("#name-input");
+
+const popupName = document.querySelector(".popup-name");
+popupName.style.display = "none";
+
+const btnWrapper = document.querySelector(".button-wrapper");
+btnWrapper.style.display = "none";
+
+addEventListenersToContents(darkenBg);
+addEventListenersToContents(editName);
+addEventListenersToContents(nameInput);
 
 fetchExercises()
   .then((exercises) => {
     exercises.forEach((exercise) => {
-      const exerciseCon = document.createElement("a");
-      exerciseCon.classList.add("grid-container");
-      exerciseCon.classList.add("child");
-      exerciseCon.id = exercise.name;
-      exerciseCon.href = `exercise.html?exercise=${exercise.name}`;
-
-      const exerciseGif = document.createElement("img");
-      exerciseGif.classList.add("exercise-gif");
-      exerciseGif.src = exercise.url;
-
-      const exerciseP = document.createElement("p");
-      exerciseP.classList.add("exercise-p");
-      const editedName = capitalizeWords(exercise.name.split(/-/));
-      exerciseP.textContent = editedName;
-
-      exerciseCon.appendChild(exerciseGif);
-      exerciseCon.appendChild(exerciseP);
-      exerciseGrid.appendChild(exerciseCon);
+      editData(exercise, "exercise");
     });
     const childList = document.querySelectorAll(".child");
     fixContentLength(childList);
@@ -42,23 +37,21 @@ fetchWorkouts()
       createWorkout.classList.add('hidden');
     }
     workouts.forEach((workout) => {
-      const workoutCon = document.createElement("a");
-      workoutCon.classList.add("row-child");
-      workoutCon.id = workout.name;
-      workoutCon.href = `workout.html?workout=${workout.id}`;
-
-      const workoutP = document.createElement("p");
-
-      let words = workout.name.split(/-/);
-
-      let workoutName = capitalizeWords(words);
-
-      workoutP.textContent = workoutName;
-        
-      workoutCon.appendChild(workoutP);
-      workoutGrid.appendChild(workoutCon);
+      editData(workout, "workout");
     });
+
   })
   .catch((error) => {
     console.error("Error fetching workout data:", error);
   });
+  
+localStorage.removeItem("pageName");
+localStorage.setItem("pageName", "index");
+
+export function handleOptions(event) {
+  darkenBg.classList.toggle("hidden");
+  btnWrapper.style.display = "grid";
+  btnWrapper.id = event.target.parentNode.id;
+}
+
+export { btnWrapper, popupName, nameInput, darkenBg };

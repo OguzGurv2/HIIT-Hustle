@@ -11,14 +11,12 @@
 </head>
 
 <body>
-    <div id="darken-background"></div>
+    <div class="darken-background"></div>
     <div class="nav-bar">
         <a href="http://localhost:8080"> &lt; </a>
         <h1 class="nav-header">New Workout</h1>
     </div>
-    <div class="page">
-        <div id="workout-content" class="grid-wrapper"></div>
-    </div>
+    <div id="workout-content" class="row-grid"></div>
     <div id="popup-name">
         <p>Name your workout!</p>
         <input type="text" id="name-input" placeholder="New Workout" maxlength="20"/>
@@ -27,9 +25,9 @@
         <h2>Add Exercise</h2>   
         <div id="popup-grid" class="grid-wrapper"></div>
     </div>
-    <a id="save" class="popup-btn hidden">Save Workout</a>
-    <a id="start" class="popup-btn hidden">Start Workout</a>
-    <div id="popup-msg">
+    <button id="save" class="popup-btn hidden">Save Workout</button>
+    <button id="start" class="popup-btn hidden">Start Workout</button>
+    <div class="popup-msg">
         <p>Execise Added!</p>
     </div>
     <div class="footer">

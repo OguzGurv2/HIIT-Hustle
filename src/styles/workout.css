@@ -1,14 +1,8 @@
 @import 'exercise.css';
 
-#darken-background{
-    position: fixed;
-    top: 0%;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    opacity: 0.5;
-}   
+input:focus {
+    outline: none;
+}
 
 #popup-wrapper {
     overflow: auto;
@@ -50,7 +44,7 @@
     width: auto;
 }
 
-#popup-msg {
+.popup-msg {
     width: 100%;
     text-align: center;
     z-index: 4;
@@ -61,108 +55,61 @@
     background-color: var(--green);
 }
 
-#popup-msg p {
+.popup-msg p {
     background-color: var(--green);
     font-size: large;
     font-weight: 700;
-}
-
-.popup-btn {
-    position: fixed;
-    bottom: 13vh;
-    right: 2.5%;
-    background-color: var(--secondary);
-    font-size: 1.5em;
-    border: 0px;
-    border-radius: 15px;
-    padding: 15px;
-    z-index: 2;
 }
 
 #start {
     z-index: 1;
 }
 
-#popup-name {
-    position: fixed;
-    bottom: 60%;
-    right: 12.5%;
-    width: 75%;
-    text-align: center;
-    z-index: 3;
-    height: fit-content;
-    font-size: 1.5em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 5px var(--secondary) solid;
-    border-radius: 10px;
-    background-color: var(--primary);
-    font-weight: 700;
+.text-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2vh;
+    width: 100%;
+    text-align: left;
 }
 
-#popup-name p {
-    padding: 15px 0px;
-    background-color: var(--primary);
-}
-
-#name-input {
-    border: 2px var(--secondary) solid;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    padding: 2px;
-    font-size: 0.75em;
-}
-
-#name-input::placeholder {
-    padding-left: 2px;
-}
-
-input:focus {
-    outline: none;
-}
-
-#duration {
+.duration {
     margin-bottom: 5px;
 }
 
-#duration::before {
+.duration::before {
     content: "Duration: ";
     color: var(--red);
 }
 
 .delete-exercise {
     position: absolute;
-    top: 0;
-    right: 0;
+    right: 5%;
+}
+
+.delete-exercise i {
+    color: var(--secondary);
 }
 
 .grid-container {
     position: relative;
 }
 
-.animate-up {
-    animation: positionUp 1s forwards;
+.row-grid {
+    margin: 0;
 }
 
-@keyframes positionUp {
-    from {
-        bottom: -6.5%;
-    }
-    to {
-        bottom: 0%;
-    }
-}
-  
-.animate-down {
-    animation: positionDown 1s forwards;
+.row-child {
+    height: fit-content;
+    width: 95%;
 }
 
-@keyframes positionDown {
-    from {
-        bottom: 0%;
-    }
-    to {
-        bottom: -6.5%;
-    }
+.row-child img {
+    height: 10vh;
+}
+
+.row-child p {
+    margin-left: 10%;
+    font-weight: 900;
+    font-size: larger;
 }

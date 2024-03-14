@@ -1,7 +1,8 @@
 'use strict'
 
-import { handleExercises, handleDelete, darkenBg, popupWrapper, popupName, workoutName, title, isSaved, isUpdated, handleSaveParam, workoutParam } from "./workout.js";
+import { handleExercises, handleDelete, popupWrapper, workoutName, title, isSaved, isUpdated, handleSaveParam, workoutParam } from "./workout.js";
 import { sendWorkout, putWorkout } from './dataHandler.js';
+import { handleOptions, btnWrapper, nameInput } from './index.js'
 
 export function fixContentLength(nodeList) {
     
@@ -29,7 +30,7 @@ export function addEventListenersToContents(elem) {
             return elem.addEventListener("keydown", handleNameInput);
         } else if (elem.id === "add-exercise") {
             return elem.addEventListener("click", addExercise);
-        } else if (elem.id === "darken-background") {
+        } else if (elem.classList.contains("darken-background")) {
             return elem.addEventListener("click", handleDarkenAnim);
         } else if (elem.id === "edit") {
             return elem.addEventListener("click", handleEditBtn);
@@ -37,6 +38,12 @@ export function addEventListenersToContents(elem) {
             return elem.addEventListener("click", handleSaveBtn);
         } else if (elem.id === "start") {
             return elem.addEventListener("click", startWorkout);
+        } else if (elem.classList.contains("options")) {
+            return elem.addEventListener("click", handleOptions);
+        } else if (elem.classList.contains("workout")) {
+            return elem.addEventListener("click", handleWorkouts);
+        } else if (elem.id === "edit-name") {
+            return elem.addEventListener("click", handleNameChange);
         }
         elem.addEventListener("click", handleDelete);
     }); 
@@ -54,18 +61,58 @@ export function capitalizeWords(words) {
     return editedName;
 }
 
-export function handleNameInput(event) {
+function handleWorkouts(event) {
+    if (!event.target.classList.contains("options") && !event.target.parentNode.classList.contains("options")) {
+        window.location.href = `workout.html?workout=${event.target.id}`;
+    }
+}
 
+export function handleDarkenAnim() {
+    const darkenBg = document.querySelector(".darken-background");
+    const popupName = document.querySelector(".popup-name");
+
+    darkenBg.classList.toggle("hidden");
+    const param = localStorage.getItem("pageName");
+    if (param == "workout") {
+        popupWrapper.classList.add("hidden");
+    } else {
+        btnWrapper.style.display = "none";
+
+    }
+    popupName.style.display = "none";
+}
+
+function handleNameChange(event) {
+    const popupName = document.querySelector(".popup-name");
+    btnWrapper.style.display = "none";
+    popupName.style.display = "flex";
+    nameInput.placeholder = event.target.parentNode.id;
+}
+
+export function handleNameInput(event) {
+    const darkenBg = document.querySelector(".darken-background");
+    const popupName = document.querySelector(".popup-name");
+    
     if (event.key === "Enter") {
+        
         darkenBg.classList.add("hidden");
         popupName.style.display = "none";
-        const editedName = capitalizeWords(event.target.value.split(/-/))
-        title.textContent = editedName;
-        workoutName.textContent = editedName;
+        
+        const editedName = capitalizeWords(event.target.value.split(/-/));
+        const param = localStorage.getItem("pageName");
+        
+        if (param == "workout") {
+            workoutName.textContent = editedName;
+            title.textContent = editedName;
+        } else {
+            console.log(btnWrapper.id);
+        }
     }
 }
 
 export function addExercise() {
+    const darkenBg = document.querySelector(".darken-background");
+
     darkenBg.classList.remove("hidden");
     popupWrapper.classList.remove("hidden");
   
@@ -76,11 +123,6 @@ export function addExercise() {
     }
 }
 
-export function handleDarkenAnim() {
-    darkenBg.classList.add("hidden");
-    popupWrapper.classList.add("hidden");
-    popupName.style.display = "none";
-}
 
 export function handleEditBtn() {
     if (isUpdated || isSaved) {

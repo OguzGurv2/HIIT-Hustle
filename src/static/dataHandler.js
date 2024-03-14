@@ -1,6 +1,7 @@
 'use strict';
 
 import { workoutParam } from "./workout.js";
+import { addEventListenersToContents, capitalizeWords } from "./contentManager.js";
 
 export async function fetchExercises() {
     try {
@@ -100,5 +101,58 @@ export async function putWorkout(workoutName, exerciseList) {
     console.log('workout updated successfully');
   } else {
     console.log('failed to updated workout', response);
+  }
+}
+
+export function editData(data, param) {
+  if (param == "exercise") {
+    const exerciseGrid = document.querySelector("#exercise-grid");
+    
+    const exerciseCon = document.createElement("a");
+    exerciseCon.classList.add("grid-container");
+    exerciseCon.classList.add("child");
+    exerciseCon.id = data.name;
+    exerciseCon.href = `exercise.html?exercise=${data.name}`;
+  
+    const exerciseGif = document.createElement("img");
+    exerciseGif.classList.add("exercise-gif");
+    exerciseGif.src = data.url;
+  
+    const exerciseP = document.createElement("p");
+    exerciseP.classList.add("exercise-p");
+    const editedName = capitalizeWords(data.name.split(/-/));
+    exerciseP.textContent = editedName;
+  
+    exerciseCon.appendChild(exerciseGif);
+    exerciseCon.appendChild(exerciseP);
+    exerciseGrid.appendChild(exerciseCon);
+
+  } else {
+    const workoutGrid = document.querySelector(".row-grid");
+
+    const workoutCon = document.createElement("a");
+    workoutCon.classList.add("row-child");
+    workoutCon.classList.add("workout");
+    workoutCon.id = data.id;
+
+    const workoutP = document.createElement("p");
+
+    let words = data.name.split(/-/);
+
+    let workoutName = capitalizeWords(words);
+
+    workoutP.textContent = workoutName;
+
+ 
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid");
+    icon.classList.add("fa-ellipsis");
+    icon.classList.add("options");
+
+    workoutCon.appendChild(workoutP);
+    workoutCon.appendChild(icon);
+    workoutGrid.appendChild(workoutCon);
+    addEventListenersToContents(icon);
+    addEventListenersToContents(workoutCon);
   }
 }
