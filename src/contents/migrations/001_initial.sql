@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS workouts (
   id CHAR(36) PRIMARY KEY,
   name VARCHAR(15) NOT NULL,
   exercise_list TEXT, 
+  is_deleted INTEGER NOT NULL,
   FOREIGN KEY (exercise_list) REFERENCES exercises(exercise_id)
 );
 

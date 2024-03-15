@@ -180,7 +180,7 @@ section {
 }   
 
 .button-wrapper {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr;
     height: fit-content;
     position: fixed;
@@ -211,23 +211,6 @@ section {
     padding-bottom: 2.5vh;
 }
 
-.popup-msg {
-    width: 100%;
-    text-align: center;
-    z-index: 4;
-    position: fixed;
-    bottom: -6.5%;
-    padding-bottom: 5%;
-    padding-top: 2.5%;
-    background-color: var(--green);
-}
-
-.popup-msg p {
-    background-color: var(--green);
-    font-size: large;
-    font-weight: 700;
-}
-
 hr {
     border: none; 
     height: 1px; 
@@ -246,7 +229,7 @@ hr {
     z-index: 3;
     height: fit-content;
     font-size: 1.5em;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     border: 5px var(--secondary) solid;
@@ -270,6 +253,19 @@ hr {
 
 #name-input::placeholder {
     padding-left: 2px;
+}
+
+.popup-msg {
+    width: 100%;
+    text-align: center;
+    z-index: 4;
+    position: fixed;
+    bottom: -6.5%;
+    padding-bottom: 5%;
+    padding-top: 2.5%;
+    background-color: var(--green);
+    font-size: large;
+    font-weight: 900;
 }
 
 /* Animations */

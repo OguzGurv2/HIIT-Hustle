@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (storedData) {
         pageNum = storedData;
-        localStorage.clear();
+        localStorage.removeItem("pageIndex");
     }
 
     container.style.transform = `translateX(${pageNum * -100}vw)`;

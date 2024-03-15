@@ -1,6 +1,5 @@
 'use strict';
 
-import { workoutParam } from "./workout.js";
 import { addEventListenersToContents, capitalizeWords } from "./contentManager.js";
 
 export async function fetchExercises() {
@@ -84,20 +83,23 @@ export async function sendWorkout(workoutName, exerciseList) {
   }
 }
 
-export async function putWorkout(workoutName, exerciseList) {
-  const id = workoutParam;
+export async function putWorkout(id, event, workoutName, exerciseList) {
   const payload = new FormData();
-  payload.append('workoutID', id)
-  payload.append('workoutName', workoutName);
-  payload.append('exerciseList', JSON.stringify(exerciseList));
+  payload.append('workoutID', id);
 
+  if (event !== "delete") {
+    payload.append('workoutName', workoutName);
+    if (exerciseList) {
+      payload.append('exerciseList', JSON.stringify(exerciseList));
+    };
+  } 
+  
   const response = await fetch(`/workouts/${id}`, {
     method: 'PUT',
     body: payload  
   });
 
   if (response.ok) {
-    window.location.href = `/workout.html?workout=${id}`;
     console.log('workout updated successfully');
   } else {
     console.log('failed to updated workout', response);

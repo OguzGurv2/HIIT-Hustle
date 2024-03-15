@@ -44,25 +44,12 @@ input:focus {
     width: auto;
 }
 
-.popup-msg {
-    width: 100%;
-    text-align: center;
-    z-index: 4;
-    position: fixed;
-    bottom: -6.5%;
-    padding-bottom: 5%;
-    padding-top: 2.5%;
-    background-color: var(--green);
-}
-
-.popup-msg p {
-    background-color: var(--green);
-    font-size: large;
-    font-weight: 700;
-}
-
 #start {
     z-index: 1;
+}
+
+#save {
+    z-index: 2;
 }
 
 .text-wrapper {
@@ -112,4 +99,16 @@ input:focus {
     margin-left: 10%;
     font-weight: 900;
     font-size: larger;
+}
+
+.popup-btn {
+    position: fixed;
+    right: 0.5%;
+    bottom: 12.5vh;
+    background-color: var(--secondary);
+    font-size: 1.75em;
+    padding: 3.5%;
+    border: 0;
+    border-radius: 15px;
+    font-weight: 500;
 }
