@@ -108,26 +108,79 @@ export async function putWorkout(id, event, workoutName, exerciseList) {
 
 export function editData(data, param) {
   if (param == "exercise") {
-    const exerciseGrid = document.querySelector("#exercise-grid");
-    
+
     const exerciseCon = document.createElement("a");
     exerciseCon.classList.add("grid-container");
     exerciseCon.classList.add("child");
     exerciseCon.id = data.name;
-    exerciseCon.href = `exercise.html?exercise=${data.name}`;
-  
+    
     const exerciseGif = document.createElement("img");
     exerciseGif.classList.add("exercise-gif");
     exerciseGif.src = data.url;
-  
+    
     const exerciseP = document.createElement("p");
     exerciseP.classList.add("exercise-p");
     const editedName = capitalizeWords(data.name.split(/-/));
     exerciseP.textContent = editedName;
-  
+    
     exerciseCon.appendChild(exerciseGif);
     exerciseCon.appendChild(exerciseP);
-    exerciseGrid.appendChild(exerciseCon);
+    
+    if (window.location.pathname === "/") {
+      // index.html differences
+      const exerciseGrid = document.querySelector("#exercise-grid");
+      
+      exerciseCon.href = `exercise.html?exercise=${data.name}`;
+      exerciseGrid.appendChild(exerciseCon);
+      
+    } else if (window.location.pathname === "/workout.html") {
+      // workout.html differences
+      const popupGrid = document.querySelector("#popup-grid");
+      const duration = document.createElement("p");
+      
+      duration.classList.add("exercise-p");
+      duration.classList.add("duration");
+      duration.textContent = data.duration + "s";
+
+      exerciseCon.appendChild(duration);
+      popupGrid.appendChild(exerciseCon);
+    }
+  } else if (param == "workout-exercise") {
+    const workoutCon = document.querySelector("#workout-content");
+
+    const exerciseCon = document.createElement("div");
+    exerciseCon.classList.add("row-child");
+    exerciseCon.id = data.name;
+    
+    const exerciseGif = document.createElement("img");
+    exerciseGif.src = data.url;
+    
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("text-wrapper");
+
+    const exerciseName = document.createElement("p");
+    const editedName = capitalizeWords(data.name.split(/-/));
+    exerciseName.textContent = editedName;
+    
+    const duration = document.createElement("p");
+    duration.classList.add("duration");
+    duration.textContent = data.duration + "s";
+    
+    const deleteExercise = document.createElement("div");
+    deleteExercise.classList.add("delete-exercise");
+    deleteExercise.classList.add("hidden");
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid");
+    icon.classList.add("fa-trash");
+    deleteExercise.appendChild(icon);
+
+    exerciseCon.appendChild(exerciseGif);
+    exerciseCon.appendChild(textWrapper);
+    textWrapper.appendChild(exerciseName);
+    textWrapper.appendChild(duration);
+    exerciseCon.appendChild(textWrapper);
+    exerciseCon.appendChild(deleteExercise);
+    workoutCon.appendChild(exerciseCon);
 
   } else {
     const workoutGrid = document.querySelector(".row-grid");
@@ -145,7 +198,6 @@ export function editData(data, param) {
 
     workoutP.textContent = workoutName;
 
- 
     const icon = document.createElement("i");
     icon.classList.add("fa-solid");
     icon.classList.add("fa-ellipsis");

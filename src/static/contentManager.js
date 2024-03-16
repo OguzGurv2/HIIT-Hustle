@@ -1,40 +1,55 @@
 'use strict'
 
-import { handleExercises, deleteExercise, popupWrapper, workoutName, title, handleSaveBtn, handleEditBtn, startWorkout, addExercise } from "./workout.js";
+import { deleteExercise, popupWrapper, workoutName, title, handleSaveBtn, handleEditBtn, startWorkout, handleAddExerciseBtn, addExerciseToWorkout } from "./workout.js";
 import { putWorkout } from './dataHandler.js';
 import { handleOptions, workoutList, handleOptionsBtn, handleNameChange, deleteWorkout } from './index.js'
 
 export function addEventListenersToContents(elem) {
+
     if (elem.id === "popup-grid") {
-        return elem.childNodes.forEach(child => {
-            child.addEventListener("click", handleExercises);
+        elem.childNodes.forEach(child => {
+            child.addEventListener("click", addExerciseToWorkout);
         });
+        return;
     }
 
-    elem.addEventListener("click", ()=> {
-        if (elem.id === "name-input") {
-            return elem.addEventListener("keydown", handleNameInput);
-        } else if (elem.id === "add-exercise") {
-            return elem.addEventListener("click", addExercise);
-        } else if (elem.classList.contains("darken-background")) {
-            return elem.addEventListener("click", handleDarkenAnim);
-        } else if (elem.id === "edit") {
-            return elem.addEventListener("click", handleEditBtn);
-        } else if (elem.id === "save") {
-            return elem.addEventListener("click", handleSaveBtn);
-        } else if (elem.id === "start") {
-            return elem.addEventListener("click", startWorkout);
-        } else if (elem.classList.contains("options")) {
-            return elem.addEventListener("click", handleOptions);
-        } else if (elem.classList.contains("workout")) {
-            return elem.addEventListener("click", handleOptionsBtn);
-        } else if (elem.id === "edit-name") {
-            return elem.addEventListener("click", handleNameChange);
-        } else if (elem.id === "delete-workout") {
-            return elem.addEventListener("click", deleteWorkout);
+    const handleEvent = () => {
+        switch (elem.id) {
+            case "name-input":
+                elem.addEventListener("keydown", handleNameInput);
+                break;
+            case "add-exercise":
+                elem.addEventListener("click", handleAddExerciseBtn);
+                break;
+            case "edit":
+                elem.addEventListener("click", handleEditBtn);
+                break;
+            case "save":
+                elem.addEventListener("click", handleSaveBtn);
+                break;
+            case "start":
+                elem.addEventListener("click", startWorkout);
+                break;
+            case "edit-name":
+                elem.addEventListener("click", handleNameChange);
+                break;
+            case "delete-workout":
+                elem.addEventListener("click", deleteWorkout);
+                break;
+            default:
+                if (elem.classList.contains("darken-background")) {
+                    elem.addEventListener("click", handleDarkenAnim);
+                } else if (elem.classList.contains("options")) {
+                    elem.addEventListener("click", handleOptions);
+                } else if (elem.classList.contains("workout")) {
+                    elem.addEventListener("click", handleOptionsBtn);
+                } else {
+                    elem.addEventListener("click", deleteExercise);
+                }
+                break;
         }
-        elem.addEventListener("click", deleteExercise);
-    }); 
+    };
+    elem.addEventListener("click", handleEvent); 
 }
 
 export function handleDarkenAnim() {
@@ -130,4 +145,11 @@ export function getNodeListIds(nodeList) {
 
 export function findWorkoutByID(event) {
     return Array.prototype.find.call(workoutList, workout => workout.id === event.target.parentNode.id);
+}
+
+export function findExerciseID(elem) {
+    if (elem.id) {
+        return elem.id;
+    } 
+    return elem.parentNode.id;
 }

@@ -8,10 +8,10 @@ const editName = document.querySelector("#edit-name");
 const nameInput = document.querySelector("#name-input");
 const workoutList = document.querySelector('.row-grid').childNodes;
 const btnWrapper = document.querySelector(".button-wrapper");
-const deleteWorkoutBtn = document.querySelector("#delete-workout");
-  
-if(window.location.pathname === "/") {
 
+if(window.location.pathname === "/") {
+  const deleteWorkoutBtn = document.querySelector("#delete-workout");
+  
   fetchExercises()
   .then((exercises) => {
       exercises.forEach((exercise) => {
@@ -69,4 +69,4 @@ export function deleteWorkout(event) {
   findWorkoutByID(event).remove();
 }
 
-export { nameInput, darkenBg, workoutList };
+export { workoutList };

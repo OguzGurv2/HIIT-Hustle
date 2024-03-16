@@ -1,16 +1,11 @@
 "use strict";
 
-import { fixContentLength, addEventListenersToContents, capitalizeWords, msgAnim, getNodeListIds } from "./contentManager.js";
-import { fetchExerciseByID, fetchExercises, fetchWorkoutByID, sendWorkout } from "./dataHandler.js";
+import { fixContentLength, addEventListenersToContents, capitalizeWords, msgAnim, getNodeListIds, findExerciseID } from "./contentManager.js";
+import { fetchExerciseByID, fetchExercises, fetchWorkoutByID, sendWorkout, editData } from "./dataHandler.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const workoutParam = urlParams.get('workout');
-const popupGrid = document.querySelector("#popup-grid");
 const darkenBg = document.querySelector(".darken-background");
-const nameInput = document.querySelector("#name-input");
-const saveBtn = document.querySelector("#save");
-const exerciseElem = document.querySelector("#add-exercise");
-const editBtn = document.querySelector("#edit");
 const popupWrapper = document.querySelector("#popup-wrapper");
 const popupName = document.querySelector(".popup-name");
 const workoutName = document.querySelector(".nav-header");
@@ -26,41 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 if (workoutParam) {
+  const nameInput = document.querySelector("#name-input");
+  const popupGrid = document.querySelector("#popup-grid");
+  const saveBtn = document.querySelector("#save");
+  const editBtn = document.querySelector("#edit");
+  const exerciseElem = document.querySelector("#add-exercise");
+  
   popupName.style.display = "flex";
+  
   fetchExercises()
   .then(exercises => {
     exercises.forEach((exercise) => {
-      
-      const exerciseCon = document.createElement("a");
-      exerciseCon.classList.add("grid-container");
-      exerciseCon.classList.add("child");
-      exerciseCon.id = exercise.name;
-      
-      const exerciseGif = document.createElement("img");
-      exerciseGif.classList.add("exercise-gif");
-      exerciseGif.src = exercise.url;
-      
-      const exerciseName = document.createElement("p");
-      exerciseName.classList.add("exercise-p");
-      const editedName = capitalizeWords(exercise.name.split(/-/));
-      exerciseName.textContent = editedName;
-      
-      const duration = document.createElement("p");
-      duration.classList.add("exercise-p");
-      duration.classList.add("duration");
-      duration.textContent = exercise.duration + "s";
-      
-      const deleteExercise = document.createElement("div");
-      deleteExercise.classList.add("delete-exercise");
-      deleteExercise.classList.add("hidden");
-      deleteExercise.textContent = "X";
-  
-      exerciseCon.appendChild(deleteExercise);
-      exerciseCon.appendChild(exerciseGif);
-      exerciseCon.appendChild(exerciseName);
-      exerciseCon.appendChild(duration);
-      popupGrid.appendChild(exerciseCon);
+      editData(exercise, "exercise");
     });
+
     const childList = document.querySelectorAll(".child");
     fixContentLength(childList);
     addEventListenersToContents(popupGrid);
@@ -90,40 +64,9 @@ if (workoutParam) {
       data.exercise_list.forEach((exercise) => {
         fetchExerciseByID(exercise)
         .then(data => {
-          const exerciseCon = document.createElement("div");
-          exerciseCon.classList.add("row-child");
-          exerciseCon.id = data.name;
-          
-          const exerciseGif = document.createElement("img");
-          exerciseGif.src = data.url;
-          
-          const textWrapper = document.createElement("div");
-          textWrapper.classList.add("text-wrapper");
+          editData(data, "workout-exercise");
+        });
 
-          const exerciseName = document.createElement("p");
-          const editedName = capitalizeWords(data.name.split(/-/));
-          exerciseName.textContent = editedName;
-          
-          const duration = document.createElement("p");
-          duration.classList.add("duration");
-          duration.textContent = data.duration + "s";
-          
-          const deleteExercise = document.createElement("div");
-          deleteExercise.classList.add("delete-exercise");
-          deleteExercise.classList.add("hidden");
-          const icon = document.createElement("i");
-          icon.classList.add("fa-solid");
-          icon.classList.add("fa-trash");
-          deleteExercise.appendChild(icon);
-      
-          exerciseCon.appendChild(exerciseGif);
-          exerciseCon.appendChild(textWrapper);
-          textWrapper.appendChild(exerciseName);
-          textWrapper.appendChild(duration);
-          exerciseCon.appendChild(textWrapper);
-          exerciseCon.appendChild(deleteExercise);
-          workoutCon.appendChild(exerciseCon);
-        })
         const childList = document.querySelectorAll(".child");
         fixContentLength(childList);
         addEventListenersToContents(workoutCon);
@@ -134,30 +77,22 @@ if (workoutParam) {
   };
 }
 
-export function handleSaveParam() {
-  isSaved = true;
+export function addExerciseToWorkout(event) {
+  
+  fetchExerciseByID(findExerciseID(event.target))
+  .then(data => {
+    editData(data, "workout-exercise");
+  });
+  workoutCon = document.querySelector('#workout-content');
+  
+  addEventListenersToContents(workoutCon);
+  msgAnim("Exercise added!");
+  isUpdated = true;
+  handleSave();
+  handleStartBtn();
 }
 
-export function handleUpdateParam(bool) {
-  isUpdated = bool;
-}
-
-export function handleExercises(param) {
-    workoutCon = document.querySelector('#workout-content');
-    const clonedExercise = param.currentTarget.cloneNode(true)
-
-    msgAnim("Exercise added!");
-    workoutCon.appendChild(clonedExercise);
-    handleUpdateParam(true);
-    const childList = document.querySelectorAll("child");
-    fixContentLength(childList);
-    handleSave();
-    handleStartBtn();
-    addEventListenersToContents(clonedExercise);
-}
-
-export function addExercise() {
-  const darkenBg = document.querySelector(".darken-background");
+export function handleAddExerciseBtn() {
 
   darkenBg.classList.remove("hidden");
   popupWrapper.classList.remove("hidden");
@@ -179,23 +114,23 @@ export function handleEditBtn() {
 
 export function handleSaveBtn(event) {
   const id = workoutParam;
-  const workoutName = document.querySelector('.nav-header').textContent;
+  const workoutText = workoutName.textContent;
   const nodeList = document.querySelector('#workout-content').childNodes;
   const exerciseList = getNodeListIds(nodeList);
   event.target.classList.add('hidden');
 
   if (!isSaved) {
-      handleSaveParam();
-      return sendWorkout(workoutName, exerciseList);
+    isSaved = true;
+    return sendWorkout(workoutText, exerciseList);
   }; 
-  putWorkout(id, "update", workoutName, exerciseList);
+  putWorkout(id, "update", workoutText, exerciseList);
 }
 
 function handleSave() {
     workoutCon = document.querySelector('#workout-content');
     if (workoutCon.childNodes.length > 0 && isUpdated) {
         document.querySelector("#save").classList.remove('hidden');
-        handleUpdateParam(false);
+        isUpdated = false;
     } else {
         document.querySelector("#save").classList.add('hidden');
     }
@@ -207,7 +142,7 @@ export function deleteExercise(event) {
     event.target.parentNode.parentNode.remove();
 
     msgAnim("Exercise deleted!");
-    handleUpdateParam(true);
+    isUpdated = true;
     handleSave();
     handleStartBtn();
 }
@@ -223,4 +158,4 @@ export function startWorkout() {
   window.location.href = `startWorkout.html?workout=${workoutParam}`;
 }
 
-export { darkenBg, popupWrapper, popupName, workoutName, saveBtn, title, workoutParam, isSaved, isUpdated, startBtn };
+export { popupWrapper, workoutName, title, workoutParam };

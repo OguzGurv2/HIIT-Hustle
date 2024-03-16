@@ -75,6 +75,7 @@ input:focus {
 }
 
 .delete-exercise i {
+    font-size: 2em;
     color: var(--secondary);
 }
 
