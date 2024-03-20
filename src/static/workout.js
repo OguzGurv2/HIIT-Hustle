@@ -1,7 +1,7 @@
 "use strict";
 
-import { fixContentLength, addEventListenersToContents, capitalizeWords, msgAnim, getNodeListIds, findExerciseID } from "./contentManager.js";
-import { fetchExerciseByID, fetchExercises, fetchWorkoutByID, sendWorkout, editData } from "./dataHandler.js";
+import { fixContentLength, addEventListenersToContents, capitalizeWords, msgAnim } from "./contentManager.js";
+import { fetchExerciseByID, fetchExercises, fetchWorkoutByID, editData, putWorkout } from "./dataHandler.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const workoutParam = urlParams.get('workout');
@@ -13,149 +13,184 @@ const title = document.querySelector("title");
 let workoutCon = document.querySelector("#workout-content");
 const startBtn = document.querySelector("#start");
 
-let isSaved = false;
-let isUpdated = false;
-
-document.addEventListener("DOMContentLoaded", () => {
-  localStorage.setItem("pageIndex", 1);
-});
+let editMode = true;
 
 if (workoutParam) {
   const nameInput = document.querySelector("#name-input");
-  const popupGrid = document.querySelector("#popup-grid");
-  const saveBtn = document.querySelector("#save");
   const editBtn = document.querySelector("#edit");
   const exerciseElem = document.querySelector("#add-exercise");
   
-  popupName.style.display = "flex";
-  
+  popupName.style.display = "none";
+  darkenBg.classList.add("hidden");
+
   fetchExercises()
   .then(exercises => {
     exercises.forEach((exercise) => {
-      editData(exercise, "exercise");
+      const gridExerciseElem = new GridExercise(exercise);
+      gridExerciseElem.render();
     });
 
     const childList = document.querySelectorAll(".child");
     fixContentLength(childList);
-    addEventListenersToContents(popupGrid);
     addEventListenersToContents(nameInput);
     addEventListenersToContents(exerciseElem);
     addEventListenersToContents(darkenBg);
     addEventListenersToContents(editBtn);
-    addEventListenersToContents(saveBtn);
     addEventListenersToContents(startBtn);
   })
   .catch((error) => {
     console.error("Error fetching exercise data:", error);
   });
   
-  if(workoutParam !== "newWorkout") {
-    isSaved = true;
-    popupName.style.display = "none";
-    darkenBg.classList.add("hidden");
+  fetchWorkoutByID(workoutParam)
+  .then(data => {
+    const editedName = capitalizeWords(data.name.split(/-/));
+    workoutName.textContent = editedName;
+    title.textContent = editedName;
 
-    fetchWorkoutByID(workoutParam)
-    .then(data => {
-      const editedName = capitalizeWords(data.name.split(/-/));
+    if (data.exercise_list != null) {
 
-      workoutName.textContent = editedName;
-      title.textContent = editedName;
-  
       data.exercise_list.forEach((exercise) => {
         fetchExerciseByID(exercise)
         .then(data => {
-          editData(data, "workout-exercise");
+          const workoutExerciseElem = new WorkoutExercise(data);
+          workoutExerciseElem.render();
         });
-
-        const childList = document.querySelectorAll(".child");
-        fixContentLength(childList);
-        addEventListenersToContents(workoutCon);
-        handleStartBtn();
       });
-    });
-
-  };
-}
-
-export function addExerciseToWorkout(event) {
-  
-  fetchExerciseByID(findExerciseID(event.target))
-  .then(data => {
-    editData(data, "workout-exercise");
+    } else {
+      popupName.style.display = "flex";  
+      darkenBg.classList.remove("hidden");
+    }
+  })  
+  .catch((error) => {
+    console.error("Error fetching workout data:", error);
   });
-  workoutCon = document.querySelector('#workout-content');
-  
-  addEventListenersToContents(workoutCon);
-  msgAnim("Exercise added!");
-  isUpdated = true;
-  handleSave();
-  handleStartBtn();
 }
 
-export function handleAddExerciseBtn() {
+class GridExercise {
+  constructor(data) {
+    this.data = data;
+    this.node = null;
+  }
+  render() {
+    this.node = editData(this.data, "exercise");
+    this.addExerciseToWorkout();
+  }
+  addExerciseToWorkout() {
+    this.node.addEventListener("click", () => {
+      fetchExerciseByID(this.data.name)
+      .then(data => {
+        const workoutExerciseElem = new WorkoutExercise(data);
+        workoutExerciseElem.render();
+        workoutCon = document.querySelector('#workout-content');
+        
+        const workoutText = workoutName.textContent;
+        const exerciseList = WorkoutExercise.getItemList(1);
+        const id = workoutParam;
 
-  darkenBg.classList.remove("hidden");
-  popupWrapper.classList.remove("hidden");
-
-  if (isUpdated || isSaved) {
-    document.querySelectorAll(".delete-exercise").forEach((elem) => {
-      elem.classList.add("hidden");
-    });
-  };
-}
-
-export function handleEditBtn() {
-  if (isUpdated || isSaved) {
-      document.querySelectorAll(".delete-exercise").forEach((elem) => {
-          elem.classList.toggle("hidden");
+        addEventListenersToContents(workoutCon);
+        msgAnim("Exercise added!");
+        handleStartBtn();
+        putWorkout(id, "update", workoutText, exerciseList);
       });
+    });
   }
 }
 
-export function handleSaveBtn(event) {
-  const id = workoutParam;
-  const workoutText = workoutName.textContent;
-  const nodeList = document.querySelector('#workout-content').childNodes;
-  const exerciseList = getNodeListIds(nodeList);
-  event.target.classList.add('hidden');
+class WorkoutExercise {
+  static nodes = [];
+  static icons = [];
+  constructor(data) {
+    this.data = data;
+    this.node = null;
+    this.icon = null;
+  }
+  render() {
+    this.node = editData(this.data, "workout-exercise");
+    this.icon = this.node.querySelector(".delete-exercise");
+    WorkoutExercise.nodes.push(this.node);
+    WorkoutExercise.icons.push(this.icon);
+    this.deleteExercise();
+    handleStartBtn();
+  }
+  deleteExercise() {
+    this.icon.addEventListener("click", () => {
+      workoutCon = document.querySelector('#workout-content');
+      this.node.remove();
+      WorkoutExercise.removeFromNodes(this.node);
+      WorkoutExercise.removeFromNodes(this.icon);
+      this.node = null;
+      this.icon = null;
 
-  if (!isSaved) {
-    isSaved = true;
-    return sendWorkout(workoutText, exerciseList);
-  }; 
-  putWorkout(id, "update", workoutText, exerciseList);
-}
-
-function handleSave() {
-    workoutCon = document.querySelector('#workout-content');
-    if (workoutCon.childNodes.length > 0 && isUpdated) {
-        document.querySelector("#save").classList.remove('hidden');
-        isUpdated = false;
-    } else {
-        document.querySelector("#save").classList.add('hidden');
+      const workoutText = workoutName.textContent;
+      const exerciseList = WorkoutExercise.getItemList(1);
+      const id = workoutParam;
+      
+      msgAnim("Exercise deleted!");
+      handleStartBtn();
+      putWorkout(id, "update", workoutText, exerciseList);
+    });
+  }
+  static handleDeleteBtn() {
+    const iconList = WorkoutExercise.getItemList(0);
+    if (iconList.length > 0) {
+      if (editMode) {
+        iconList.forEach(child => {
+          child.style.display = "flex";
+        });
+      } else {
+        iconList.forEach(child => {
+          child.style.display = "none";
+        });
+      }
     }
-    handleStartBtn();
+  }
+  static removeFromNodes(node) {
+    let index;
+    if ( WorkoutExercise.nodes.indexOf(node)) {
+      index = WorkoutExercise.nodes.indexOf(node);
+      WorkoutExercise.nodes.splice(index, 1);
+    } else {
+      index = WorkoutExercise.icons.indexOf(icon);
+      WorkoutExercise.icons.splice(index, 1);
+    };
+  }
+  static getItemList(bool) {
+    let items;
+    if (bool) {
+      return items = WorkoutExercise.nodes;
+    } else {
+      return items = WorkoutExercise.icons;
+    }
+  }
 }
 
-export function deleteExercise(event) {
-    workoutCon = document.querySelector('#workout-content');
-    event.target.parentNode.parentNode.remove();
+export function handleAddExerciseBtn() {
+  darkenBg.classList.remove("hidden");
+  popupWrapper.classList.remove("hidden");
+  editMode = false;
+  WorkoutExercise.handleDeleteBtn();
+}
 
-    msgAnim("Exercise deleted!");
-    isUpdated = true;
-    handleSave();
-    handleStartBtn();
+export function handleEditBtn() {
+  if (!editMode) {
+    editMode = true;
+    WorkoutExercise.handleDeleteBtn();
+  } else {
+    editMode = false;
+    WorkoutExercise.handleDeleteBtn();
+  };
 }
 
 export function handleStartBtn() {
-    if (isSaved && !isUpdated) {
-        return startBtn.classList.remove("hidden");
+    if (WorkoutExercise.getItemList(1).length > 0) {
+      return startBtn.classList.remove("hidden");
     }
     startBtn.classList.add("hidden");
 }
 
-export function startWorkout() {
-  window.location.href = `startWorkout.html?workout=${workoutParam}`;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  localStorage.setItem("pageIndex", 1);
+});
 
 export { popupWrapper, workoutName, title, workoutParam };

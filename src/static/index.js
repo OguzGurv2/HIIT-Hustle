@@ -1,21 +1,23 @@
 "use strict";
 
-import { addEventListenersToContents, findWorkoutByID, fixContentLength } from "./contentManager.js";
-import { fetchExercises, fetchWorkouts, editData, putWorkout } from "./dataHandler.js";
+import { addEventListenersToContents, findWorkoutByID, fixContentLength, capitalizeWords } from "./contentManager.js";
+import { fetchExercises, fetchWorkouts, editData, putWorkout, sendWorkout } from "./dataHandler.js";
 
 const darkenBg = document.querySelector(".darken-background");
 const editName = document.querySelector("#edit-name");
 const nameInput = document.querySelector("#name-input");
-const workoutList = document.querySelector('.row-grid').childNodes;
 const btnWrapper = document.querySelector(".button-wrapper");
+const createWorkout = document.querySelector('#create-workout');
 
 if(window.location.pathname === "/") {
+  
   const deleteWorkoutBtn = document.querySelector("#delete-workout");
   
   fetchExercises()
   .then((exercises) => {
       exercises.forEach((exercise) => {
-        editData(exercise, "exercise");
+        const exerciseElem = new Exercise(exercise);
+        exerciseElem.render();
       });
       const childList = document.querySelectorAll(".child");
       fixContentLength(childList);
@@ -27,32 +29,58 @@ if(window.location.pathname === "/") {
   fetchWorkouts()
   .then((workouts) => {
       if (workouts.length === 10) {
-        const createWorkout = document.querySelector('#create-workout');
         createWorkout.classList.add('hidden');
       }
       workouts.forEach((workout) => {
-        editData(workout, "workout");
+        const workoutElem = new Workout(workout);
+        workoutElem.render();      
       });
     })
     .catch((error) => {
       console.error("Error fetching workout data:", error);
     });
-    
+  addEventListenersToContents(createWorkout);
   addEventListenersToContents(darkenBg);
   addEventListenersToContents(editName);
   addEventListenersToContents(nameInput);
   addEventListenersToContents(deleteWorkoutBtn);
 };
 
-export function handleOptions(event) {
-  darkenBg.classList.toggle("hidden");
-  btnWrapper.style.display = "grid";
-  btnWrapper.id = event.target.parentNode.id;
+class Exercise {
+  constructor(data) {
+    this.data = data;
+  }
+  render() {
+    editData(this.data, "exercise");
+  }
 }
 
-export function handleOptionsBtn(event) {
-  if (!event.target.classList.contains("options") && !event.target.parentNode.classList.contains("options")) {
-      window.location.href = `workout.html?workout=${event.target.parentNode.id}`;
+class Workout {
+  constructor(data) {
+    this.data = data;
+    this.node = null;
+    this.icon = null;
+    this.content = null;
+  }
+  render() {
+    this.node = editData(this.data, "workout");
+    this.icon = this.node.querySelector("i");
+    this.content = this.node.querySelector("p");
+    this.handleOption();
+    this.openWorkout();
+  }
+
+  handleOption() {
+    this.icon.addEventListener("click", () => {
+      darkenBg.classList.toggle("hidden");
+      btnWrapper.style.display = "grid";
+      btnWrapper.id = this.data.id;
+    });
+  }
+  openWorkout() {
+    this.content.addEventListener("click", () => {
+      window.location.href = `workout.html?workout=${this.data.id}`;
+    });
   }
 }
 
@@ -69,4 +97,6 @@ export function deleteWorkout(event) {
   findWorkoutByID(event).remove();
 }
 
-export { workoutList };
+export function createNewWorkout() {
+  sendWorkout("New Workout");
+}

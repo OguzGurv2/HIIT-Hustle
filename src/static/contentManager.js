@@ -1,20 +1,16 @@
 'use strict'
 
-import { deleteExercise, popupWrapper, workoutName, title, handleSaveBtn, handleEditBtn, startWorkout, handleAddExerciseBtn, addExerciseToWorkout } from "./workout.js";
+import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn } from "./workout.js";
 import { putWorkout } from './dataHandler.js';
-import { handleOptions, workoutList, handleOptionsBtn, handleNameChange, deleteWorkout } from './index.js'
+import { handleNameChange, createNewWorkout } from './index.js'
 
 export function addEventListenersToContents(elem) {
 
-    if (elem.id === "popup-grid") {
-        elem.childNodes.forEach(child => {
-            child.addEventListener("click", addExerciseToWorkout);
-        });
-        return;
-    }
-
     const handleEvent = () => {
         switch (elem.id) {
+            case "create-workout":
+                elem.addEventListener("click", createNewWorkout);
+                break;
             case "name-input":
                 elem.addEventListener("keydown", handleNameInput);
                 break;
@@ -24,27 +20,12 @@ export function addEventListenersToContents(elem) {
             case "edit":
                 elem.addEventListener("click", handleEditBtn);
                 break;
-            case "save":
-                elem.addEventListener("click", handleSaveBtn);
-                break;
-            case "start":
-                elem.addEventListener("click", startWorkout);
-                break;
             case "edit-name":
                 elem.addEventListener("click", handleNameChange);
-                break;
-            case "delete-workout":
-                elem.addEventListener("click", deleteWorkout);
                 break;
             default:
                 if (elem.classList.contains("darken-background")) {
                     elem.addEventListener("click", handleDarkenAnim);
-                } else if (elem.classList.contains("options")) {
-                    elem.addEventListener("click", handleOptions);
-                } else if (elem.classList.contains("workout")) {
-                    elem.addEventListener("click", handleOptionsBtn);
-                } else {
-                    elem.addEventListener("click", deleteExercise);
                 }
                 break;
         }
@@ -88,6 +69,7 @@ export function handleNameInput(event) {
             putWorkout(btnWrapper.id, "update", editedName);
             msgAnim("Workout name changed!");
                 
+            const workoutList = document.querySelector('.row-grid').childNodes;
             workoutList.forEach(workout => {
                 if (workout.id === btnWrapper.id) {
                     workout.querySelector('p').textContent = editedName;
@@ -135,21 +117,7 @@ export function capitalizeWords(words) {
     return editedName;
 }
 
-export function getNodeListIds(nodeList) {
-    const ids = [];
-    nodeList.forEach(node => {
-        ids.push(node.id);
-    });
-    return ids;
-}
-
 export function findWorkoutByID(event) {
+    const workoutList = document.querySelector('.row-grid').childNodes;
     return Array.prototype.find.call(workoutList, workout => workout.id === event.target.parentNode.id);
-}
-
-export function findExerciseID(elem) {
-    if (elem.id) {
-        return elem.id;
-    } 
-    return elem.parentNode.id;
 }

@@ -41,8 +41,7 @@ async function getWorkout(req, res) {
 
 async function postWorkout(req, res) {
   const workoutName = req.body.workoutName;
-  const exerciseList = JSON.parse(req.body.exerciseList);
-  const workouts = await mb.addWorkout(workoutName, exerciseList);
+  const workouts = await mb.addWorkout(workoutName);
   res.json(workouts);
 }
 
@@ -55,6 +54,7 @@ async function putWorkout(req, res) {
       const exerciseList = JSON.parse(req.body.exerciseList);
       const workouts = await mb.editWorkout(workoutName, id, exerciseList);
       res.json(workouts);
+      return;
     } else {
       const workouts = await mb.editWorkout(workoutName, id);
       res.json(workouts);

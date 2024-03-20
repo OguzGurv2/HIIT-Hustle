@@ -1,6 +1,6 @@
 'use strict';
 
-import { addEventListenersToContents, capitalizeWords } from "./contentManager.js";
+import { capitalizeWords } from "./contentManager.js";
 
 export async function fetchExercises() {
     try {
@@ -56,7 +56,9 @@ export async function fetchWorkoutByID(workoutID) {
       throw new Error(`Failed to fetch workout with id ${workoutID}`);
     }
     const workout = await response.json();
-    workout.exercise_list = JSON.parse(workout.exercise_list);
+    if (workout.exercise_list != null) {
+      workout.exercise_list = JSON.parse(workout.exercise_list);
+    }
     return workout;
   } catch (error) {
     console.error(`Error fetching workout with id ${workoutID}:`, error);
@@ -64,10 +66,9 @@ export async function fetchWorkoutByID(workoutID) {
   }
 }
 
-export async function sendWorkout(workoutName, exerciseList) {
+export async function sendWorkout(workoutName) {
   const payload = new FormData();
   payload.append('workoutName', workoutName);
-  payload.append('exerciseList', JSON.stringify(exerciseList));
 
   const response = await fetch('/workouts', {
     method: 'POST',
@@ -144,6 +145,7 @@ export function editData(data, param) {
 
       exerciseCon.appendChild(duration);
       popupGrid.appendChild(exerciseCon);
+      return exerciseCon;
     }
   } else if (param == "workout-exercise") {
     const workoutCon = document.querySelector("#workout-content");
@@ -170,8 +172,7 @@ export function editData(data, param) {
     deleteExercise.classList.add("delete-exercise");
     deleteExercise.classList.add("hidden");
     const icon = document.createElement("i");
-    icon.classList.add("fa-solid");
-    icon.classList.add("fa-trash");
+    icon.classList.add("fa-solid", "fa-trash");
     deleteExercise.appendChild(icon);
 
     exerciseCon.appendChild(exerciseGif);
@@ -182,31 +183,25 @@ export function editData(data, param) {
     exerciseCon.appendChild(deleteExercise);
     workoutCon.appendChild(exerciseCon);
 
+    return exerciseCon;
   } else {
     const workoutGrid = document.querySelector(".row-grid");
-
     const workoutCon = document.createElement("a");
     workoutCon.classList.add("row-child");
     workoutCon.classList.add("workout");
     workoutCon.id = data.id;
-
+    
     const workoutP = document.createElement("p");
-
     let words = data.name.split(/-/);
-
     let workoutName = capitalizeWords(words);
-
     workoutP.textContent = workoutName;
-
+    
     const icon = document.createElement("i");
-    icon.classList.add("fa-solid");
-    icon.classList.add("fa-ellipsis");
-    icon.classList.add("options");
-
+    icon.classList.add("fa-solid", "fa-ellipsis", "options");
+    
     workoutCon.appendChild(workoutP);
     workoutCon.appendChild(icon);
     workoutGrid.appendChild(workoutCon);
-    addEventListenersToContents(icon);
-    addEventListenersToContents(workoutCon);
+    return workoutCon;
   }
 }

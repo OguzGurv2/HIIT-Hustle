@@ -48,20 +48,20 @@ input:focus {
     z-index: 1;
 }
 
-#save {
-    z-index: 2;
-}
-
 .text-wrapper {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2vh;
-    width: 100%;
+    width: 80%;
     text-align: left;
+    height: 100%;
+    padding-left: 5%;
 }
 
-.duration {
-    margin-bottom: 5px;
+.text-wrapper p {
+    font-size: 1.25em;
+    margin: 0;
+    font-weight: 900;
 }
 
 .duration::before {
@@ -70,8 +70,11 @@ input:focus {
 }
 
 .delete-exercise {
-    position: absolute;
-    right: 5%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+    display: none;
 }
 
 .delete-exercise i {
@@ -94,12 +97,6 @@ input:focus {
 
 .row-child img {
     height: 10vh;
-}
-
-.row-child p {
-    margin-left: 10%;
-    font-weight: 900;
-    font-size: larger;
 }
 
 .popup-btn {
