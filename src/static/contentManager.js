@@ -1,6 +1,6 @@
 'use strict'
 
-import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn } from "./workout.js";
+import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn, workoutParam } from "./workout.js";
 import { putWorkout } from './dataHandler.js';
 import { handleNameChange, createNewWorkout } from './index.js'
 
@@ -30,13 +30,12 @@ export function addEventListenersToContents(elem) {
                 break;
         }
     };
-    elem.addEventListener("click", handleEvent); 
+    document.addEventListener("DOMContentLoaded", handleEvent()); 
 }
 
 export function handleDarkenAnim() {
     const darkenBg = document.querySelector(".darken-background");
     const popupName = document.querySelector(".popup-name");
-
     darkenBg.classList.toggle("hidden");
     const param = window.location.pathname;
         
@@ -65,6 +64,7 @@ export function handleNameInput(event) {
         if (param === "/workout.html") {
             workoutName.textContent = editedName;
             title.textContent = editedName;
+            putWorkout(workoutParam, "update", editedName);
         } else {
             putWorkout(btnWrapper.id, "update", editedName);
             msgAnim("Workout name changed!");
@@ -81,9 +81,7 @@ export function handleNameInput(event) {
 
 export function msgAnim(param) {
     const popupMsg = document.querySelector('.popup-msg');
-    
     popupMsg.textContent = param;
-    
     popupMsg.classList.remove('animate-down');
     popupMsg.classList.add('animate-up');
     setTimeout(() => {
@@ -97,9 +95,7 @@ export function fixContentLength(nodeList) {
     nodeList.forEach(child => {
         maxHeight = Math.max(maxHeight, child.offsetHeight);
     });
-
     const vhMaxHeight = (maxHeight / window.innerHeight) * 100;
-
     nodeList.forEach(child => {
         child.style.height = vhMaxHeight + 'vh';
     });
@@ -113,7 +109,6 @@ export function capitalizeWords(words) {
         return word;
       }
     }).join(" ");
-  
     return editedName;
 }
 

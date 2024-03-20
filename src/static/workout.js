@@ -23,6 +23,8 @@ if (workoutParam) {
   popupName.style.display = "none";
   darkenBg.classList.add("hidden");
 
+  localStorage.setItem("pageIndex", 1);
+
   fetchExercises()
   .then(exercises => {
     exercises.forEach((exercise) => {
@@ -32,11 +34,6 @@ if (workoutParam) {
 
     const childList = document.querySelectorAll(".child");
     fixContentLength(childList);
-    addEventListenersToContents(nameInput);
-    addEventListenersToContents(exerciseElem);
-    addEventListenersToContents(darkenBg);
-    addEventListenersToContents(editBtn);
-    addEventListenersToContents(startBtn);
   })
   .catch((error) => {
     console.error("Error fetching exercise data:", error);
@@ -65,6 +62,11 @@ if (workoutParam) {
   .catch((error) => {
     console.error("Error fetching workout data:", error);
   });
+  addEventListenersToContents(nameInput);
+  addEventListenersToContents(exerciseElem);
+  addEventListenersToContents(darkenBg);
+  addEventListenersToContents(editBtn);
+  addEventListenersToContents(startBtn);
 }
 
 class GridExercise {
@@ -156,11 +158,14 @@ class WorkoutExercise {
     };
   }
   static getItemList(bool) {
-    let items;
     if (bool) {
-      return items = WorkoutExercise.nodes;
+      let list = [];
+      WorkoutExercise.nodes.forEach(node => {
+        list.push(node.id);
+      });
+      return list;
     } else {
-      return items = WorkoutExercise.icons;
+      return WorkoutExercise.icons;
     }
   }
 }
@@ -188,9 +193,5 @@ export function handleStartBtn() {
     }
     startBtn.classList.add("hidden");
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  localStorage.setItem("pageIndex", 1);
-});
 
 export { popupWrapper, workoutName, title, workoutParam };
