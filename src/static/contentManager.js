@@ -116,3 +116,13 @@ export function findWorkoutByID(event) {
     const workoutList = document.querySelector('.row-grid').childNodes;
     return Array.prototype.find.call(workoutList, workout => workout.id === event.target.parentNode.id);
 }
+
+export function createInstructions(data, container) {
+    const paragraphs = data.description.split(/\d+\.\s/);
+    for (let i = 1; i < paragraphs.length; i++) {
+        const newParagraph = document.createElement('p');
+        newParagraph.classList.add("exercise-p");
+        newParagraph.textContent = `${i}. ${paragraphs[i]}`;
+        container.appendChild(newParagraph);
+    }
+}

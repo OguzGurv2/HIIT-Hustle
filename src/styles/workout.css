@@ -51,10 +51,9 @@ input:focus {
 .text-wrapper {
     display: grid;
     grid-template-columns: 1fr;
-    row-gap: 2vh;
+    row-gap: 1.5vh;
     width: 80%;
     text-align: left;
-    height: 100%;
     padding-left: 5%;
 }
 
@@ -62,6 +61,7 @@ input:focus {
     font-size: 1.25em;
     margin: 0;
     font-weight: 900;
+    height: fit-content;
 }
 
 .duration::before {
@@ -69,15 +69,15 @@ input:focus {
     color: var(--red);
 }
 
-.delete-exercise {
+.icon-container {
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 20%;
-    display: none;
+    display: flex;
 }
 
-.delete-exercise i {
+.icon-container i {
     font-size: 2em;
     color: var(--secondary);
 }
@@ -93,10 +93,54 @@ input:focus {
 .row-child {
     height: fit-content;
     width: 95%;
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
-.row-child img {
+.row-child>div {
     height: 10vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#extendable-content {
+    display: none;
+    height: fit-content;
+}
+
+#extendable-content p {
+    font-size: 1em;
+    text-align: left;
+    width: 90%;
+    padding-left: 5%;
+}
+
+#extendable-content>p:last-child {
+    padding-bottom: 2.5%;
+}
+
+#extendable-content h2 {
+    color: var(--red); 
+    font-size: 1.25em;
+}
+
+#extendable-content h2::before { 
+    content: "";
+    display: block;
+    width: 95%; 
+    height: 1px; 
+    background-color: var(--secondary); 
+    margin: 2.5%;
+    margin-left: 2.5%;
+}
+.row-child>div>img {
+    height: 10vh;
+    width: 30%;
+    border: 0;
+    border-radius: 5%;
+    overflow: hidden;
 }
 
 .popup-btn {

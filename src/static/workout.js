@@ -19,7 +19,6 @@ if (workoutParam) {
   const nameInput = document.querySelector("#name-input");
   const editBtn = document.querySelector("#edit");
   const exerciseElem = document.querySelector("#add-exercise");
-  
   popupName.style.display = "none";
   darkenBg.classList.add("hidden");
 
@@ -31,7 +30,6 @@ if (workoutParam) {
       const gridExerciseElem = new GridExercise(exercise);
       gridExerciseElem.render();
     });
-
     const childList = document.querySelectorAll(".child");
     fixContentLength(childList);
   })
@@ -46,7 +44,6 @@ if (workoutParam) {
     title.textContent = editedName;
 
     if (data.exercise_list != null) {
-
       data.exercise_list.forEach((exercise) => {
         fetchExerciseByID(exercise)
         .then(data => {
@@ -85,7 +82,6 @@ class GridExercise {
         const workoutExerciseElem = new WorkoutExercise(data);
         workoutExerciseElem.render();
         workoutCon = document.querySelector('#workout-content');
-        
         const workoutText = workoutName.textContent;
         const exerciseList = WorkoutExercise.getItemList(1);
         const id = workoutParam;
@@ -101,48 +97,86 @@ class GridExercise {
 
 class WorkoutExercise {
   static nodes = [];
-  static icons = [];
+  static iconCons = [];
+  static dropdownIcons = ["fa-angle-down", "fa-angle-left"];
+
   constructor(data) {
+    this.isOpen = false;
     this.data = data;
     this.node = null;
+    this.buttonMode = null;
+    this.extendableContent = null;
+    this.iconCon = null;
     this.icon = null;
+    this.deleteBtn = null;
+    this.dropdownBtn = null;
   }
   render() {
     this.node = editData(this.data, "workout-exercise");
-    this.icon = this.node.querySelector(".delete-exercise");
+    this.iconCon = this.node.querySelector(".icon-container");
+    this.icon = this.iconCon.querySelector("i");
+    this.extendableContent = this.node.querySelector("#extendable-content")
     WorkoutExercise.nodes.push(this.node);
-    WorkoutExercise.icons.push(this.icon);
-    this.deleteExercise();
+    WorkoutExercise.iconCons.push(this.iconCon);
+    this.handleButton();
     handleStartBtn();
   }
-  deleteExercise() {
-    this.icon.addEventListener("click", () => {
-      workoutCon = document.querySelector('#workout-content');
-      this.node.remove();
-      WorkoutExercise.removeFromNodes(this.node);
-      WorkoutExercise.removeFromNodes(this.icon);
-      this.node = null;
-      this.icon = null;
-
-      const workoutText = workoutName.textContent;
-      const exerciseList = WorkoutExercise.getItemList(1);
-      const id = workoutParam;
-      
-      msgAnim("Exercise deleted!");
-      handleStartBtn();
-      putWorkout(id, "update", workoutText, exerciseList);
+  handleButton() {
+    this.iconCon.addEventListener("click", () => {
+      this.buttonMode = this.detectButton();
+      if (WorkoutExercise.dropdownIcons.includes(this.buttonMode)) {
+        this.handleContentSize();
+      } else {
+        this.deleteExercise();
+      }
     });
   }
+  detectButton() {
+    return this.iconCon.querySelector("i").classList[1];
+  }
+  handleContentSize() {
+    if (this.isOpen == false) {
+      this.isOpen = true;
+      this.extendContent();
+    } else {
+      this.isOpen = false;
+      this.shortenContent();
+    }
+  }
+  extendContent() {
+    this.extendableContent.style.display = "block";
+    this.icon.classList.remove("fa-angle-left");
+    this.icon.classList.add("fa-angle-down");
+  }
+  shortenContent() {
+    this.extendableContent.style.display = "none";
+    this.icon.classList.remove("fa-angle-down");
+    this.icon.classList.add("fa-angle-left");
+  }
+  deleteExercise() {
+    workoutCon = document.querySelector('#workout-content');
+    this.node.remove();
+    WorkoutExercise.removeFromNodes(this.node);
+    WorkoutExercise.removeFromNodes(this.deleteBtn);
+
+    const workoutText = workoutName.textContent;
+    const exerciseList = WorkoutExercise.getItemList(1);
+    const id = workoutParam;
+    
+    msgAnim("Exercise deleted!");
+    handleStartBtn();
+    putWorkout(id, "update", workoutText, exerciseList);
+  }
   static handleDeleteBtn() {
-    const iconList = WorkoutExercise.getItemList(0);
-    if (iconList.length > 0) {
+    const iconConList = WorkoutExercise.getItemList(0);
+    if (iconConList.length > 0) {
       if (editMode) {
-        iconList.forEach(child => {
-          child.style.display = "flex";
+        iconConList.forEach(child => {
+          // child.style.display = "flex";
         });
       } else {
-        iconList.forEach(child => {
-          child.style.display = "none";
+        iconConList.forEach(child => {
+          // child.style.display = "none";
         });
       }
     }
@@ -153,8 +187,8 @@ class WorkoutExercise {
       index = WorkoutExercise.nodes.indexOf(node);
       WorkoutExercise.nodes.splice(index, 1);
     } else {
-      index = WorkoutExercise.icons.indexOf(icon);
-      WorkoutExercise.icons.splice(index, 1);
+      index = WorkoutExercise.iconCons.indexOf(deleteBtn);
+      WorkoutExercise.iconCons.splice(index, 1);
     };
   }
   static getItemList(bool) {
@@ -165,7 +199,7 @@ class WorkoutExercise {
       });
       return list;
     } else {
-      return WorkoutExercise.icons;
+      return WorkoutExercise.iconCons;
     }
   }
 }

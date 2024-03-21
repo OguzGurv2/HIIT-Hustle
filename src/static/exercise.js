@@ -1,5 +1,6 @@
 'use strict'
 
+import { createInstructions } from "./contentManager.js";
 import { fetchExerciseByID } from "./dataHandler.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -13,17 +14,8 @@ fetchExerciseByID(exerciseName)
     .then(data => {
         exerciseHeader.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
         exerciseGif.src = data.url;
-
         bodyPart.textContent = bodyPart.textContent + data.body_part;
-
-        const paragraphs = data.description.split(/\d+\.\s/);
-
-        for (let i = 1; i < paragraphs.length; i++) {
-            const newParagraph = document.createElement('p');
-            newParagraph.classList.add("exercise-p");
-            newParagraph.textContent = `${i}. ${paragraphs[i]}`;
-            instructions.appendChild(newParagraph);
-        }
+        createInstructions(data, instructions);
     })
     .catch(error => {
         console.error('Error fetching exercise data:', error);

@@ -1,6 +1,6 @@
 'use strict';
 
-import { capitalizeWords } from "./contentManager.js";
+import { capitalizeWords, createInstructions } from "./contentManager.js";
 
 export async function fetchExercises() {
     try {
@@ -153,7 +153,14 @@ export function editData(data, param) {
     const exerciseCon = document.createElement("div");
     exerciseCon.classList.add("row-child");
     exerciseCon.id = data.name;
-    
+    const exerciseDiv1 = document.createElement("div");
+    const exerciseDiv2 = document.createElement("div");
+    exerciseDiv2.id = "extendable-content";
+    const instructionsHeader = document.createElement("h2");
+    instructionsHeader.textContent = "Instructions";
+    exerciseDiv2.append(instructionsHeader);
+    createInstructions(data, exerciseDiv2);
+
     const exerciseGif = document.createElement("img");
     exerciseGif.src = data.url;
     
@@ -168,19 +175,21 @@ export function editData(data, param) {
     duration.classList.add("duration");
     duration.textContent = data.duration + "s";
     
-    const deleteExercise = document.createElement("div");
-    deleteExercise.classList.add("delete-exercise");
-    deleteExercise.classList.add("hidden");
+    const iconCon = document.createElement("div");
+    iconCon.classList.add("icon-container");
     const icon = document.createElement("i");
-    icon.classList.add("fa-solid", "fa-trash");
-    deleteExercise.appendChild(icon);
+    icon.classList.add("fa-solid", "fa-angle-left");
+    
 
-    exerciseCon.appendChild(exerciseGif);
-    exerciseCon.appendChild(textWrapper);
+    iconCon.appendChild(icon);
+    exerciseDiv1.appendChild(exerciseGif);
+    exerciseDiv1.appendChild(textWrapper);
     textWrapper.appendChild(exerciseName);
     textWrapper.appendChild(duration);
-    exerciseCon.appendChild(textWrapper);
-    exerciseCon.appendChild(deleteExercise);
+    exerciseDiv1.appendChild(textWrapper);
+    exerciseDiv1.appendChild(iconCon);
+    exerciseCon.appendChild(exerciseDiv1);
+    exerciseCon.appendChild(exerciseDiv2);
     workoutCon.appendChild(exerciseCon);
 
     return exerciseCon;
