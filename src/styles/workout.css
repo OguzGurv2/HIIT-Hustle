@@ -33,19 +33,16 @@ input:focus {
     background-color: var(--primary);
 }
 
-.exercise-gif {
-    width: 27.5vw;
-    height: 25vw;
+.exercise-gif, img {
+    width: auto;
+    height: 10vh;
+    display: flex;
 }
 
 .exercise-p {
     font-size: 14px;
     margin-top: 5%;
     width: auto;
-}
-
-#start {
-    z-index: 1;
 }
 
 .text-wrapper {
@@ -57,7 +54,7 @@ input:focus {
     padding-left: 5%;
 }
 
-.text-wrapper p {
+.text-wrapper p, .text-wrapper span {
     font-size: 1.25em;
     margin: 0;
     font-weight: 900;
@@ -97,6 +94,10 @@ input:focus {
     grid-template-columns: 1fr;
 }
 
+.row-child:last-child {
+    margin-bottom: 20vh;
+}
+
 .row-child>div {
     height: 10vh;
     width: 100%;
@@ -121,12 +122,12 @@ input:focus {
     padding-bottom: 2.5%;
 }
 
-#extendable-content h2 {
+#extendable-content .instructions-header {
     color: var(--red); 
     font-size: 1.25em;
 }
 
-#extendable-content h2::before { 
+#extendable-content>div::before { 
     content: "";
     display: block;
     width: 95%; 
@@ -145,12 +146,60 @@ input:focus {
 
 .popup-btn {
     position: fixed;
-    right: 0.5%;
-    bottom: 12.5vh;
+    right: 5%;
+    top: 2.5vh;
     background-color: var(--secondary);
     font-size: 1.75em;
     padding: 3.5%;
     border: 0;
     border-radius: 15px;
     font-weight: 500;
+    z-index: 1;
+    width: 25vw;
+}
+
+#timer {
+    font-size: 2.5em;
+    font-weight: 700;
+    width: max-content;
+    justify-self: center;
+}
+
+.restDuration {
+    font-size: 1.5em;
+}
+
+.restDuration::before {
+    content: "Rest Time: ";
+    color: var(--red);
+}
+
+.restTime {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.restTime>div {
+    display: flex;
+    height: 5vh;
+}
+
+.restTime i {
+    width: 20%;
+}
+
+.restTime h2 {
+    width: 60%;
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    height: 100%;
+}
+
+#pause {
+    display: none;
 }

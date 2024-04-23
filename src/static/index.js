@@ -95,6 +95,8 @@ export function handleNameChange(event) {
 export function deleteWorkout(event) {
   putWorkout(btnWrapper.id, "delete");
   findWorkoutByID(event).remove();
+  darkenBg.classList.toggle("hidden");
+  btnWrapper.style.display = "none";
 }
 
 export function createNewWorkout() {

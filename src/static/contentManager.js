@@ -1,8 +1,8 @@
 'use strict'
 
-import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn, workoutParam } from "./workout.js";
+import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn, workoutParam, startWorkoutSession, pauseWorkoutSession } from "./workout.js";
 import { putWorkout } from './dataHandler.js';
-import { handleNameChange, createNewWorkout } from './index.js'
+import { handleNameChange, createNewWorkout, deleteWorkout } from './index.js'
 
 export function addEventListenersToContents(elem) {
 
@@ -10,6 +10,9 @@ export function addEventListenersToContents(elem) {
         switch (elem.id) {
             case "create-workout":
                 elem.addEventListener("click", createNewWorkout);
+                break;
+            case "delete-workout":
+                elem.addEventListener("click", deleteWorkout);
                 break;
             case "name-input":
                 elem.addEventListener("keydown", handleNameInput);
@@ -22,6 +25,12 @@ export function addEventListenersToContents(elem) {
                 break;
             case "edit-name":
                 elem.addEventListener("click", handleNameChange);
+                break;
+            case "start":
+                elem.addEventListener("click", startWorkoutSession);
+                break;
+            case "pause":
+                elem.addEventListener("click", pauseWorkoutSession);
                 break;
             default:
                 if (elem.classList.contains("darken-background")) {

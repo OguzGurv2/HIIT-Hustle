@@ -16,7 +16,9 @@
         <a href="http://localhost:8080"> &lt; </a>
         <h1 class="nav-header">New Workout</h1>
     </div>
-    <div id="workout-content" class="row-grid"></div>
+    <div id="workout-content" class="row-grid">
+        <span id="timer" class="hidden">00:00</span>
+    </div>
     <div class="popup-name">
         <p>Name your workout!</p>
         <input type="text" id="name-input" placeholder="New Workout" maxlength="20"/>
@@ -25,11 +27,12 @@
         <h2>Add Exercise</h2>   
         <div id="popup-grid" class="grid-wrapper"></div>
     </div>
-    <button id="start" class="popup-btn hidden">Start Workout</button>
+    <button id="start" class="popup-btn hidden">Start</button>
     <div class="popup-msg"></div>
     <div class="footer">
         <i id="add-exercise" class="fa-solid fa-plus"></i>
         <i id="edit" class="fa-solid fa-pen"></i>
+        <i id="pause" class="fa-solid fa-pause"></i>
     </div>
 </body>
 

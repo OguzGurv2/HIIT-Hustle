@@ -58,6 +58,7 @@ export async function fetchWorkoutByID(workoutID) {
     const workout = await response.json();
     if (workout.exercise_list != null) {
       workout.exercise_list = JSON.parse(workout.exercise_list);
+      workout.rest_time_list = JSON.parse(workout.rest_time_list);
     }
     return workout;
   } catch (error) {
@@ -84,7 +85,7 @@ export async function sendWorkout(workoutName) {
   }
 }
 
-export async function putWorkout(id, event, workoutName, exerciseList) {
+export async function putWorkout(id, event, workoutName, exerciseList, restTimeList) {
   const payload = new FormData();
   payload.append('workoutID', id);
 
@@ -92,6 +93,7 @@ export async function putWorkout(id, event, workoutName, exerciseList) {
     payload.append('workoutName', workoutName);
     if (exerciseList) {
       payload.append('exerciseList', JSON.stringify(exerciseList));
+      payload.append('restTimeList', JSON.stringify(restTimeList));
     };
   } 
   
@@ -153,43 +155,70 @@ export function editData(data, param) {
     const exerciseCon = document.createElement("div");
     exerciseCon.classList.add("row-child");
     exerciseCon.id = data.name;
-    const exerciseDiv1 = document.createElement("div");
-    const exerciseDiv2 = document.createElement("div");
-    exerciseDiv2.id = "extendable-content";
-    const instructionsHeader = document.createElement("h2");
-    instructionsHeader.textContent = "Instructions";
-    exerciseDiv2.append(instructionsHeader);
-    createInstructions(data, exerciseDiv2);
-
+    
+    const mainDiv = document.createElement("div");
+    const contentWrapper = document.createElement("div");
+    contentWrapper.classList.add("content-wrapper");
     const exerciseGif = document.createElement("img");
     exerciseGif.src = data.url;
-    
     const textWrapper = document.createElement("div");
     textWrapper.classList.add("text-wrapper");
-
     const exerciseName = document.createElement("p");
     const editedName = capitalizeWords(data.name.split(/-/));
     exerciseName.textContent = editedName;
-    
-    const duration = document.createElement("p");
+    const duration = document.createElement("span");
     duration.classList.add("duration");
     duration.textContent = data.duration + "s";
-    
     const iconCon = document.createElement("div");
     iconCon.classList.add("icon-container");
     const icon = document.createElement("i");
     icon.classList.add("fa-solid", "fa-angle-left");
     
-
+    
     iconCon.appendChild(icon);
-    exerciseDiv1.appendChild(exerciseGif);
-    exerciseDiv1.appendChild(textWrapper);
     textWrapper.appendChild(exerciseName);
     textWrapper.appendChild(duration);
-    exerciseDiv1.appendChild(textWrapper);
-    exerciseDiv1.appendChild(iconCon);
-    exerciseCon.appendChild(exerciseDiv1);
-    exerciseCon.appendChild(exerciseDiv2);
+    contentWrapper.appendChild(exerciseGif);
+    contentWrapper.appendChild(textWrapper);
+    mainDiv.appendChild(contentWrapper);
+    mainDiv.appendChild(iconCon);
+
+    const extendableDiv = document.createElement("div");
+    extendableDiv.id = "extendable-content";
+    
+    const instructions = document.createElement("div");
+    const instructionsHeader = document.createElement("h2");
+    instructionsHeader.textContent = "Instructions";
+    instructionsHeader.classList.add("instructions-header");
+    instructions.append(instructionsHeader);
+    createInstructions(data, instructions);
+
+    const restTime = document.createElement("div");
+    restTime.classList.add("restTime");
+    const contentDiv = document.createElement("div");
+    const subtractIcon = document.createElement("i");
+    subtractIcon.classList.add("fa-solid", "fa-minus");
+    contentDiv.appendChild(subtractIcon);
+
+    const restDuration = document.createElement("h2");
+    restDuration.classList.add("restDuration");
+    if (data.restTime) {
+      restDuration.textContent = data.restTime + "s";
+    } else {
+      restDuration.textContent = "5s";
+    }
+    contentDiv.appendChild(restDuration);
+
+    const plusIcon = document.createElement("i");
+    plusIcon.classList.add("fa-solid", "fa-plus");
+    contentDiv.appendChild(plusIcon);
+
+    restTime.appendChild(contentDiv);
+    extendableDiv.appendChild(instructions);
+    extendableDiv.appendChild(restTime);
+
+    exerciseCon.appendChild(mainDiv);
+    exerciseCon.appendChild(extendableDiv);
     workoutCon.appendChild(exerciseCon);
 
     return exerciseCon;

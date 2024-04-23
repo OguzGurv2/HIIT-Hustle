@@ -52,7 +52,8 @@ async function putWorkout(req, res) {
     const workoutName = req.body.workoutName;
     if (req.body.exerciseList) {
       const exerciseList = JSON.parse(req.body.exerciseList);
-      const workouts = await mb.editWorkout(workoutName, id, exerciseList);
+      const restTimeList = JSON.parse(req.body.restTimeList);
+      const workouts = await mb.editWorkout(workoutName, id, exerciseList, restTimeList);
       res.json(workouts);
       return;
     } else {

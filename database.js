@@ -50,13 +50,14 @@ export async function addWorkout(workoutName) {
   return findWorkout(id); 
 }
 
-export async function editWorkout(workoutName, id, exerciseList ) {
+export async function editWorkout(workoutName, id, exerciseList, restTimeList) {
   const db = await dbConn;
   
   let statement;
   if (exerciseList) {
     const exerciseListJson = JSON.stringify(exerciseList);
-    statement = await db.run('UPDATE workouts SET name = ? , exercise_list = ? WHERE id = ? AND is_deleted = FALSE', [workoutName, exerciseListJson, id]);
+    const restTimeListJson = JSON.stringify(restTimeList);
+    statement = await db.run('UPDATE workouts SET name = ? , exercise_list = ?, rest_time_list = ? WHERE id = ? AND is_deleted = FALSE', [workoutName, exerciseListJson, restTimeListJson, id]);
   } else {
     statement = await db.run('UPDATE workouts SET name = ? WHERE id = ? AND is_deleted = FALSE', [workoutName, id]);
   }
