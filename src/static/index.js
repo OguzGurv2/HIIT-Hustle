@@ -28,13 +28,18 @@ if(window.location.pathname === "/") {
   
   fetchWorkouts()
   .then((workouts) => {
-      if (workouts.length === 10) {
+      if (workouts.length >= 10) {
         createWorkout.classList.add('hidden');
       }
-      workouts.forEach((workout) => {
-        const workoutElem = new Workout(workout);
-        workoutElem.render();      
-      });
+        if (workouts.length > 1) {
+          workouts.forEach((workout) => {
+            const workoutElem = new Workout(workout);
+            workoutElem.render();      
+            
+            const workoutData = new WorkoutData(workout);
+            workoutData.render();
+          });
+        }
     })
     .catch((error) => {
       console.error("Error fetching workout data:", error);
@@ -50,6 +55,7 @@ class Exercise {
   constructor(data) {
     this.data = data;
   }
+
   render() {
     editData(this.data, "exercise");
   }
@@ -62,6 +68,7 @@ class Workout {
     this.icon = null;
     this.content = null;
   }
+
   render() {
     this.node = editData(this.data, "workout");
     this.icon = this.node.querySelector("i");
@@ -77,9 +84,40 @@ class Workout {
       btnWrapper.id = this.data.id;
     });
   }
+
   openWorkout() {
     this.content.addEventListener("click", () => {
       window.location.href = `workout.html?workout=${this.data.id}`;
+    });
+  }
+}
+
+class WorkoutData {
+  static dataList = [];
+
+  constructor(data) {
+    this.data = data;
+    this.cells = null;
+  }
+
+  render() {
+    this.cells = editData(this.data, "workout-data");
+    let numericData = parseFloat(this.cells.lastChild.textContent);
+    WorkoutData.dataList.push({
+      cells: this.cells,
+      dataCell: numericData});
+    WorkoutData.sortDataList();
+  }
+
+  static sortDataList() {
+    this.dataList.sort((a, b) => b.dataCell - a.dataCell);
+    this.appendDataToTable();
+  }
+
+  static appendDataToTable() {
+    const tBody = document.querySelector("tbody");
+    this.dataList.forEach(elem => {
+      tBody.appendChild(elem.cells);
     });
   }
 }

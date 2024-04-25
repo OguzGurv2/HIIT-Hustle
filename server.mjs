@@ -48,21 +48,25 @@ async function postWorkout(req, res) {
 async function putWorkout(req, res) {
   const id = req.body.workoutID;
 
+  let workouts;
+  if(req.body.timesFinished >= 0) {
+    const timesFinished = req.body.timesFinished;
+    workouts = await mb.editWorkout(null, id, null, null, timesFinished);
+    return res.json(workouts);
+  }
   if (req.body.workoutName) {
     const workoutName = req.body.workoutName;
     if (req.body.exerciseList) {
       const exerciseList = JSON.parse(req.body.exerciseList);
       const restTimeList = JSON.parse(req.body.restTimeList);
-      const workouts = await mb.editWorkout(workoutName, id, exerciseList, restTimeList);
-      res.json(workouts);
-      return;
+      workouts = await mb.editWorkout(workoutName, id, exerciseList, restTimeList);
+      return res.json(workouts);
     } else {
-      const workouts = await mb.editWorkout(workoutName, id);
-      res.json(workouts);
-      return;
+      workouts = await mb.editWorkout(workoutName, id);
+      return res.json(workouts);
     };
   };
-  const workouts = await mb.deleteWorkout(id);
+  workouts = await mb.deleteWorkout(id);
   res.json(workouts);
 }
 

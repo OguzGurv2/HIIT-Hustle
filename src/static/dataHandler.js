@@ -85,11 +85,14 @@ export async function sendWorkout(workoutName) {
   }
 }
 
-export async function putWorkout(id, event, workoutName, exerciseList, restTimeList) {
+export async function putWorkout(id, event, workoutName, exerciseList, restTimeList, timesFinished) {
   const payload = new FormData();
   payload.append('workoutID', id);
 
-  if (event !== "delete") {
+  if (event === "count") {
+    payload.append('timesFinished', timesFinished);
+  }
+  if (event === "update") {
     payload.append('workoutName', workoutName);
     if (exerciseList) {
       payload.append('exerciseList', JSON.stringify(exerciseList));
@@ -105,7 +108,7 @@ export async function putWorkout(id, event, workoutName, exerciseList, restTimeL
   if (response.ok) {
     console.log('workout updated successfully');
   } else {
-    console.log('failed to updated workout', response);
+    console.log('failed to update workout', response);
   }
 }
 
@@ -202,7 +205,7 @@ export function editData(data, param) {
 
     const restDuration = document.createElement("h2");
     restDuration.classList.add("restDuration");
-    if (data.restTime) {
+    if (data.restTime != null) {
       restDuration.textContent = data.restTime + "s";
     } else {
       restDuration.textContent = "5s";
@@ -222,6 +225,19 @@ export function editData(data, param) {
     workoutCon.appendChild(exerciseCon);
 
     return exerciseCon;
+  } else if (param == "workout-data") {
+    const tr = document.createElement("tr");
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = data.name;
+
+    const dataCell = document.createElement("td");
+    dataCell.textContent = data.times_finished;
+
+    tr.appendChild(nameCell);
+    tr.appendChild(dataCell);
+    return tr;
+
   } else {
     const workoutGrid = document.querySelector(".row-grid");
     const workoutCon = document.createElement("a");

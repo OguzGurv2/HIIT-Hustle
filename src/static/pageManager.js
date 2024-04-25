@@ -52,6 +52,16 @@ buttons.forEach((id) => {
     button.addEventListener("click", buttonClicked);
 });
 
+const secondButtonList = document.querySelectorAll(".btn2");
+const buttons2 = Array.from(secondButtonList).map((button) => button.id);
+
+buttons2.forEach((id) => {
+    
+    const button = document.getElementById(id);
+
+    button.addEventListener("click", buttonClicked);
+});
+
 function handleTouchStart(event) {
     const firstTouch = event.touches[0];
     offsetX = firstTouch.clientX;
@@ -102,8 +112,14 @@ function endDrag(event) {
 }
 
 function buttonClicked(event) {
-    container.style.transform = `translateX(${buttons.indexOf(event.currentTarget.id) * -100}vw)`;
-    pageNum = buttons.indexOf(event.currentTarget.id);
+    if(event.currentTarget.tagName === "BUTTON") {
+        container.style.transform = `translateX(${buttons2.indexOf(event.currentTarget.id) * -100}vw)`;
+        pageNum = buttons2.indexOf(event.currentTarget.id);
+
+    } else {
+        container.style.transform = `translateX(${buttons.indexOf(event.currentTarget.id) * -100}vw)`;
+        pageNum = buttons.indexOf(event.currentTarget.id);
+    }
 
     updateContainerPos();
     updatePageElems(pageNum);

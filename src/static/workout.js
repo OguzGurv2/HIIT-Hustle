@@ -21,11 +21,11 @@ const popupWrapper = document.querySelector("#popup-wrapper");
 const popupName = document.querySelector(".popup-name");
 const workoutName = document.querySelector(".nav-header");
 const title = document.querySelector("title");
-let workoutCon = document.querySelector("#workout-content");
 const startBtn = document.querySelector("#start");
 const editBtn = document.querySelector("#edit");
 const addExerciseBtn = document.querySelector("#add-exercise");
 const pauseBtn = document.querySelector("#pause");
+let timesFinished;
 
 let editMode = false;
 
@@ -56,6 +56,7 @@ if (workoutParam) {
       const editedName = capitalizeWords(data.name.split(/-/));
       workoutName.textContent = editedName;
       title.textContent = editedName;
+      timesFinished = data.times_finished;
 
       if (data.exercise_list != null) {
         for (let i = 0; i < data.exercise_list.length; i++) {
@@ -113,7 +114,9 @@ class GridExercise {
 
 class WorkoutExercise {
   static elems = [];
+  static finishedExercises = [];
   static dropdownIcons = ["fa-angle-down", "fa-angle-left"];
+  static exerciseIndex = 0;
 
   constructor(data) {
     this.isOpen = false;
@@ -228,7 +231,8 @@ class WorkoutExercise {
         this.node.style.display = "none";
         this.durationNode.textContent = this.duration;
         this.isFinished = true;
-        timer.findExercise();
+        WorkoutExercise.finishedExercises.push(this);
+        timer.findExercise(++WorkoutExercise.exerciseIndex);
       }
     }
   }
@@ -270,6 +274,7 @@ class WorkoutExercise {
       this.elems[i].lowerRest.style.display = "var(--fa-display, inline-block)";
       this.elems[i].restTime.style.width = "60%";
       this.elems[i].isSelected = true;
+      WorkoutExercise.removeFromFinished(this.finishedExercises[i]);
       if (this.elems[0] !== this.elems[i]) {
         this.elems[i].isOpen = true;
         this.elems[i].handleContentSize();
@@ -299,6 +304,11 @@ class WorkoutExercise {
     let index = WorkoutExercise.elems.indexOf(elem);
     WorkoutExercise.elems.splice(index, 1);
   }
+
+  static removeFromFinished(elem) {
+    let index = WorkoutExercise.finishedExercises.indexOf(elem);
+    WorkoutExercise.finishedExercises.splice(index, 1);
+  }
 }
 
 //#endregion
@@ -327,7 +337,7 @@ class Timer {
   startSession() {
     this.node.classList.remove("hidden");
     this.isActive = true;
-    this.findExercise();
+    this.findExercise(0);
     this.startWatch();
     this.handleBtns();
   }
@@ -392,29 +402,36 @@ class Timer {
     return `${formattedMin}:${formattedSec}`;
   }
 
-  findExercise(){
-    for (let i = 0; i < WorkoutExercise.elems.length; i++) {
-      if (WorkoutExercise.elems[i].isFinished === false) {
-        WorkoutExercise.elems[i].isOpen = false;
-        WorkoutExercise.elems[i].isSelected = true;
-        WorkoutExercise.elems[i].handleContentSize();
-        this.selectedNode = WorkoutExercise.elems[i];
-        break;
-      }
+  findExercise(index){
+    if (WorkoutExercise.elems[index]) {
+      this.selectedNode = WorkoutExercise.elems[index];
+      this.selectedNode.isOpen = false;
+      this.selectedNode.isSelected = true;
+      return this.selectedNode.handleContentSize();
     }
+    startBtn.textContent = "Start";
+    saveExercises("count");
+    WorkoutExercise.stopWorkout();
+    timer.handleWorkoutSession();
   }
+  
 }
+
+const timer = new Timer();
 
 //#endregion
 
 //#region Additional Functions
 
-function saveExercises() {
-  workoutCon = document.querySelector("#workout-content");
+function saveExercises(param) {
   const workoutText = workoutName.textContent;
   const id = workoutParam;
   const exerciseList = [];
   const restTimeList = [];
+
+  if (param === "count") {
+    return putWorkout(id, "count", workoutText, exerciseList, restTimeList, ++timesFinished);
+  }
 
   for (let i = 0; i < WorkoutExercise.elems.length; i++) {
     const exercise = WorkoutExercise.elems[i].node.id;
@@ -423,8 +440,9 @@ function saveExercises() {
     restTimeList.push(restTime);
   };
 
+  msgAnim("Workout Finished!");
   handleStartBtn();
-  putWorkout(id, "update", workoutText, exerciseList, restTimeList);
+  putWorkout(id, "update", workoutText, exerciseList, restTimeList, ++timesFinished);
 }
 
 export function handleAddExerciseBtn() {
@@ -450,8 +468,6 @@ export function handleStartBtn() {
   }
   startBtn.classList.add("hidden");
 }
-
-const timer = new Timer();
 
 export function startWorkoutSession(event) {
   if (!timer.isActive) {

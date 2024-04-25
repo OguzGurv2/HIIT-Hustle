@@ -31,7 +31,7 @@ export async function findExercise(exerciseName) {
 
 export async function listWorkouts() {
   const db = await dbConn;
-  const workouts = await db.all('SELECT id, name FROM workouts WHERE is_deleted = FALSE');
+  const workouts = await db.all('SELECT id, name, times_finished FROM workouts WHERE is_deleted = FALSE');
   return workouts;
 }
 
@@ -45,12 +45,12 @@ export async function addWorkout(workoutName) {
   const db = await dbConn;
 
   const id = uuid();
-  await db.run('INSERT INTO workouts (id, name, is_deleted) VALUES (?, ?, ?)', [id, workoutName, 0]); 
+  await db.run('INSERT INTO workouts (id, name, times_finished, is_deleted) VALUES (?, ?, ?, ?)', [id, workoutName, 0, 0]); 
   
   return findWorkout(id); 
 }
 
-export async function editWorkout(workoutName, id, exerciseList, restTimeList) {
+export async function editWorkout(workoutName, id, exerciseList, restTimeList, timesFinished) {
   const db = await dbConn;
   
   let statement;
@@ -58,6 +58,8 @@ export async function editWorkout(workoutName, id, exerciseList, restTimeList) {
     const exerciseListJson = JSON.stringify(exerciseList);
     const restTimeListJson = JSON.stringify(restTimeList);
     statement = await db.run('UPDATE workouts SET name = ? , exercise_list = ?, rest_time_list = ? WHERE id = ? AND is_deleted = FALSE', [workoutName, exerciseListJson, restTimeListJson, id]);
+  } else if (timesFinished) {
+    statement = await db.run('UPDATE workouts SET times_finished = ? WHERE id = ? AND is_deleted = FALSE', [timesFinished, id]);
   } else {
     statement = await db.run('UPDATE workouts SET name = ? WHERE id = ? AND is_deleted = FALSE', [workoutName, id]);
   }
