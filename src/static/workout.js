@@ -14,6 +14,8 @@ import {
   putWorkout,
 } from "./dataHandler.js";
 
+import {root} from "./index.js";
+
 const urlParams = new URLSearchParams(window.location.search);
 const workoutParam = urlParams.get("workout");
 const darkenBg = document.querySelector(".darken-background");
@@ -37,6 +39,10 @@ if (workoutParam) {
   darkenBg.classList.add("hidden");
 
   localStorage.setItem("pageIndex", 1);
+
+  if (localStorage.getItem("themeColor")) {
+    root.style.setProperty('--secondary', localStorage.getItem("themeColor"));
+  }
 
   fetchExercises()
     .then((exercises) => {

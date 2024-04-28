@@ -2,6 +2,7 @@
 
 import { createInstructions } from "./contentManager.js";
 import { fetchExerciseByID } from "./dataHandler.js";
+import {root} from "./index.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const exerciseName = urlParams.get('exercise');
@@ -10,6 +11,10 @@ const exerciseGif = document.querySelector('.exercise-gif');
 const instructions = document.querySelector('#instruction-list');
 const bodyPart = document.querySelector('#body-part');
     
+if (localStorage.getItem("themeColor")) {
+    root.style.setProperty('--secondary', localStorage.getItem("themeColor"));
+}
+
 fetchExerciseByID(exerciseName)
     .then(data => {
         exerciseHeader.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);

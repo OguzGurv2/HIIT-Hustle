@@ -1,9 +1,14 @@
 import express from 'express';
 import * as mb from './database.js';
 import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const upload = multer();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PORT = 8080;
 
 app.use(express.static('src'));
@@ -70,9 +75,23 @@ async function putWorkout(req, res) {
   res.json(workouts);
 }
 
+async function getPrivacyPolicy(req, res) {
+  const filePath = path.join(__dirname, 'src', 'contents', 'jsons', 'privacy-policy.json');
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading file:', err);
+        return res.status(500).send({ error: 'Failed to read file' });
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.send(data);
+  });
+}
+
 app.get('/exercises', getExercises);
 app.get('/exercises/:exerciseName', getExercise);
 app.get('/workouts', getWorkouts);
 app.get('/workouts/:workoutID', getWorkout);
+app.get('/privacy-policy.json', getPrivacyPolicy);
 app.post('/workouts', postWorkout);
 app.put('/workouts/:workoutID', putWorkout);

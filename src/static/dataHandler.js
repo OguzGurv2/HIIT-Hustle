@@ -112,6 +112,19 @@ export async function putWorkout(id, event, workoutName, exerciseList, restTimeL
   }
 }
 
+export async function fetchPrivacyPolicy() {
+  try {
+    const response = await fetch(`/privacy-policy.json`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Privacy Policy`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error(`Error fetching Privacy Policy:`, error);
+    throw error;
+  }
+}
+
 export function editData(data, param) {
   if (param == "exercise") {
 

@@ -6,10 +6,6 @@ let lastXPos;
 let pageNum = 2;
 let header = document.querySelector("h1");
 
-const root = getComputedStyle(document.documentElement);
-const secondaryColor = root.getPropertyValue('--secondary');
-const textColor = root.getPropertyValue('--text');
-
 const container = document.querySelector("section");
 let containerPosInPx = parseFloat(
     getComputedStyle(container).transform.split(",")[4]
@@ -135,10 +131,11 @@ function updateContainerPos() {
 
 function updatePageElems(pageNum) {
     for (let i = 0; i < pages.length; i++) {
-        buttonList[i].style.color = textColor;
         if (i == pageNum) {
             header.textContent = `${pages[i]}`;
-            buttonList[pageNum].style.color = secondaryColor;
+            buttonList[pageNum].classList.add("selected");
+        } else {
+            buttonList[i].classList.remove("selected");
         }
     }
 }

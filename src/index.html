@@ -63,7 +63,57 @@
                 </div>
             </div>
         </div>
-        <div id="settings" class="page"></div>
+        <div id="settings" class="page">
+            <ul>
+                <li id="profile">
+                    <div class="settings-dropdown-btn">
+                        <p>Profile</p>
+                        <i class="fa-solid fa-circle-user"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li>Username</li>
+                        <li class="change-password">Change password</li>
+                    </ul>
+                </li>
+                <li id="app-settings">
+                    <div class="settings-dropdown-btn">
+                        <p>App Settings</p>
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li>
+                            <p>Change Theme Color</p>
+                            <div class="color-picker">
+                                <div class="color-swatch" style="background-color: #6883BA;" data-color="#6883BA"></div>
+                                <div class="color-swatch" style="background-color: #6665DD;" data-color="#6665DD"></div>
+                                <div class="color-swatch" style="background-color: #7E8D85;" data-color="#7E8D85"></div>
+                                <div class="color-swatch" style="background-color: #FB4B4E;" data-color="#FB4B4E"></div>
+                                <div class="color-swatch" style="background-color: #EF767A;" data-color="#EF767A"></div>
+                                <div class="color-swatch" style="background-color: #FE5D26;" data-color="#FE5D26"></div>
+                                <div class="color-swatch" style="background-color: #A37774;" data-color="#A37774"></div>
+                                <div class="color-swatch" style="background-color: #A833B9;" data-color="#A833B9"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li id="policy">
+                    <div class="settings-dropdown-btn">
+                        <p>Privacy Policy</p>
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                </li>
+                <li id="contact-us">
+                    <div class="settings-dropdown-btn">
+                        <p>Contact Us</p>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li>You can contact us by mail to report a bug!</li>
+                        <li>hiithustle@contactus.com</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </section>
     <div class="footer">
         <i id="exercises-btn" class="fa-solid fa-dumbbell btn"></i>
@@ -79,6 +129,9 @@
         <button id="edit-name" class="popup-btn">Edit Name</button>
         <hr>
         <button id="delete-workout" class="popup-btn">Delete Workout</button>
+    </div>
+    <div class="policy-text">
+        <h2>Privacy Policy</h2>
     </div>
     <div class="popup-msg"></div>
 </body>

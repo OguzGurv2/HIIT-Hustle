@@ -1,8 +1,7 @@
 'use strict'
 
-import { popupWrapper, workoutName, title, handleEditBtn, handleAddExerciseBtn, workoutParam, startWorkoutSession, pauseWorkoutSession } from "./workout.js";
-import { putWorkout } from './dataHandler.js';
-import { handleNameChange, createNewWorkout, deleteWorkout } from './index.js'
+import { popupWrapper, handleEditBtn, handleAddExerciseBtn, startWorkoutSession, pauseWorkoutSession } from "./workout.js";
+import { handleNameChange, createNewWorkout, deleteWorkout, handleNameInput } from './index.js'
 
 export function addEventListenersToContents(elem) {
 
@@ -45,47 +44,19 @@ export function addEventListenersToContents(elem) {
 export function handleDarkenAnim() {
     const darkenBg = document.querySelector(".darken-background");
     const popupName = document.querySelector(".popup-name");
+    const privacyText = document.querySelector(".policy-text");
     darkenBg.classList.toggle("hidden");
     const param = window.location.pathname;
-        
+
     if (param === "/workout.html") {
         popupWrapper.classList.add("hidden");
+        
     } else {
         const btnWrapper = document.querySelector(".button-wrapper");
+        privacyText.classList.remove("active");
         btnWrapper.style.display = "none";
     }
     popupName.style.display = "none";
-}
-
-export function handleNameInput(event) {
-    const darkenBg = document.querySelector(".darken-background");
-    const popupName = document.querySelector(".popup-name");
-    const btnWrapper = document.querySelector(".button-wrapper");
-    
-    if (event.key === "Enter") {
-        
-        darkenBg.classList.add("hidden");
-        popupName.style.display = "none";
-        
-        const editedName = capitalizeWords(event.target.value.split(/-/));
-        const param = window.location.pathname;
-        
-        if (param === "/workout.html") {
-            workoutName.textContent = editedName;
-            title.textContent = editedName;
-            putWorkout(workoutParam, "update", editedName);
-        } else {
-            putWorkout(btnWrapper.id, "update", editedName);
-            msgAnim("Workout name changed!");
-                
-            const workoutList = document.querySelector('.row-grid').childNodes;
-            workoutList.forEach(workout => {
-                if (workout.id === btnWrapper.id) {
-                    workout.querySelector('p').textContent = editedName;
-                };
-            });
-        };
-    };
 }
 
 export function msgAnim(param) {
