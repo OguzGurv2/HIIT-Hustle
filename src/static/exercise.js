@@ -2,7 +2,7 @@
 
 import { createInstructions } from "./contentManager.js";
 import { fetchExerciseByID } from "./dataHandler.js";
-import {root} from "./index.js";
+import {root} from "./home.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const exerciseName = urlParams.get('exercise');
@@ -16,14 +16,17 @@ if (localStorage.getItem("themeColor")) {
 }
 
 fetchExerciseByID(exerciseName)
-    .then(data => {
-        exerciseHeader.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
-        exerciseGif.src = data.url;
-        bodyPart.textContent = bodyPart.textContent + data.body_part;
-        createInstructions(data, instructions);
-    })
-    .catch(error => {
-        console.error('Error fetching exercise data:', error);
-    });
+.then(data => {
+    exerciseHeader.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+    exerciseGif.src = data.url;
+    bodyPart.textContent = bodyPart.textContent + data.body_part;
+    createInstructions(data, instructions);
+})
+.catch(error => {
+    console.error('Error fetching exercise data:', error);
+});
 
-    localStorage.setItem("pageIndex", 0);
+const navBtn = document.querySelector(".nav-btn");
+addEventListenersToContents(navBtn);
+
+localStorage.setItem("pageIndex", 0);

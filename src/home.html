@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/home.css">
+    <script type="module" defer src="/static/home.js"></script>
+    <script type="module" src="/static/pageManager.js"></script>
+    <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
+    <title>Home Screen</title>
+</head>
+
+<body>
+    <div class="darken-background hidden"></div>
+    <div id="header">
+        <h1>Home</h1>
+    </div>
+    <section>
+        <div id="exercises" class="page">
+            <div id="exercise-grid" class="grid-wrapper"></div>
+        </div>
+        <div id="workouts" class="page">
+            <div class="row-grid">
+                <a id="create-workout" class="row-child">
+                    <p>Add new workout</p>
+                    <i class="fa-solid fa-circle-plus"></i>
+                </a>
+            </div>
+        </div>
+        <div id="home" class="page">
+            <div>
+                <p><a class="username">,</a>
+                    <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
+                    <span>b</span><span>a</span><span>c</span><span>k</span><span>!</span>
+                </p>
+                <div id="activites">
+                    <p>Activity</p>
+                    <table class="activity-wrapper">
+                        <thead>
+                            <tr>
+                                <th>Workout Name</th>
+                                <th>Times Finished</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activity-data">
+                            <!-- <tr>
+                                <td>Workout1</td>
+                                <td>n</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="home-btns">
+                    <button id="go-exercises" class="btn2">
+                        <i class="fa-solid fa-angle-left"></i>
+                        <h2>Checkout All Exercises</h2>
+                    </button>
+                    <button id="go-workouts" class="btn2">
+                        <i class="fa-solid fa-angle-left"></i>
+                        <h2>Create New Workout</h2>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="settings" class="page">
+            <ul>
+                <li id="profile">
+                    <div class="settings-dropdown-btn">
+                        <p>Profile</p>
+                        <i class="fa-solid fa-circle-user"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li class="username"></li>
+                        <li class="change-password">Change password</li>
+                        <li class="log-out">Log Out</li>
+                    </ul>
+                </li>
+                <li id="app-settings">
+                    <div class="settings-dropdown-btn">
+                        <p>App Settings</p>
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li>
+                            <p>Change Theme Color</p>
+                            <div class="color-picker">
+                                <div class="color-swatch" style="background-color: #6883BA;" data-color="#6883BA"></div>
+                                <div class="color-swatch" style="background-color: #6665DD;" data-color="#6665DD"></div>
+                                <div class="color-swatch" style="background-color: #7E8D85;" data-color="#7E8D85"></div>
+                                <div class="color-swatch" style="background-color: #FB4B4E;" data-color="#FB4B4E"></div>
+                                <div class="color-swatch" style="background-color: #EF767A;" data-color="#EF767A"></div>
+                                <div class="color-swatch" style="background-color: #FE5D26;" data-color="#FE5D26"></div>
+                                <div class="color-swatch" style="background-color: #A37774;" data-color="#A37774"></div>
+                                <div class="color-swatch" style="background-color: #A833B9;" data-color="#A833B9"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li id="policy">
+                    <div class="settings-dropdown-btn">
+                        <p>Privacy Policy</p>
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                </li>
+                <li id="contact-us">
+                    <div class="settings-dropdown-btn">
+                        <p>Contact Us</p>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <ul class="settings-dropdown">
+                        <li>You can contact us by mail to report a bug!</li>
+                        <li>hiithustle@contactus.com</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div class="footer">
+        <i id="exercises-btn" class="fa-solid fa-dumbbell btn"></i>
+        <i id="workouts-btn" class="fa-solid fa-list-check btn"></i>
+        <i id="home-btn" class="fa-solid fa-house btn"></i>
+        <i id="settings-btn" class="fa-solid fa-gear btn"></i>
+    </div>
+    <div class="popup-name">
+        <p>Change workout name</p>
+        <input type="text" id="name-input" placeholder="" maxlength="20"/>
+    </div>
+    <div class="button-wrapper">
+        <button id="edit-name" class="popup-btn">Edit Name</button>
+        <hr>
+        <button id="delete-workout" class="popup-btn">Delete Workout</button>
+    </div>
+    <div class="policy-text">
+        <h2>Privacy Policy</h2>
+    </div>
+    <form id="change-pw-form" action="/u/settings/change-password" method="POST">
+        <input type="hidden" id="userID" name="userID">
+        <h2>Change password</h2>
+        <label for="oldPassword">Old Password:</label>
+        <input type="password" id="oldPassword" name="oldPassword" required>
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+        <div id="p-info" class="feedback"></div>
+        <input type="submit" value="Change Password" class="submit-btn">
+    </form>
+    <div class="popup-msg"></div>
+</body>
+
+</html>

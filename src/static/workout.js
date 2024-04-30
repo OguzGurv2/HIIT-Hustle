@@ -4,7 +4,7 @@ import {
   fixContentLength,
   addEventListenersToContents,
   capitalizeWords,
-  msgAnim,
+  msgAnim
 } from "./contentManager.js";
 import {
   fetchExerciseByID,
@@ -14,7 +14,7 @@ import {
   putWorkout,
 } from "./dataHandler.js";
 
-import {root} from "./index.js";
+import {root} from "./home.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const workoutParam = urlParams.get("workout");
@@ -27,8 +27,10 @@ const startBtn = document.querySelector("#start");
 const editBtn = document.querySelector("#edit");
 const addExerciseBtn = document.querySelector("#add-exercise");
 const pauseBtn = document.querySelector("#pause");
-let timesFinished;
+const navBtn = document.querySelector(".nav-btn");
+const userID = localStorage.getItem("userID");
 
+let timesFinished;
 let editMode = false;
 
 //#region Initialize Webpage
@@ -81,6 +83,7 @@ if (workoutParam) {
     .catch((error) => {
       console.error("Error fetching workout data:", error);
     });
+  addEventListenersToContents(navBtn);
   addEventListenersToContents(nameInput);
   addEventListenersToContents(addExerciseBtn);
   addEventListenersToContents(darkenBg);
@@ -436,7 +439,8 @@ function saveExercises(param) {
   const restTimeList = [];
 
   if (param === "count") {
-    return putWorkout(id, "count", workoutText, exerciseList, restTimeList, ++timesFinished);
+    timesFinished ++;
+    return putWorkout(id, userID, "count", workoutText, exerciseList, restTimeList, timesFinished, );
   }
 
   for (let i = 0; i < WorkoutExercise.elems.length; i++) {
@@ -448,7 +452,7 @@ function saveExercises(param) {
 
   msgAnim("Workout Finished!");
   handleStartBtn();
-  putWorkout(id, "update", workoutText, exerciseList, restTimeList, ++timesFinished);
+  putWorkout(id, userID, "update", workoutText, exerciseList, restTimeList, ++timesFinished);
 }
 
 export function handleAddExerciseBtn() {
@@ -501,4 +505,4 @@ export function pauseWorkoutSession(event) {
 
 //#endregion
 
-export { popupWrapper, workoutName, title, workoutParam };
+export { popupWrapper, workoutName, title, workoutParam, userID };

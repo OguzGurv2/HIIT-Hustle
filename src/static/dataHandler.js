@@ -1,6 +1,77 @@
 'use strict';
 
-import { capitalizeWords, createInstructions } from "./contentManager.js";
+import { capitalizeWords, createInstructions, msgAnim } from "./contentManager.js";
+import { ChangePasswordForm } from "./home.js";
+
+export async function sendUser(email, username, password) {
+  const payload = new FormData();
+  payload.append('email', email);
+  payload.append('username', username);
+  payload.append('password', password);
+
+  const response = await fetch('/u', {
+    method: 'POST',
+    body: payload  
+  });
+
+  if (response.ok) {
+    window.location.href = "/";
+    console.log('user successfully posted', response);
+  } else {
+    console.log('failed to send user', response);
+  }
+}
+
+export async function fetchUser(id) {
+  try {
+    const response = await fetch(`/u/${id}?format=json`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user with id ${id}`);
+    }
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error(`Error fetching user with id ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function updateAppSettings(userID, themeColor) {
+  const payload = new FormData();
+  payload.append('userID', userID);
+  payload.append('themeColor', themeColor);
+
+  const response = await fetch(`/u/app-settings/${userID}`, {
+    method: 'PUT',
+    body: payload  
+  });
+
+  if (response.ok) {
+    console.log('user updated successfully');
+  } else {
+    console.log('failed to update user', response);
+  }
+}
+
+export async function changePassword(event) {
+  event.preventDefault();
+  const payload = new FormData();
+  const userID = event.target.querySelector("#userID").value;
+  const oldPassword = event.target.querySelector("#oldPassword").value;
+  const newPassword = event.target.querySelector("#newPassword").value;
+  payload.append('userID', userID);
+  payload.append('oldPassword', oldPassword);
+  payload.append('newPassword', newPassword);
+
+  const response = await fetch('/u/settings/change-password', {
+      method: 'PUT',
+      body: payload
+  });
+
+  const text = await response.text();
+  msgAnim(text);
+  ChangePasswordForm.closeForm();
+}
 
 export async function fetchExercises() {
     try {
@@ -18,42 +89,39 @@ export async function fetchExercises() {
   
 export async function fetchExerciseByID(exerciseName) {
     
-    try {
-      const response = await fetch(`/exercises/${exerciseName}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch exercise with name ${exerciseName}`);
-      }
-      const exercise = await response.json();
-      return exercise;
-    } catch (error) {
-      console.error(`Error fetching exercise with name ${exerciseName}:`, error);
-      throw error;
+  try {
+    const response = await fetch(`/exercises/${exerciseName}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch exercise with name ${exerciseName}`);
     }
+    const exercise = await response.json();
+    return exercise;
+  } catch (error) {
+    console.error(`Error fetching exercise with name ${exerciseName}:`, error);
+    throw error;
+  }
 }
 
-export async function fetchWorkouts() {
+export async function fetchWorkouts(userID) {
   try {
-    const response = await fetch('/workouts');
+    const response = await fetch(`/workouts/user/${userID}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch workouts');
+        throw new Error('Failed to fetch workouts');
     }
     const workouts = await response.json();
-    if (workouts.length === 0) {
-      throw new Error('No workouts found');
-    }
     return workouts;
   } catch (error) {
-    console.error('Error fetching workouts:', error);
-    throw error;
+      console.error('Error fetching workouts:', error);
+      throw error;
   }
 }
 
 export async function fetchWorkoutByID(workoutID) {
     
   try {
-    const response = await fetch(`/workouts/${workoutID}`);
+    const response = await fetch(`/workouts/workout/${workoutID}`);
     if (!response.ok) {
-      throw new Error(`Failed to fetch workout with id ${workoutID}`);
+      throw new Error(`HTTP status ${response.status}: Failed to fetch workout with id ${workoutID}`);
     }
     const workout = await response.json();
     if (workout.exercise_list != null) {
@@ -67,10 +135,10 @@ export async function fetchWorkoutByID(workoutID) {
   }
 }
 
-export async function sendWorkout(workoutName) {
+export async function sendWorkout(workoutName, userID) {
   const payload = new FormData();
   payload.append('workoutName', workoutName);
-
+  payload.append('userID', userID)
   const response = await fetch('/workouts', {
     method: 'POST',
     body: payload  
@@ -78,16 +146,17 @@ export async function sendWorkout(workoutName) {
 
   if (response.ok) {
     const workout = await response.json();
-    window.location.href = `/workout.html?workout=${workout.id}`;
+    window.location.href = `/workout.html?workout=${workout.workout_id}`;
     console.log('workout successfully posted', response);
   } else {
     console.log('failed to post workout', response);
   }
 }
 
-export async function putWorkout(id, event, workoutName, exerciseList, restTimeList, timesFinished) {
+export async function putWorkout(workoutID, userID, event, workoutName, exerciseList, restTimeList, timesFinished) {
   const payload = new FormData();
-  payload.append('workoutID', id);
+  payload.append('workoutID', workoutID);
+  payload.append('userID', userID);
 
   if (event === "count") {
     payload.append('timesFinished', timesFinished);
@@ -98,9 +167,9 @@ export async function putWorkout(id, event, workoutName, exerciseList, restTimeL
       payload.append('exerciseList', JSON.stringify(exerciseList));
       payload.append('restTimeList', JSON.stringify(restTimeList));
     };
-  } 
-  
-  const response = await fetch(`/workouts/${id}`, {
+  }
+
+  const response = await fetch(`/workouts/workout/${workoutID}`, {
     method: 'PUT',
     body: payload  
   });
@@ -127,7 +196,6 @@ export async function fetchPrivacyPolicy() {
 
 export function editData(data, param) {
   if (param == "exercise") {
-
     const exerciseCon = document.createElement("a");
     exerciseCon.classList.add("grid-container");
     exerciseCon.classList.add("child");
@@ -145,11 +213,11 @@ export function editData(data, param) {
     exerciseCon.appendChild(exerciseGif);
     exerciseCon.appendChild(exerciseP);
     
-    if (window.location.pathname === "/") {
+    if (window.location.pathname !== "/workout.html") {
       // index.html differences
       const exerciseGrid = document.querySelector("#exercise-grid");
       
-      exerciseCon.href = `exercise.html?exercise=${data.name}`;
+      exerciseCon.href = `/exercise.html?exercise=${data.name}`;
       exerciseGrid.appendChild(exerciseCon);
       
     } else if (window.location.pathname === "/workout.html") {
@@ -256,7 +324,7 @@ export function editData(data, param) {
     const workoutCon = document.createElement("a");
     workoutCon.classList.add("row-child");
     workoutCon.classList.add("workout");
-    workoutCon.id = data.id;
+    workoutCon.id = data.workout_id;
     
     const workoutP = document.createElement("p");
     let words = data.name.split(/-/);

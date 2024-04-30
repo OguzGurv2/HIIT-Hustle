@@ -1,7 +1,8 @@
 'use strict'
 
-import { popupWrapper, handleEditBtn, handleAddExerciseBtn, startWorkoutSession, pauseWorkoutSession } from "./workout.js";
-import { handleNameChange, createNewWorkout, deleteWorkout, handleNameInput } from './index.js'
+import { popupWrapper, handleEditBtn, handleAddExerciseBtn, startWorkoutSession, pauseWorkoutSession, workoutParam, userID } from "./workout.js";
+import { handleNameChange, createNewWorkout, deleteWorkout, Workout, WorkoutData } from './home.js';
+import { putWorkout } from "./dataHandler.js";
 
 export function addEventListenersToContents(elem) {
 
@@ -35,16 +36,63 @@ export function addEventListenersToContents(elem) {
                 if (elem.classList.contains("darken-background")) {
                     elem.addEventListener("click", handleDarkenAnim);
                 }
+                if (elem.classList.contains("nav-btn")) {
+                    elem.addEventListener("click", handleNavBtn);
+                }
                 break;
         }
     };
     document.addEventListener("DOMContentLoaded", handleEvent()); 
 }
 
+function handleNavBtn() {
+    const userID = localStorage.getItem("userID");
+    window.location.href = `/u/${userID}`;
+}
+
+function handleNameInput(event) {
+    const url = new URL(window.location.href);
+    const pathSegments = url.pathname.split('/'); 
+    const pathname = pathSegments[pathSegments.length - 1];  
+  
+    const popupName = document.querySelector(".popup-name");
+    const darkenBg = document.querySelector(".darken-background");
+    let id;
+    const editedName = capitalizeWords(event.target.value.split(/-/));
+
+    if (event.key === "Enter") {
+        
+        darkenBg.classList.add("hidden");
+        popupName.style.display = "none";
+        if (pathname !== "workout.html") {
+            const btnWrapper = document.querySelector(".button-wrapper");
+            id = btnWrapper.id;
+            msgAnim("Workout name changed!");
+            
+            Workout.workoutElems.forEach(workout => {
+                if (workout.id === btnWrapper.id) {
+                    workout.querySelector('p').textContent = editedName;
+                    };
+            });
+            WorkoutData.dataList.forEach(data => {
+                if (data.id === btnWrapper.id) {
+                    data.cells.querySelector('td').textContent = editedName;
+                };
+            });
+        } else {
+            const navHeader = document.querySelector(".nav-header");
+            navHeader.textContent = editedName;
+            id = workoutParam;
+        };
+        putWorkout(id, userID, "update", editedName);
+    };
+}
+
 export function handleDarkenAnim() {
     const darkenBg = document.querySelector(".darken-background");
     const popupName = document.querySelector(".popup-name");
     const privacyText = document.querySelector(".policy-text");
+    const popupPW = document.querySelector("#change-pw-form");
     darkenBg.classList.toggle("hidden");
     const param = window.location.pathname;
 
@@ -54,6 +102,7 @@ export function handleDarkenAnim() {
     } else {
         const btnWrapper = document.querySelector(".button-wrapper");
         privacyText.classList.remove("active");
+        popupPW.classList.remove("active");
         btnWrapper.style.display = "none";
     }
     popupName.style.display = "none";
@@ -68,6 +117,9 @@ export function msgAnim(param) {
         popupMsg.classList.remove('animate-up');
         popupMsg.classList.add('animate-down');
     }, 1500);
+    setTimeout(() => {
+        popupMsg.textContent = "";
+    }, 2500)
 }
 
 export function fixContentLength(nodeList) {
