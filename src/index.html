@@ -20,13 +20,13 @@
             <a id="login-btn" class="selected">Log in</a>
             <a id="signup-btn">Sign up</a>
         </div>
-        <form id="login-form">
+        <form id="login-form" action="/u/login" method="POST">
             <input name="email" placeholder="Email Address" type="email" required>
             <div id="login-email" class="feedback">Email must contain an '@' symbol.</div>
             <input name="password" placeholder="Password" type="password" required>
             <input id="login-submit" type="submit" value="Log in" disabled>
         </form>
-        <form id="signup-form" action="/u" method="POST">
+        <form id="signup-form" action="/u/signup" method="POST">
             <input name="email" placeholder="Email Address" type="email" required>
             <div id="signup-email" class="feedback">Email must contain an '@' symbol.</div>
             <input name="username" placeholder="Username" type="text" required>

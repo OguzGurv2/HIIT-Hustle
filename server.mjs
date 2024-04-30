@@ -47,6 +47,16 @@ async function postUser(req, res) {
   }
 }
 
+async function loginUser(req, res) {
+  const { email, password } = req.body;
+  try {
+    const user = await mb.findUserByEmail(email, password);
+    res.redirect(`/u/${user.user_id}?format=html`);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
+
 async function putAppSettings(req, res) {
   const userID = req.body.userID;
   
@@ -149,7 +159,8 @@ async function getPrivacyPolicy(req, res) {
 }
 
 app.get('/u/:id', getUser);
-app.post('/u', postUser);
+app.post('/u/signup', postUser);
+app.post('/u/login', loginUser);
 app.put('/u/app-settings/:userID', putAppSettings);
 app.put('/u/settings/change-password', putUserSettings);
 app.get('/exercises', getExercises);

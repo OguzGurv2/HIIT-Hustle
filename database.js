@@ -23,6 +23,18 @@ export async function findUser(id) {
   return user;
 }
 
+export async function findUserByEmail(email, password) {
+  const db = await dbConn;
+  const row = await db.get('SELECT * FROM users WHERE email = ?', email);
+  if (!row) {
+    return "User not found";
+  }
+  if (row.password !== password) {
+    return "Incorrect password";
+  }
+  return row;
+}
+
 export async function addUser(email, username, password) {
   try {
     const db = await dbConn;
