@@ -1,7 +1,7 @@
 "use strict";
 
-import { addEventListenersToContents, findWorkoutByID, fixContentLength } from "./contentManager.js";
-import { fetchExercises, fetchWorkouts, editData, putWorkout, sendWorkout, fetchPrivacyPolicy, fetchUser, updateAppSettings, changePassword } from "./dataHandler.js";
+import { addEventListenersToContents, findWorkoutByID, fixContentLength, Exercise, capitalizeWords } from "./contentManager.js";
+import { fetchExercises, fetchWorkouts, putWorkout, sendWorkout, fetchPrivacyPolicy, fetchUser, updateAppSettings, changePassword } from "./dataHandler.js";
 
 const darkenBg = document.querySelector(".darken-background");
 const editName = document.querySelector("#edit-name");
@@ -38,7 +38,7 @@ const root = document.documentElement;
     .then((exercises) => {
       exercises.forEach((exercise) => {
           const exerciseElem = new Exercise(exercise);
-          exerciseElem.render();
+          exerciseElem.renderHomeAndWorkoutPage();
         });
         const childList = document.querySelectorAll(".child");
         fixContentLength(childList);
@@ -67,7 +67,8 @@ const root = document.documentElement;
     });
       
     const deleteWorkoutBtn = document.querySelector("#delete-workout");
-    
+    document.getElementById("change-pw-form").addEventListener("submit", changePassword);
+
     addEventListenersToContents(createWorkout);
     addEventListenersToContents(darkenBg);
     addEventListenersToContents(editName);
@@ -75,20 +76,6 @@ const root = document.documentElement;
     addEventListenersToContents(deleteWorkoutBtn);
     privacyPolicyText();
   };
-
-//#endregion
-
-//#region Exercise
-
-class Exercise {
-  constructor(data) {
-    this.data = data;
-  }
-
-  render() {
-    editData(this.data, "exercise");
-  }
-}
 
 //#endregion
 
@@ -105,9 +92,20 @@ export class Workout {
   }
 
   render() {
-    this.node = editData(this.data, "workout");
-    this.icon = this.node.querySelector("i");
+    const template = document.querySelector('.workout');
+    const content = template.content.cloneNode(true);
+    this.node = document.importNode(content, true).firstElementChild;
+    const workoutGrid = document.querySelector(".row-grid");
+    workoutGrid.appendChild(this.node);
+    
+    this.node.id = this.data.workout_id;
+    
     this.content = this.node.querySelector("p");
+    let words = this.data.name.split(/-/);
+    let workoutName = capitalizeWords(words);
+    this.content.textContent = workoutName;
+
+    this.icon = this.node.querySelector("i");
     this.handleOption();
     this.openWorkout();
     Workout.workoutElems.push(this.node);
@@ -142,7 +140,15 @@ export class WorkoutData {
   }
 
   render() {
-    this.cells = editData(this.data, "workout-data");
+    const template = document.querySelector('.workout-data');
+    const content = template.content.cloneNode(true);
+    this.cells = document.importNode(content, true).firstElementChild;
+    const activityData = document.querySelector("#activity-data");
+    activityData.appendChild(this.cells);
+
+    this.cells.querySelector(".name-cell").textContent = this.data.name;
+    this.cells.querySelector(".data-cell").textContent = this.data.times_finished;
+
     let numericData = parseFloat(this.cells.lastChild.textContent);
     WorkoutData.dataList.push({
       id: this.id,
@@ -409,8 +415,6 @@ function privacyPolicyText() {
     });
   });
 }
-
-document.getElementById("change-pw-form").addEventListener("submit", changePassword);
 
 //#endregion
 

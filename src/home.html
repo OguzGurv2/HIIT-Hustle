@@ -18,7 +18,14 @@
     </div>
     <section>
         <div id="exercises" class="page">
-            <div id="exercise-grid" class="grid-wrapper"></div>
+            <div id="exercise-grid" class="grid-wrapper">
+                <template class="exercise-template">
+                    <a class="grid-container child">
+                        <img class="exercise-gif">
+                        <p class="exercise-p"></p>
+                    </a>
+                </template>
+            </div>
         </div>
         <div id="workouts" class="page">
             <div class="row-grid">
@@ -26,6 +33,12 @@
                     <p>Add new workout</p>
                     <i class="fa-solid fa-circle-plus"></i>
                 </a>
+                <template class="workout">
+                    <a class="row-child workout">
+                        <p></p>
+                        <i class="fa-solid fa-ellipsis options" aria-hidden="true"></i>
+                    </a>
+                </template>
             </div>
         </div>
         <div id="home" class="page">
@@ -44,10 +57,12 @@
                             </tr>
                         </thead>
                         <tbody id="activity-data">
-                            <!-- <tr>
-                                <td>Workout1</td>
-                                <td>n</td>
-                            </tr> -->
+                            <template class="workout-data">
+                                <tr>
+                                    <td class="name-cell">Workout1</td>
+                                    <td class="data-cell">n</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>

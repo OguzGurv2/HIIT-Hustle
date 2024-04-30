@@ -4,13 +4,14 @@ import {
   fixContentLength,
   addEventListenersToContents,
   capitalizeWords,
-  msgAnim
+  msgAnim,
+  Exercise,
+  createInstructions
 } from "./contentManager.js";
 import {
   fetchExerciseByID,
   fetchExercises,
   fetchWorkoutByID,
-  editData,
   putWorkout,
 } from "./dataHandler.js";
 
@@ -49,8 +50,8 @@ if (workoutParam) {
   fetchExercises()
     .then((exercises) => {
       exercises.forEach((exercise) => {
-        const gridExerciseElem = new GridExercise(exercise);
-        gridExerciseElem.render();
+        const gridExerciseElem = new Exercise(exercise);
+        gridExerciseElem.renderHomeAndWorkoutPage();
       });
       const childList = document.querySelectorAll(".child");
       fixContentLength(childList);
@@ -94,34 +95,9 @@ if (workoutParam) {
 
 //#endregion
 
-//#region Popup Exercise
-
-class GridExercise {
-  constructor(data) {
-    this.data = data;
-    this.node = null;
-  }
-  render() {
-    this.node = editData(this.data, "exercise");
-    this.addExerciseToWorkout();
-  }
-  addExerciseToWorkout() {
-    this.node.addEventListener("click", () => {
-      fetchExerciseByID(this.data.name).then((data) => {
-        msgAnim("Exercise added!");
-        const workoutExerciseElem = new WorkoutExercise(data);
-        workoutExerciseElem.render();
-        saveExercises();
-      });
-    });
-  }
-}
-
-//#endregion
-
 //#region Workout Exercise
 
-class WorkoutExercise {
+export class WorkoutExercise {
   static elems = [];
   static finishedExercises = [];
   static dropdownIcons = ["fa-angle-down", "fa-angle-left"];
@@ -150,10 +126,33 @@ class WorkoutExercise {
   }
 
   render() {
-    this.node = editData(this.data, "workout-exercise");
+    const template = document.querySelector('.workout-exercise-template');
+    const content = template.content.cloneNode(true);
+    this.node = document.importNode(content, true).firstElementChild;
+    const workoutCon = document.querySelector("#workout-content");
+    workoutCon.appendChild(this.node);
+    this.node.id = this.data.name;
+    this.node.querySelector("img").src = this.data.url;
+    const editedName = capitalizeWords(this.data.name.split(/-/));
+    this.node.querySelector("p").textContent = editedName;
+    this.node.querySelector("span").textContent = this.data.duration + "s";
+    const instructions = this.node.querySelector(".instructions-div");
+    createInstructions(this.data, instructions);
+    
+    const restDuration = this.node.querySelector(".restDuration");
+    if (this.data.restTime != null) {
+      restDuration.textContent = this.data.restTime + "s";
+    } else {
+      restDuration.textContent = "5s";
+    }
+
+    this.handleContent();
+  }
+  
+  handleContent() {
     this.iconCon = this.node.querySelector(".icon-container");
     this.icon = this.iconCon.querySelector("i");
-    this.mainContent = this.node.firstChild;
+    this.mainContent = this.node.querySelector(".main-content");
     this.extendableContent = this.node.querySelector("#extendable-content");
     this.restTime = this.extendableContent.querySelector(".restDuration");
     this.increaseRest = this.extendableContent.querySelector(".fa-plus");
@@ -163,6 +162,8 @@ class WorkoutExercise {
     this.originalDuration = parseInt(this.duration, 10);
     this.originalRestTime = parseInt(this.restTime.textContent, 10);
     WorkoutExercise.elems.push(this);
+    this.isOpen = true;
+    this.handleContentSize();
     this.handleButton();
     this.handleRestTime();
     handleStartBtn();
@@ -198,8 +199,8 @@ class WorkoutExercise {
     this.icon.classList.remove("fa-angle-left");
     this.icon.classList.add("fa-angle-down");
     this.mainContent.style.height = "22.5vh";
-    this.mainContent.firstChild.style.display = "block";
-    this.mainContent.firstChild.firstChild.style.height = "70%";
+    this.mainContent.firstElementChild.style.display = "block";
+    this.mainContent.firstElementChild.firstElementChild.style.height = "70%";
   }
 
   shortenContent() {
@@ -207,8 +208,8 @@ class WorkoutExercise {
     this.icon.classList.remove("fa-angle-down");
     this.icon.classList.add("fa-angle-left");
     this.mainContent.style.height = "10vh";
-    this.mainContent.firstChild.style.display = "flex";
-    this.mainContent.firstChild.firstChild.style.height = "10vh";
+    this.mainContent.firstElementChild.style.display = "flex";
+    this.mainContent.firstElementChild.firstElementChild.style.height = "10vh";
   }
 
   deleteExercise() {
@@ -432,7 +433,7 @@ const timer = new Timer();
 
 //#region Additional Functions
 
-function saveExercises(param) {
+export function saveExercises(param) {
   const workoutText = workoutName.textContent;
   const id = workoutParam;
   const exerciseList = [];

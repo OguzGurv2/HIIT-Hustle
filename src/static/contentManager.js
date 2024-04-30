@@ -1,8 +1,14 @@
 'use strict'
 
-import { popupWrapper, handleEditBtn, handleAddExerciseBtn, startWorkoutSession, pauseWorkoutSession, workoutParam, userID } from "./workout.js";
+import { popupWrapper, handleEditBtn, handleAddExerciseBtn, startWorkoutSession, pauseWorkoutSession, workoutParam, userID, WorkoutExercise, saveExercises } from "./workout.js";
 import { handleNameChange, createNewWorkout, deleteWorkout, Workout, WorkoutData } from './home.js';
-import { putWorkout } from "./dataHandler.js";
+import { putWorkout, fetchExerciseByID } from "./dataHandler.js";
+import {
+    exerciseHeader,
+    exerciseGif,
+    bodyPart,
+    instructions
+} from "./exercise.js";
 
 export function addEventListenersToContents(elem) {
 
@@ -158,3 +164,56 @@ export function createInstructions(data, container) {
         container.appendChild(newParagraph);
     }
 }
+
+//#region Exercise Class
+
+export class Exercise {
+    constructor(data) {
+      this.data = data;
+      this.node = null;
+    }
+  
+    renderHomeAndWorkoutPage() {
+        const template = document.querySelector('.exercise-template');
+        const content = template.content.cloneNode(true);
+        
+        content.querySelector('a').id = this.data.name;
+        content.querySelector('img').src = this.data.url;
+        const editedName = capitalizeWords(this.data.name.split(/-/));
+        content.querySelector('.exercise-p').textContent = editedName;
+      
+        const param = window.location.pathname;
+        if (param !== "/workout.html") {
+            content.querySelector('a').href = `/exercise.html?exercise=${this.data.name}`;
+            const exerciseGrid = document.querySelector("#exercise-grid");
+            exerciseGrid.appendChild(content);
+        } else {
+            content.querySelector('.duration').textContent = this.data.duration + "s";
+            this.node = content.querySelector('a');
+            
+            const popupGrid = document.querySelector("#popup-grid");
+            popupGrid.appendChild(content);
+            this.addExerciseToWorkout();
+        }
+    }
+
+    renderExercisePage() {
+        exerciseHeader.textContent = this.data.name.charAt(0).toUpperCase() + this.data.name.slice(1);
+        exerciseGif.src = this.data.url;
+        bodyPart.textContent = bodyPart.textContent + this.data.body_part;
+        createInstructions(this.data, instructions);
+    }
+
+    addExerciseToWorkout() {
+        this.node.addEventListener("click", () => {
+          fetchExerciseByID(this.data.name).then((data) => {
+            msgAnim("Exercise added!");
+            const workoutExerciseElem = new WorkoutExercise(data);
+            workoutExerciseElem.render();
+            saveExercises();
+          });
+        });
+      }
+  }
+  
+  //#endregion

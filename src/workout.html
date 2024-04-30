@@ -18,6 +18,33 @@
     </div>
     <div id="workout-content" class="row-grid">
         <span id="timer" class="hidden">00:00</span>
+        <template class="workout-exercise-template">
+            <div class="row-child" id="burpees">
+                <div class="main-content" style="height: 22.5vh;">
+                    <div class="content-wrapper" style="display: block;">
+                        <img src="/contents/gifs/burpees.gif" style="height: 70%;">
+                        <div class="text-wrapper">
+                            <p>Burpees</p>
+                            <span class="duration">30s</span>
+                        </div>
+                    </div>
+                    <div class="icon-container">
+                        <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div id="extendable-content" style="display: block;">
+                    <div class="instructions-div">
+                        <h2 class="instructions-header">Instructions</h2>
+                    </div>
+                    <div class="restTime"><div>
+                        <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                        <h2 class="restDuration">5s</h2>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
     <div class="popup-name">
         <p>Name your workout!</p>
@@ -25,7 +52,15 @@
     </div>
     <div id="popup-wrapper" class="hidden">     
         <h2>Add Exercise</h2>   
-        <div id="popup-grid" class="grid-wrapper"></div>
+        <div id="popup-grid" class="grid-wrapper">
+            <template class="exercise-template">
+                <a class="grid-container child">
+                    <img class="exercise-gif" >
+                    <p class="exercise-p"></p>
+                    <p class="exercise-p duration"></p>
+                </a>
+            </template>
+        </div>
     </div>
     <button id="start" class="popup-btn hidden">Start</button>
     <div class="popup-msg"></div>
