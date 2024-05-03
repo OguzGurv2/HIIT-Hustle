@@ -1,3 +1,5 @@
+import { loginUser, sendUser } from "./dataHandler.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 
     class AccessForm {
@@ -164,4 +166,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     new AccessForm();
+
+    const signupform = document.getElementById('signup-form');
+
+    signupform.addEventListener('submit', async function(event) {
+        event.preventDefault();  
+
+        const email = signupform.querySelector('[name="email"]').value;
+        const username = signupform.querySelector('[name="username"]').value;
+        const password = signupform.querySelector('[name="password"]').value;
+
+        await sendUser(email, username, password);
+    });
+
+    const loginform = document.getElementById('login-form');
+
+    loginform.addEventListener('submit', async function(event) {
+        event.preventDefault();  
+
+        const email = loginform.querySelector('[name="email"]').value;
+        const password = loginform.querySelector('[name="password"]').value;
+
+        await loginUser(email, password);
+    })
 });

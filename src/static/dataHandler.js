@@ -1,6 +1,6 @@
 'use strict';
 
-import { capitalizeWords, msgAnim, createInstructions } from "./contentManager.js";
+import { msgAnim } from "./contentManager.js";
 import { ChangePasswordForm } from "./home.js";
 
 export async function sendUser(email, username, password) {
@@ -9,16 +9,38 @@ export async function sendUser(email, username, password) {
   payload.append('username', username);
   payload.append('password', password);
 
-  const response = await fetch('/u', {
-    method: 'POST',
-    body: payload  
-  });
+  try {
+    const response = await fetch('/u/signup', {
+      method: 'POST',
+      body: payload  
+    });
 
-  if (response.ok) {
-    window.location.href = "/";
-    console.log('user successfully posted', response);
-  } else {
-    console.log('failed to send user', response);
+    if (!response.ok) {
+      const message = await response.text();
+      msgAnim(message);
+    }
+  } catch (error) {
+    console.error('Network or server error:', error);
+    alert('Network or server error.');
+  }
+}
+
+export async function loginUser(email) {
+  try {
+    const payload = new FormData();
+    payload.append('email', email);
+
+    const response = await fetch('/u/login', {
+      method: 'POST',
+      body: payload  
+    });
+    if (!response.ok) {
+      const message = await response.text();
+      msgAnim(message);
+    }
+  } catch (error) {
+    console.error(`Error fetching user with id ${id}:`, error);
+    alert('Network or server error.');
   }
 }
 

@@ -27,17 +27,21 @@ export async function findUserByEmail(email, password) {
   const db = await dbConn;
   const row = await db.get('SELECT * FROM users WHERE email = ?', email);
   if (!row) {
-    return "User not found";
+    throw new Error('User not found');
   }
   if (row.password !== password) {
-    return "Incorrect password";
+    throw new Error('Password is not correct');
   }
   return row;
 }
 
 export async function addUser(email, username, password) {
+  const db = await dbConn;
+  const existingUser = await db.get('SELECT email FROM users WHERE email = ?', email);
+  if (existingUser) {
+    throw new Error('Email already exists');
+  }
   try {
-    const db = await dbConn;
     const id = uuid();
     await db.run('INSERT INTO users (user_id, username, email, password, theme_color) VALUES (?, ?, ?, ?, ?)', [id, username, email, password, "#6883BA"]);
     return findUser(id);

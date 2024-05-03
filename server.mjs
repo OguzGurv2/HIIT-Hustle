@@ -23,7 +23,7 @@ async function getUser(req, res) {
   try {
     const result = await mb.findUser(req.params.id);
     if (!result) {
-      return res.status(404).send('No user found.');
+      return res.status(404).send('User not found');
     } 
     if (req.query.format === 'json') {
       res.json(result);  
@@ -42,8 +42,12 @@ async function postUser(req, res) {
     const user = await mb.addUser(email, username, password);
     res.redirect(`/u/${user.user_id}?format=html`);
   } catch (error) {
-    console.error("Failed to add user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    if (error.message === "Email already exists") {
+      res.status(409).send("Email already in use");
+    } else {
+      console.error("Failed to add user:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 }
 
@@ -53,7 +57,14 @@ async function loginUser(req, res) {
     const user = await mb.findUserByEmail(email, password);
     res.redirect(`/u/${user.user_id}?format=html`);
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    if (error.message === "Password is not correct") {
+      res.status(409).send("Password is not correct");
+    } else if (error.message === "User not found"){
+      res.status(404).send("User not correct");
+    } else {
+      console.error("Failed to add user:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }  
   }
 }
 
