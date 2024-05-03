@@ -18,6 +18,10 @@ export async function sendUser(email, username, password) {
     if (!response.ok) {
       const message = await response.text();
       msgAnim(message);
+    } else {
+      const json = await response.json();  
+      console.log('Received user data:', json);
+      window.location.href = `/u/${json.user_id}?format=html`;
     }
   } catch (error) {
     console.error('Network or server error:', error);
@@ -25,10 +29,11 @@ export async function sendUser(email, username, password) {
   }
 }
 
-export async function loginUser(email) {
+export async function loginUser(email, password) {
   try {
     const payload = new FormData();
     payload.append('email', email);
+    payload.append('password', password);
 
     const response = await fetch('/u/login', {
       method: 'POST',
@@ -37,10 +42,14 @@ export async function loginUser(email) {
     if (!response.ok) {
       const message = await response.text();
       msgAnim(message);
+    } else {
+      const json = await response.json();  
+      console.log('Received user data:', json);
+      window.location.href = `/u/${json.user_id}?format=html`;
     }
   } catch (error) {
-    console.error(`Error fetching user with id ${id}:`, error);
-    alert('Network or server error.');
+    console.error(`Error fetching user:`, error);
+    alert(error)
   }
 }
 

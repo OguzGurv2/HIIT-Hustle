@@ -40,7 +40,7 @@ async function postUser(req, res) {
   try {
     const { email, username, password } = req.body;
     const user = await mb.addUser(email, username, password);
-    res.redirect(`/u/${user.user_id}?format=html`);
+    res.json(user);
   } catch (error) {
     if (error.message === "Email already exists") {
       res.status(409).send("Email already in use");
@@ -55,7 +55,7 @@ async function loginUser(req, res) {
   const { email, password } = req.body;
   try {
     const user = await mb.findUserByEmail(email, password);
-    res.redirect(`/u/${user.user_id}?format=html`);
+    res.json(user);
   } catch (error) {
     if (error.message === "Password is not correct") {
       res.status(409).send("Password is not correct");

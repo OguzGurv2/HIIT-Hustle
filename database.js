@@ -26,6 +26,7 @@ export async function findUser(id) {
 export async function findUserByEmail(email, password) {
   const db = await dbConn;
   const row = await db.get('SELECT * FROM users WHERE email = ?', email);
+
   if (!row) {
     throw new Error('User not found');
   }
