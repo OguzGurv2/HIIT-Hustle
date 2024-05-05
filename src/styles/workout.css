@@ -203,3 +203,30 @@ input:focus {
 #pause {
     display: none;
 }
+
+@media (min-width: 768px) {
+
+    .row-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    #start {
+        padding: 1.25%;
+    }
+
+    .exercise-p {
+        margin-top: 2.5%;
+    }
+
+    #popup-wrapper h2 {
+        padding-top: 2.5%;
+        padding-bottom: 2.5%;
+        background-color: var(--primary);
+    }
+
+    #popup-grid {
+        padding-top: 7.5%;
+        margin-bottom: 17.5%;
+        background-color: var(--primary);
+    }
+}

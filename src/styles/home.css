@@ -166,7 +166,7 @@ input[type="submit"]:disabled {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2.5vh;
-    width: 100vw;
+    width: 100%;
     overflow-y: scroll;
     row-gap: 2.5vh;
 }
@@ -295,7 +295,6 @@ hr {
 
 .popup-msg {
     width: 100%;
-    text-align: center;
     z-index: 4;
     position: fixed;
     bottom: -6.5%;
@@ -305,6 +304,11 @@ hr {
     font-size: large;
     font-weight: 900;
     display: none;
+}
+
+.popup-msg.active {
+    text-align: center;
+    display: flex;
 }
 
 #home>div {
@@ -569,6 +573,27 @@ li>div {
     height: fit-content;
     width: 90%;
     padding-left: 5%;
+}
+
+@media (min-width: 768px) {
+    .grid-wrapper {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .grid-container {
+        width: 17.5vw;
+        height: 8.75vh;
+    }
+
+    .exercise-gif {
+        width: 13.75vw;
+        height: 12.5vh;
+    }
+    
+    .row-grid::-webkit-scrollbar {
+        display: none;
+    }
+
 }
 
 /* Animations */

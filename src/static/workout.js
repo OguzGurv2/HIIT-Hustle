@@ -31,12 +31,13 @@ const pauseBtn = document.querySelector("#pause");
 const navBtn = document.querySelector(".nav-btn");
 const userID = localStorage.getItem("userID");
 
-let timesFinished;
+let timesFinished = 0;
 let editMode = false;
 
 //#region Initialize Webpage
 
 if (workoutParam) {
+  timesFinished = 0;
   const nameInput = document.querySelector("#name-input");
   popupName.style.display = "none";
   darkenBg.classList.add("hidden");
@@ -242,7 +243,8 @@ export class WorkoutExercise {
         this.durationNode.textContent = this.duration;
         this.isFinished = true;
         WorkoutExercise.finishedExercises.push(this);
-        timer.findExercise(++WorkoutExercise.exerciseIndex);
+        WorkoutExercise.exerciseIndex++;
+        timer.findExercise(WorkoutExercise.exerciseIndex);
       }
     }
   }

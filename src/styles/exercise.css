@@ -85,3 +85,11 @@ a {
     font-size: 20px;
     width: 75vw;
 }
+
+@media (min-width: 768px) {
+    .exercise-gif {
+        margin-top: 5%;
+        width: 25vw;
+        height: auto;
+    }
+}
