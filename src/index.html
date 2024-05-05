@@ -5,38 +5,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/index.css">
-    <script type="module" defer src="./static/index.js"></script>
-    <script type="module" src="./static/index.js"></script>
+    <script src="./static/index.js"></script>
     <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
-    <title>User Access</title>
+    <title>HIIT Hustle | Home</title>
 </head>
 
 <body>
-    <div class="nav-bar">
-        <h1 class="nav-header">Log in or Sign up</h1>
-    </div>
-    <div class="page">
-        <div id="access-selection">
-            <a id="login-btn" class="selected">Log in</a>
-            <a id="signup-btn">Sign up</a>
+    <header>
+      <nav class="nav-bar">
+        <div class="logo">
+          <a href="#">HIIT Hustle™</a>
         </div>
-        <form id="login-form" action="/u/login" method="POST">
-            <input name="email" placeholder="Email Address" type="email" required>
-            <div id="login-email" class="feedback">Email must contain an '@' symbol.</div>
-            <input name="password" placeholder="Password" type="password" required>
-            <input id="login-submit" type="submit" value="Log in" disabled>
-        </form>
-        <form id="signup-form" action="/u/signup" method="POST">
-            <input name="email" placeholder="Email Address" type="email" required>
-            <div id="signup-email" class="feedback">Email must contain an '@' symbol.</div>
-            <input name="username" placeholder="Username" type="text" required>
-            <div id="username-feedback" class="feedback">Username must not contain special characters.</div>
-            <input name="password" id="signup-pw" placeholder="Password" type="password" required>
-            <div id="p-info" class="feedback"></div>
-            <input name = "password-confirm" id="confirm-pw" placeholder="Confirm Password" type="password" required>
-            <div id="cp-info" class="feedback">Passwords are not matching.</div>
-            <input id="signup-submit" type="submit" value="Sign up" disabled>
-        </form>
-        <div class="popup-msg"></div>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+          <i class="fa-solid fa-bars menu-icon"></i>
+          <ul class="burger-menu">
+            <li class="close-menu">
+              <i class="fa-solid fa-xmark"></i>
+            </li>
+            <li>
+              <a href="accessControl.html?access=login" class="login">Log In</a>
+            </li>
+            <li>
+              <a href="accessControl.html?access=register" class="register">Register</a>
+            </li>
+          </ul>
+        <div class="account-ops">
+          <a href="accessControl.html?access=login" class="login">Log In</a>
+          <a href="accessControl.html?access=register" class="register">
+            Get Started <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </nav>
+    </header>
+    <div class="hero-section">
+      <div class="hero-background"></div>
+      <div class="spans">
+        <span>H</span>
+        <span>I</span>
+        <span>I</span>
+        <span>T</span>
+        <span>H</span>
+        <span>U</span>
+        <span>S</span>
+        <span>T</span>
+        <span>L</span>
+        <span>E</span>
+        <span>™</span>
+      </div>
+      <p>
+        Maximize every minute with HIIT Hustle app—where quick bursts lead to big results. 
+        Get ready to transform your fitness journey today!
+      </p>
+      <div class="hero-buttons">
+        <a href="accessControl.html?access=login" class="cta-button">
+          Get Started <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </a>
+        <a href="https://github.com/OguzGurv2/HIIT-Mobile-App-Project?tab=readme-ov-file#hiit-mobile-app-project" class="demo-button">
+          Documentation<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </a>
+      </div>
     </div>
+
+    <section id="about">
+      <div class="about-container">
+        <div class="about-text inter">
+          <h2>
+            <span># About Us</span>
+          </h2>  
+          <p>
+            Welcome to HIIT Hustle, where your fitness adventure takes new heights! 
+            At HIIT Hustle, we believe that high-intensity interval training not only transforms your body, 
+            but also empowers your life.
+            We're here to change the way you train by bringing the power 
+            and thrill of HIIT right to your fingertips via our unique online application.
+          </p>
+          <h3>
+            <span>## Our Mission</span>
+          </h3>
+          <p>
+            Our objective is straightforward: 
+            to make high-quality HIIT exercises accessible, effective, and entertaining for everyone. 
+            Whether you're a busy professional with limited free time, 
+            a fitness fanatic looking for a new challenge, 
+            or a newbie looking to prioritise your health, 
+            HIIT Hustle is for you.
+          </p>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="about-img">
+          <img src="./contents/images/about-us.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>
+        <span># We Offer</span>
+      </h2>
+      <ul class="features-container">
+        <li >
+          <h3>
+            <span>## Custom Workouts</span>
+          </h3>
+          <div class="features-wrapper">
+            <img>
+            <p>
+              Our application offers a fully customizable workout interface to bring the joy of exercising to everyone. 
+              You can create distinctive workouts by also editing the rest time between each exercise individually to achieve better performance 
+              and find your own pace!
+            </p>
+          </div>
+        </li>
+        <li>
+          <h3>
+            <span>## Dynamic User Interface</span>
+          </h3>
+          <div class="features-wrapper">
+            <img>
+            <p>
+              With the dynamic interface, 
+              our users can track the duration of each exercise 
+              and the total workout time while gaining deeper insights into the exercise movements through GIFs 
+              and instructions.
+            </p>
+          </div>
+        </li>
+        <li>
+          <h3>
+            <span>## Workout Tracker</span>
+          </h3>
+          <div class="features-wrapper">
+            <img>
+            <p>
+              Our app monitors your workout sessions to better understand your preferences 
+              and displays your progress each time you successfully complete a workout.
+            </p>
+          </div>
+        </li>
+        <li>
+          <h3>
+            <span>## Theme Color Setting</span>
+          </h3>
+          <div class="features-wrapper">
+            <img>
+            <p>
+              With multiple theme color selection options, 
+              our app enhances your experience by allowing you to personalize the interface. 
+              You can set the theme color in the app settings!
+            </p>
+          </div>
+        </li>
+        <li>
+          <h3>
+            <span>## Mobile Compatible</span>
+          </h3>
+          <div class="features-wrapper">
+            <img>
+            <p>
+              Our app is mobile-friendly and operates without any performance issues, 
+              allowing users to enjoy HIIT workouts anywhere, anytime. 
+              Moreover, its intuitive design ensures a seamless and engaging user experience on any device.
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>
+        <span># Get In Touch Now!</span>
+      </h2>
+      <div class="contact-section">
+        <img src="./contents/gifs/contact-us.gif" alt="" />
+        <div id="contact-container">
+          <p>Contact us via email:</p>
+          <br>
+          <a>hiithustle@contactus.com</a>
+        </div>
+      </div>
+    </section>
+
+    <footer id="footer" class="inter">
+      <p class="copyright">
+        Copyright © 2024 HIIT Hustle™ All rights reserved
+      </p>
+    </footer>
+
 </body>

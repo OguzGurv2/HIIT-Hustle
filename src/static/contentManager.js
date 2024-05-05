@@ -116,6 +116,7 @@ export function handleDarkenAnim() {
 
 export function msgAnim(param) {
     const popupMsg = document.querySelector('.popup-msg');
+    popupMsg.style.display = "flex";
     popupMsg.textContent = param;
     popupMsg.classList.remove('animate-down');
     popupMsg.classList.add('animate-up');
@@ -125,6 +126,7 @@ export function msgAnim(param) {
     }, 1500);
     setTimeout(() => {
         popupMsg.textContent = "";
+        popupMsg.style.display = "flex";
     }, 2500)
 }
 

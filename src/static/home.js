@@ -15,7 +15,7 @@ const root = document.documentElement;
   const url = new URL(window.location.href);
   const pathSegments = url.pathname.split('/'); 
   const userID = pathSegments[pathSegments.length - 1];   
-  if(userID !== "exercise.html" && userID !== "workout.html" && userID !== "") {
+  if(userID !== "exercise.html" && userID !== "workout.html" && userID !== "accessControl.html" && userID !== "") {
 
     fetchUser(userID)
     .then((user) => {

@@ -1,38 +1,514 @@
 @import 'workout.css';
 
-.nav-header {
-    padding-left: 5%;
+header {
+    z-index: 9999;
+    width: 100%;
+    position: fixed;
 }
 
-#access-selection {
-    padding-top: 15vh;
-    display: grid;
+header .nav-bar {
+    z-index: 9999;
     width: 90%;
-    grid-template-columns: 1fr 1fr;
+    height: 60px;
+    padding: 0 10px 0 20px;
+    margin: 20px 5%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary);
+    border-radius: 9999px;
+    box-shadow: 0px 4px 16px rgba(74, 78, 84, 0.1);
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    width: 15%;
+    background-color: var(--primary);
+}
+
+header .logo a{
+    text-decoration: none;
+    background-color: var(--primary);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+}
+
+header nav ul {
+    gap: 36px;
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    list-style-type: none;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    background-color: var(--primary);
+}
+
+.menu-icon::before {
+    display: none;
+}
+
+.burger-menu {
+    display: none;
+    background-color: var(--primary);
+    color: var(--text);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.burger-menu li  {
+    background-color: var(--primary);
+    margin-top: 25px;
+}
+
+.close-menu {
+    padding-top: 25%;
+}
+
+
+header .nav-bar .burger-menu li a {
+    font-size: 25px;
+}
+
+header .nav-bar ul a {
+    text-decoration: none;
+    letter-spacing: 0;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    transition: all 200ms ease;
+}
+
+header nav .account-ops {
+    display: flex;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+}
+
+header nav .account-ops .login {
+    background: transparent;
+    border-radius: 30px;
+    transition: all 200ms ease-in-out;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    cursor: pointer;
+    padding: 11px 20px;
+    background-color: var(--primary);
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+}
+
+header nav .account-ops .login:hover {
+    background-color: var(--text);
+    color: var(--background);
+}
+
+header nav .account-ops .register {
+    padding: 11px 20px;
+    padding-right: 10px;
+    background: var(--secondary);
+    color: var(--text);
+    border-radius: 30px;
+    transition: all 200ms ease-in-out;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
-
-#access-selection a {
-    font-size: 1.5em;
-    padding: 0;
+  
+header nav .account-ops .register i {
+    font-size: 12px;
+    text-align: center;
+    width: 24px;
 }
 
-#access-selection a::after {
-    content: "";
-    display: flex;
-    background-color: var(--text);
-    margin-top: 10px;
-    margin-left: 25%;
-    width: 50%;
-    height: 5px;
-    border: 0;
-    border-radius: 5px;
+header nav .account-ops .register:hover {
+    box-shadow: 0 2px 8px var(--secondary);
 }
 
-#access-selection a.selected {
+.hero-section {
+    position: relative;
+    text-align: center;
+    padding: 280px 10%;
+    overflow: hidden;
+    height: 50vh;
+}
+  
+.hero-background {
+    position: absolute;
+    z-index: -1;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100vh;
+    background-image: url(../contents/images/kike-vega-F2qh3yjz6Jk-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(100%);
+}
+
+.hero-section p,
+.cta-button {
+    position: relative;
+    z-index: 2;
+    background-color: var(--background);
+}
+
+.hero-section .spans {
+    text-align: center;
+    line-height: 72px;
+    font-size: 72px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--background);
+    letter-spacing: -7px;
+    background-color: transparent;
+}
+
+.hero-section .spans:hover {
+    cursor: default;
+}
+
+.hero-section .spans span:nth-child(4) {
+    margin-right: 2.5%;
+}
+
+span {
+    transition: color 500ms ease-in-out;
+    background-color: transparent;
+}
+
+span:hover {
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.hero-section p {
+    letter-spacing: 0;
+    color: var(--secondary);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 125%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 32px;
+    background-color: transparent;
+}
+
+.hero-section p:hover {
+    cursor: default;
+}
+
+.hero-buttons {
+    background: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.hero-buttons a {
+    z-index: 3;
+    padding: 11px 20px;
+    padding-right: 32px;
+    text-decoration: none;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    width: fit-content;
+    max-width: 600px;   
+    margin-bottom: 30px;
+    background-size: 400% 400%;
+    position: relative;
+    margin-right: 6px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.cta-button {
+    background: var(--secondary);
+    color: var(--text);
+    transition: all 400ms ease;
+    box-shadow: 0px 0px 16px var(--background);
+    justify-self: end;
+}
+  
+.cta-button i {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: 12px;
+    text-align: center;
+    width: 24px;
+}
+
+.cta-button:hover {
+    box-shadow: 0px 0px 16px var(--secondary); 
+}
+  
+.demo-button {
+    color: var(--secondary);
+    transition: all 0.2s ease;
+    background-color: transparent;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0);
+}
+  
+.demo-button i {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: 12px;
+    text-align: center;
+    width: 24px;
     color: var(--secondary);
 }
 
-#access-selection a.selected::after {
+.demo-button:hover {
+    color: var(--background);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0);
+    background-color: var(--text);
+}
+
+.demo-button:hover .fa-chevron-right {
+    color: var(--background);
+}
+
+#about {
+    padding: 120px 10%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    width: 80%;
+}
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    width: 100%;
+    column-gap: 5%;
+}
+  
+.about-text h2 {
+    font-size: 44px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+  
+.about-text p {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+  
+.about-text a {
+    padding: 11px 20px;
+    background: var(--secondary);
+    color: var(--text);
+    border-radius: 30px;
+    transition: all 200ms ease-in-out;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: fit-content;
+    text-decoration: none;
+}
+  
+.about-img {
+    width: 100%;
+}
+  
+.about-img img {
+    width: 100%;
+    height: auto;
+} 
+
+#features {
+    padding: 120px 10%;
+    overflow: hidden;
+    display: block;
+    width: 80%;
+    height: max-content;
+}
+  
+#features h2 {
+    font-size: 44px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+  
+.features-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 2%;
+    column-gap: 2%;
+    list-style-type: none;
+}
+
+.features-container li {
+    border: 2px solid var(--secondary);
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.features-wrapper {
+    margin: 5% 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+span i:before {
+    font-size: 22px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#contact {
+    width: 80%;
+    padding: 120px 10%;
+    display: block;
     background-color: var(--secondary);
+}
+  
+#contact h2 {
+    font-size: 44px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background-color: var(--secondary);
+}
+
+.contact-section {
+    margin-top: 5%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5%;
+    background-color: var(--secondary);
+}
+
+#contact img {
+    width: 100%;
+    height: auto;
+}
+  
+#contact-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary);
+}
+
+#contact-container a, #contact-container p{
+    font-size: 25px;
+    font-weight: 300;
+    padding: 0;
+    background-color: var(--secondary);
+}
+
+#contact-container a:hover{
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#contact h2 span:hover {
+    color: var(--primary);
+}
+
+#footer {
+    width: 80%;
+    padding: 60px 10%;
+    background-color: var(--background);
+    border-radius: 32px 32px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    header .nav-bar {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        justify-content: unset;
+    }
+
+    header .logo {
+        min-width: 25%;
+    }
+    
+    header .logo a{
+        font-size: 14px;
+
+    }
+
+    header nav .account-ops {
+        display: none;
+    }
+
+    .hero-section .spans {
+        font-size: 42px;
+    }
+
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+
+    .features-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-section {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-icon {
+        position: fixed;
+        right: 0;
+        padding-right: 20px;
+        font-size: 25px;
+    }
+
+    .menu-icon::before {
+        display: var(--fa-display, inline-block);
+    }
 }

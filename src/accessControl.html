@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/accessControl.css">
+    <script type="module" defer src="./static/accessControl.js"></script>
+    <script src="https://kit.fontawesome.com/13e3511e22.js" crossorigin="anonymous"></script>
+    <title>HIIT Hustle | Access Control</title>
+</head>
+
+<body>
+    <header>
+      <nav class="nav-bar">
+        <div class="logo">
+          <a src="/">HIIT Hustle™</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page">
+        <div id="access-selection">
+            <a id="login-btn">Log in</a>
+            <a id="signup-btn">Sign up</a>
+        </div>
+        <form id="login" action="/u/login" method="POST">
+            <input name="email" placeholder="Email Address" type="email" required>
+            <div id="login-email" class="feedback">Email must contain an '@' symbol.</div>
+            <input name="password" placeholder="Password" type="password" required>
+            <input id="login-submit" type="submit" value="Log in" disabled>
+        </form>
+        <form id="signup" action="/u/signup" method="POST">
+            <input name="email" placeholder="Email Address" type="email" required>
+            <div id="signup-email" class="feedback">Email must contain an '@' symbol.</div>
+            <input name="username" placeholder="Username" type="text" required>
+            <div id="username-feedback" class="feedback">Username must not contain special characters.</div>
+            <input name="password" id="signup-pw" placeholder="Password" type="password" required>
+            <div id="p-info" class="feedback"></div>
+            <input name = "password-confirm" id="confirm-pw" placeholder="Confirm Password" type="password" required>
+            <div id="cp-info" class="feedback">Passwords are not matching.</div>
+            <input id="signup-submit" type="submit" value="Sign up" disabled>
+        </form>
+        <div class="popup-msg"></div>
+</div>

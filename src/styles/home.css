@@ -304,6 +304,7 @@ hr {
     background-color: var(--green);
     font-size: large;
     font-weight: 900;
+    display: none;
 }
 
 #home>div {

@@ -1,0 +1,38 @@
+@import 'index.css';
+
+#access-selection {
+    padding-top: 15vh;
+    display: grid;
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+}
+
+#access-selection a {
+    font-size: 1.5em;
+    padding: 0;
+}
+
+#access-selection a::after {
+    content: "";
+    display: flex;
+    background-color: var(--text);
+    margin-top: 10px;
+    margin-left: 25%;
+    width: 50%;
+    height: 5px;
+    border: 0;
+    border-radius: 5px;
+}
+
+#access-selection a.selected {
+    color: var(--secondary);
+}
+
+#access-selection a.selected::after {
+    background-color: var(--secondary);
+}
+
+.logo p {
+    background-color: var(--primary);
+}
