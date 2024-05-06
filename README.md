@@ -5,7 +5,7 @@ Version: v1.0.3
 # Table of Contents
 
 - [Introduction](#introduction)
-- [Visual-Update](#last-update)
+- [Last-Update](#last-update)
 - [Tools-and-Software-Languages](#tools-and-Software-Languages)
 - [Features](#features)
 - [Challenges](#challenges)
