@@ -1,13 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const burgerMenuBtn = document.querySelector(".menu-icon");
-    const burgerMenu = document.querySelector(".burger-menu");
-    const closeMenuBtn = document.querySelector(".close-menu");
+"use strict";
 
-    burgerMenuBtn.addEventListener("click", () => {
-        burgerMenu.style.display = "var(--fa-display, inline-block)";
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  // burger menu functionality for mobile
+  const burgerMenuBtn = document.querySelector(".menu-icon");
+  const burgerMenu = document.querySelector(".burger-menu");
+  const closeMenuBtn = document.querySelector(".close-menu");
 
-    closeMenuBtn.addEventListener("click", () => {
-        burgerMenu.style.display = "none";
-    });
+  burgerMenuBtn.addEventListener("click", () => {
+    burgerMenu.style.display = "var(--fa-display, inline-block)";
+  });
+
+  closeMenuBtn.addEventListener("click", () => {
+    burgerMenu.style.display = "none";
+  });
 });

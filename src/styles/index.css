@@ -1,5 +1,7 @@
 @import 'workout.css';
 
+/* For PC */
+
 header {
     z-index: 9999;
     width: 100%;
@@ -30,7 +32,7 @@ header .logo {
     background-color: var(--primary);
 }
 
-header .logo a{
+header .logo a {
     text-decoration: none;
     background-color: var(--primary);
     font-size: 18px;
@@ -66,7 +68,7 @@ header nav ul {
     top: 0;
 }
 
-.burger-menu li  {
+.burger-menu li {
     background-color: var(--primary);
     margin-top: 25px;
 }
@@ -139,7 +141,7 @@ header nav .account-ops .register {
     justify-content: center;
     text-align: center;
 }
-  
+
 header nav .account-ops .register i {
     font-size: 12px;
     text-align: center;
@@ -157,7 +159,7 @@ header nav .account-ops .register:hover {
     overflow: hidden;
     height: 50vh;
 }
-  
+
 .hero-background {
     position: absolute;
     z-index: -1;
@@ -242,7 +244,7 @@ span:hover {
     font-weight: 600;
     font-size: 16px;
     width: fit-content;
-    max-width: 600px;   
+    max-width: 600px;
     margin-bottom: 30px;
     background-size: 400% 400%;
     position: relative;
@@ -258,7 +260,7 @@ span:hover {
     box-shadow: 0px 0px 16px var(--background);
     justify-self: end;
 }
-  
+
 .cta-button i {
     top: 50%;
     transform: translateY(-50%);
@@ -269,16 +271,16 @@ span:hover {
 }
 
 .cta-button:hover {
-    box-shadow: 0px 0px 16px var(--secondary); 
+    box-shadow: 0px 0px 16px var(--secondary);
 }
-  
+
 .demo-button {
     color: var(--secondary);
     transition: all 0.2s ease;
     background-color: transparent;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0);
 }
-  
+
 .demo-button i {
     top: 50%;
     transform: translateY(-50%);
@@ -316,19 +318,19 @@ span:hover {
     width: 100%;
     column-gap: 5%;
 }
-  
+
 .about-text h2 {
     font-size: 44px;
     font-weight: 700;
     margin-bottom: 20px;
 }
-  
+
 .about-text p {
     font-size: 20px;
     line-height: 1.5;
     margin-bottom: 20px;
 }
-  
+
 .about-text a {
     padding: 11px 20px;
     background: var(--secondary);
@@ -350,15 +352,15 @@ span:hover {
     width: fit-content;
     text-decoration: none;
 }
-  
+
 .about-img {
     width: 100%;
 }
-  
+
 .about-img img {
     width: 100%;
     height: auto;
-} 
+}
 
 #features {
     padding: 120px 10%;
@@ -367,13 +369,13 @@ span:hover {
     width: 80%;
     height: max-content;
 }
-  
+
 #features h2 {
     font-size: 44px;
     font-weight: 700;
     margin-bottom: 20px;
 }
-  
+
 .features-container {
     width: 100%;
     height: 100%;
@@ -397,7 +399,7 @@ span:hover {
     column-gap: 5%;
 }
 
-.features-wrapper img{
+.features-wrapper img {
     width: 100%;
     height: auto;
 }
@@ -415,7 +417,7 @@ span i:before {
     display: block;
     background-color: var(--secondary);
 }
-  
+
 #contact h2 {
     font-size: 44px;
     font-weight: 700;
@@ -436,7 +438,7 @@ span i:before {
     width: 100%;
     height: auto;
 }
-  
+
 #contact-container {
     width: 100%;
     display: flex;
@@ -444,14 +446,15 @@ span i:before {
     background-color: var(--secondary);
 }
 
-#contact-container a, #contact-container p{
+#contact-container a,
+#contact-container p {
     font-size: 25px;
     font-weight: 300;
     padding: 0;
     background-color: var(--secondary);
 }
 
-#contact-container a:hover{
+#contact-container a:hover {
     font-weight: 600;
     cursor: pointer;
 }
@@ -470,6 +473,8 @@ span i:before {
     gap: 20px;
 }
 
+/* For Mobile */
+
 @media (max-width: 768px) {
     header .nav-bar {
         width: 100%;
@@ -481,8 +486,8 @@ span i:before {
     header .logo {
         min-width: 25%;
     }
-    
-    header .logo a{
+
+    header .logo a {
         font-size: 14px;
 
     }

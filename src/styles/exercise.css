@@ -1,5 +1,7 @@
 @import 'home.css';
 
+/* For Mobile */
+
 * {
     overflow: visible;
 }
@@ -85,6 +87,8 @@ a {
     font-size: 20px;
     width: 75vw;
 }
+
+/* For PC */
 
 @media (min-width: 768px) {
     .exercise-gif {
