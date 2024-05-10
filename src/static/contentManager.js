@@ -62,6 +62,9 @@ export function addEventListenersToContents(elem) {
         if (elem.classList.contains("nav-btn")) {
           elem.addEventListener("click", handleNavBtn);
         }
+        if (elem.classList.contains("close")) {
+          elem.addEventListener("click", handleCloseBtn);
+        }
         break;
     }
   };
@@ -73,6 +76,12 @@ export function addEventListenersToContents(elem) {
 function handleNavBtn() {
   const userID = localStorage.getItem("userID");
   window.location.href = `/u/${userID}`;
+}
+
+function handleCloseBtn(event) {
+  const darkenBg = document.querySelector(".darken-background");
+  darkenBg.style.display = "none";
+  event.target.parentNode.style.display = "none";
 }
 
 // handles name input for changing workout names

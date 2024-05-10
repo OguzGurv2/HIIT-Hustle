@@ -28,6 +28,7 @@ const root = document.documentElement;
 const url = new URL(window.location.href);
 const pathSegments = url.pathname.split("/");
 const userID = pathSegments[pathSegments.length - 1];
+const closeBtns = document.querySelectorAll(".close");
 
 //#region Initialize Webpage
 
@@ -98,6 +99,9 @@ if (
   addEventListenersToContents(editName);
   addEventListenersToContents(nameInput);
   addEventListenersToContents(deleteWorkoutBtn);
+  closeBtns.forEach((button) => {
+    addEventListenersToContents(button);
+  })
   privacyPolicyText();
 }
 

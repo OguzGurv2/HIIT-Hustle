@@ -31,6 +31,7 @@ const addExerciseBtn = document.querySelector("#add-exercise");
 const pauseBtn = document.querySelector("#pause");
 const navBtn = document.querySelector(".nav-btn");
 const userID = localStorage.getItem("userID");
+const closeBtns = document.querySelectorAll(".close");
 
 let timesFinished = 0;
 let editMode = false;
@@ -98,6 +99,9 @@ if (workoutParam) {
   addEventListenersToContents(editBtn);
   addEventListenersToContents(startBtn);
   addEventListenersToContents(pauseBtn);
+  closeBtns.forEach((button) => {
+    addEventListenersToContents(button);
+  })
 }
 
 //#endregion

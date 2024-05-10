@@ -138,6 +138,7 @@
         <i id="settings-btn" class="fa-solid fa-gear btn"></i>
     </div>
     <div class="popup-name">
+        <button class="close">X</button>
         <p>Change workout name</p>
         <input type="text" id="name-input" placeholder="" maxlength="20"/>
     </div>
@@ -147,9 +148,11 @@
         <button id="delete-workout" class="popup-btn">Delete Workout</button>
     </div>
     <div class="policy-text">
+        <button class="close">X</button>
         <h2>Privacy Policy</h2>
     </div>
     <form id="change-pw-form" action="/u/settings/change-password" method="POST">
+        <button class="close">X</button>
         <input type="hidden" id="userID" name="userID">
         <h2>Change password</h2>
         <label for="oldPassword">Old Password:</label>

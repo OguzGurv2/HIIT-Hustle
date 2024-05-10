@@ -173,6 +173,10 @@ input[type="submit"]:disabled {
     row-gap: 2.5vh;
 }
 
+.row-grid::-webkit-scrollbar {
+    display: none;
+}
+
 .row-child {
     width: 80%;
     height: 7.5vh;
@@ -583,6 +587,20 @@ li>div {
     height: fit-content;
     width: 90%;
     padding-left: 5%;
+}
+
+.close {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    font-size: 0.75em;
+    background-color: var(--secondary);
+    font-weight: 700;
+    z-index: 9999;
+    border-radius: 1em;
+    width: 1.25em;
+    height: 1.25em;
+    text-align: center;
 }
 
 /* For PC */
