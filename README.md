@@ -5,10 +5,11 @@ Version: v1.0.3
 # Table of Contents
 
 - [Introduction](#introduction)
-- [Last-Update](#last-update)
 - [Tools-and-Software-Languages](#tools-and-Software-Languages)
 - [Features](#features)
+- [AI-Implementation](#ai-imptlementation)
 - [Challenges](#challenges)
+- [Last-Update](#last-update)
 - [Future-Ideas](#future-ideas)
 - [Roadmap](#roadmap)
 - [Conclusion](#conclusion)
@@ -16,14 +17,9 @@ Version: v1.0.3
 - [Installation](#installation)
 
 # Introduction
-This project's intents to indicate my knowledge on HTML, Javascript and CSS as a second year Software Engineering(BSc) Student.
-HIIT Hustle project is HIIT exercise web applicaton where you can create fully unique HIIT workouts.
+This project, HIIT-Hustle, is part of the Web Programming Module Coursework for my second year in the Software Engineering (BSc) program, aimed at assessing my skills in JavaScript, HTML, and CSS. For this project, I focused on using Vanilla JavaScript for client-side scripting and Node.js for server-side operations, without relying on additional libraries or APIs. The application also integrates an SQLite3 database to manage user data securely and efficiently.
 
-# Last-Update
-
-- Redesigned for PC compatible
-  
-- Webpages polished
+In today’s digital and fast-paced world, finding time for regular exercise can be challenging. HIIT-Hustle addresses this issue by facilitating High Intensity Interval Training (HIIT)—a workout methodology involving short bursts of intense activity that can last from 15 seconds to 4 minutes, known for its efficiency in burning calories quickly. HIIT-Hustle is a web-based application that allows users to create personalized HIIT workouts and track their sessions. The app is designed to make exercise accessible anytime and anywhere, helping users maintain their fitness with minimal time commitment. It features a selection of 14 different exercises and includes customizable application preferences such as theme color selection. Additionally, it offers motivational tools like a workout tracker to encourage users to engage more frequently in their exercise routines.
 
 # Tools-and-Software-Languages
 Along creating the HIIT Hustle, I have used several web application tools to enchance the game system and make an user-friendly interface.
@@ -191,6 +187,40 @@ Since I was informed about not using third party contents I used Canva to create
 ChatGPT is a natural language processing chatbot powered by AI, designed by OpenAI.
 I used ChatGPT in this project as a quick access to information, such as contents about JS classes, back-end responds, and AJAX requests.
 
+# AI-Implementation
+
+In this project we were informed that using AI tools to create code scripts was prohibited, but using it for prompts and quick research to learn a new context or get an idea was not. Throughout my project, I used AI as a research tool to learn more about writing back-end and server side coding in JS. Here’s some prompts that I used to rely on while developing this project:
+
+- What is the purpose of try and catch for server and client side?
+
+- In both server-side and front-end contexts, try and catch are fundamental for creating resilient systems that handle errors gracefully, maintain operational integrity, protect against unexpected failures, and provide a better user experience. They enable developers to manage the flow of an application even when unpredictable scenarios occur, thus improving the stability and reliability of software applications.
+
+After learning about the importance of using try and catch, I used the statement in every function on my server and client side of the application. Here’s the files:
+
+[Client side](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/static/dataHandler.js)
+
+[Server side](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/server.mjs)
+
+I also asked a list of features to find an extra feature for my application
+
+- Can you give me a list of features for a HIIT application?
+
+Allow users to create custom workouts specifying exercise types, duration of each interval, rest periods, and total workout time.
+
+Even though the list that AI gave me was long and most of the features were beyond my capability, this feature got my attention because it allows users to create fully customizable workouts with each interval that can be changed by their own.
+
+[workout.js](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/static/workout.js)
+
+There was also another issue with my login and signup system which was about form elements that uses POST requests to directly send data to server side. But I had to use the respond on client side from server side to redirect the url to application's home page. Thus, I asked to assist me on finding a built-in function.
+
+- I am currently using form elements to post data but I want to use request and response from client side with my own custom fetch API before sending it to server side, but I don't know how to prevent the stock post request from form element. What do you recommend?
+
+You'll need to add an event listener to your form that listens for the submit event. In the event handler, you can prevent the default form submission using event.preventDefault().
+
+Here's how event.preventDefault() worked in my application:
+
+[Access Control JS](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/static/accessControl.js)
+
 # Features
 
 - Creating fully custom workouts with rest intervals
@@ -243,6 +273,12 @@ Finally, I did the actual script functions for them to work with app's system, t
 Login/Signup system was a challenge to me because I developed this system in one single [html page](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/accessControl.html) with a static JS code.
 The actual challenge is to creating a class that works with both forms inside the html page and I overcame this challenge with using multiple global variables and tracking the forms by selected attribute.
 This is the [Javascript file](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/static/accessControl.js) that shows how I handled this problem.
+
+# Last-Update
+
+- Redesigned for PC compatible
+  
+- Webpages polished
 
 # Future-Ideas
 
