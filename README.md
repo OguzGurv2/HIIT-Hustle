@@ -181,7 +181,7 @@ This file is creating a database with the contents inside of it, such as tables 
 
 ## Scalable Vector Graphics
 SVG is used to define vector-based graphics for the Web. Uses XML format and having support for interactivity and animation.
-This project has 1 SVG file for landing page visualization.
+This project has 1 SVG file for landing page visualization, and it's totally free from 
 
 ## Canva
 Canva is used for creating any type of visual contents for example images, slides, logos etc.
@@ -254,7 +254,11 @@ This is the [Javascript file](https://github.com/OguzGurv2/HIIT-Hustle/blob/main
 
 - More advanced user interface for workout creating
 
+- Download feature
+
 # Roadmap
+
+- Download feature
 
 - Live Server
 
@@ -273,9 +277,11 @@ Throughout the challenges and development of this project, I find myself more ex
   
 - Coolors. (2018). Coolors. Coolors.co. https://coolors.coCrosby, N. (2021, June 4).
 
-- JavaScript GPU Animation with Transform and Translate. AG Grid. https://medium.com/ag-grid/javascript-gpu-animation-with-transform-and-translate-bf09c7000aa6Healthline. (2022).
+- Font Awesome. Retrieved March 20, 2024, from https://kit.fontawesome.com/
 
 - Healthline: Medical information and health advice you can trust. Healthline.com; Healthline. https://www.healthline.com/Mozilla. (2019, May 29).
+ 
+- JavaScript GPU Animation with Transform and Translate. AG Grid. https://medium.com/ag-grid/javascript-gpu-animation-with-transform-and-translate-bf09c7000aa6Healthline. (2022).
 
 - MDN Web Docs. MDN Web Docs. https://developer.mozilla.org/en-US/SQLite. (2014). Datatypes In SQLite Version 3.
 
@@ -283,7 +289,7 @@ Throughout the challenges and development of this project, I find myself more ex
 
 - The JSON1 Extension. (n.d.). Www.sqlite.org. Retrieved March 15, 2024, from https://www.sqlite.org/json1.html(n.d.).
 
-- Font Awesome. Retrieved March 20, 2024, from https://kit.fontawesome.com/
+- Unsplash. (2018, December 9). Photo by kike vega on Unsplash. Unsplash.com. https://unsplash.com/photos/silhouette-photography-of-woman-doing-yoga-F2qh3yjz6Jk
 
 # Installation
 
