@@ -95,11 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (placeholder === "Password") {
           const feedback = document.querySelector("#p-info");
           const rules = {
-            length: password.length > 8,
+            length: password.length > 7,
             uppercase: /[A-Z]/.test(password),
             lowercase: /[a-z]/.test(password),
             number: /\d/.test(password),
-            specialChar: /[!@#$%^&*(),.?";':{}|<>]/.test(password),
+            specialChar: /[£!@#$%^&*(),.?";':{}|<>]/.test(password),
           };
 
           const messages = [];
