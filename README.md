@@ -304,8 +304,9 @@ This is the [Javascript file](https://github.com/OguzGurv2/HIIT-Hustle/blob/main
 
 # Conclusion
 
-This project is for my Web Programming lecture coursework that shows my progress as an second year Software Engineering student in the industry.
-Throughout the challenges and development of this project, I find myself more experienced on both front and backe-end.
+This project, developed as part of my Web Programming coursework, showcases my growth as a second-year Software Engineering student and my practical application of industry skills. Throughout the project, I faced numerous challenges, particularly in developing extensive back-end code while deepening my understanding of back-end technologies. My eagerness to learn more about web development propelled me to overcome these hurdles successfully.
+
+During the development process, I also explored the use of AI as a tool to assess its effectiveness and performance within the industry. My experience led me to conclude that while it is premature to rely solely on AI for coding, it still offers substantial benefits. AI proved to be a valuable asset, providing insightful explanations and practical examples that enhanced my development process.
 
 # Resources
 
