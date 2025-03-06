@@ -221,37 +221,66 @@ Here's how event.preventDefault() worked in my application:
 
 [Access Control JS](https://github.com/OguzGurv2/HIIT-Hustle/blob/main/src/static/accessControl.js)
 
-# Features
+# Requirements
 
-- Creating fully custom workouts with rest intervals
+## Functional Requirements
 
-- Rest intervals can also individually changed by users
+### Custom Workout Creation
 
-- Tracking workouts to let users see their preferences
+- Users must be able to create fully custom workouts, including rest intervals.
 
-- 14 distinct exercises for creating workouts
+- Each rest interval should be individually adjustable by the user.
 
-- Workout naming system to keep track on your workouts
+### Workout Tracking
 
-- Sign up/log in/log out system for creating accounts
+- The app must track user workouts and provide insights into their preferences.
 
-- Changing theme color of app to make your experience more unique
+### Exercise Library
 
-- Exercise pages to see each exercise with their information
+- The app must include 14 distinct exercises for workout creation.
 
-- Visual gifs for exercises to better understand the movements
+- Each exercise must have a dedicated page displaying relevant information.
 
-- Friendly userface for workout sessions to show rest intervals, exercise duration and total taken time
+- Visual GIFs must be provided for each exercise to demonstrate movement.
 
-- Updating system for app settings and user settings
+### User Accounts & Authentication
 
-- Updating system for workouts
+- Users must be able to sign up, log in, and log out of their accounts.
 
-- Node.js server for hosting the app in your device
+### Workout Management
 
-- Mobile Compatible
+- Users must be able to name workouts for better tracking.
 
-- SQLite3 database for saving every process in the app
+- The system must support updating and modifying existing workouts.
+
+### User Interface & Experience
+
+#### The app must have a user-friendly interface for workout sessions, displaying:
+
+- Rest intervals
+
+- Exercise duration
+
+- Total time taken
+
+#### Users must be able to change the theme color for a personalized experience.
+
+### Settings & Updates
+
+- The app must allow updates to both app settings and user settings.
+
+## Technical Requirements
+
+### Backend & Hosting
+
+- A Node.js server must be used for hosting the app locally on the user's device.
+Database
+
+- The app must use an SQLite3 database to store all user data and workout progress.
+
+### Compatibility
+
+- The app must be mobile-compatible for seamless use across different devices.
 
 # Challenges
 There are the challenges that I had throughout creating HIIT Hustle:
