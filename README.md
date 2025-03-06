@@ -6,7 +6,7 @@ Version: v1.0.3
 
 - [Introduction](#introduction)
 - [Tools-and-Software-Languages](#tools-and-Software-Languages)
-- [Features](#features)
+- [Requirements](#requirements)
 - [AI-Implementation](#ai-imptlementation)
 - [Challenges](#challenges)
 - [Last-Update](#last-update)
