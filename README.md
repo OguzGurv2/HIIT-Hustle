@@ -1,10 +1,37 @@
-﻿# Project HIIT Hustle
+﻿<img src="https://capsule-render.vercel.app/api?type=waving&color=6883BA&height=120&section=header&text=HIIT%20Hustle&fontSize=36&fontColor=ffffff&animation=fadeIn" width="100%"/>
+
+<div align="center">
+
+<img src="src/contents/icons/android-chrome-192x192.png" width="90" alt="HIIT Hustle logo" />
+
+<br/>
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&duration=3000&pause=1000&color=6883BA&center=true&vCenter=true&width=600&lines=HIIT+Hustle;Personalized+HIIT+Workouts;Track+Your+Progress;Train+Anywhere%2C+Anytime)](#)
+
+<br/>
+
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](#)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](#)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](#)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](#)
+[![SQLite](https://img.shields.io/badge/SQLite3-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](#)
+
+[![Version](https://img.shields.io/badge/version-1.0.3-6883BA?style=flat-square)](#)
+[![Mobile Compatible](https://img.shields.io/badge/mobile-compatible-6883BA?style=flat-square)](#)
+
+</div>
+
+---
+
+# Project HIIT Hustle
 
 Version: v1.0.3
 
 # Table of Contents
 
 - [Introduction](#introduction)
+- [Demo](#demo)
 - [Tools-and-Software-Languages](#tools-and-Software-Languages)
 - [Requirements](#requirements)
 - [AI-Implementation](#ai-imptlementation)
@@ -20,6 +47,35 @@ Version: v1.0.3
 This project, HIIT-Hustle, is part of the Web Programming Module Coursework for my second year in the Software Engineering (BSc) program, aimed at assessing my skills in JavaScript, HTML, and CSS. For this project, I focused on using Vanilla JavaScript for client-side scripting and Node.js for server-side operations, without relying on additional libraries or APIs. The application also integrates an SQLite3 database to manage user data securely and efficiently.
 
 In today’s digital and fast-paced world, finding time for regular exercise can be challenging. HIIT-Hustle addresses this issue by facilitating High Intensity Interval Training (HIIT)—a workout methodology involving short bursts of intense activity that can last from 15 seconds to 4 minutes, known for its efficiency in burning calories quickly. HIIT-Hustle is a web-based application that allows users to create personalized HIIT workouts and track their sessions. The app is designed to make exercise accessible anytime and anywhere, helping users maintain their fitness with minimal time commitment. It features a selection of 14 different exercises and includes customizable application preferences such as theme color selection. Additionally, it offers motivational tools like a workout tracker to encourage users to engage more frequently in their exercise routines.
+
+# Demo
+
+<table>
+  <tr>
+    <td align="center"><b>Landing Page</b></td>
+    <td align="center"><b>Custom Workout Creation</b></td>
+  </tr>
+  <tr>
+    <td><img src="src/contents/images/about-us.png" /></td>
+    <td><img src="src/contents/images/custom-workout.png" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Workout Tracker</b></td>
+    <td align="center"><b>Theme Color Setting</b></td>
+  </tr>
+  <tr>
+    <td><img src="src/contents/images/workout-tracker.png" /></td>
+    <td><img src="src/contents/images/themeColor-setting.png" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>Mobile Compatible</b></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="src/contents/images/mobile-compatible.png" /></td>
+  </tr>
+</table>
+
+---
 
 # Tools-and-Software-Languages
 Along creating the HIIT Hustle, I have used several web application tools to enchance the game system and make an user-friendly interface.
@@ -371,3 +427,5 @@ Installation Steps by using Zip file:
 
 4. Open your browser and in the browse section paste:
     `http://localhost:8080`
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=6883BA&height=80&section=footer" width="100%"/>
