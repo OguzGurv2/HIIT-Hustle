@@ -17,10 +17,12 @@ app.use(upload.none());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', express.static(path.join(__dirname, 'src')));
 
-// runs server at port 8080
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
+// runs server at port 8080 (skipped on Vercel, which calls the exported app directly)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+  });
+}
 
 // gets user by id
 async function getUser(req, res) {
@@ -197,3 +199,5 @@ app.get('/workouts/workout/:workoutID', getWorkout);
 app.post('/workouts', postWorkout);
 app.put('/workouts/workout/:workoutID', putWorkout);
 app.get('/privacy-policy.json', getPrivacyPolicy);
+
+export default app;

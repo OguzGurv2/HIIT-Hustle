@@ -1,35 +1,22 @@
-import fs from 'fs';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import util from 'util';
+import { createClient } from '@libsql/client';
 import uuid from 'uuid-random';
 
-// to read the database
-fs.renameAsync = fs.renameAsync || util.promisify(fs.rename);
-
-// initializes the database 
-async function init() {
-  const db = await open({
-    filename: './database.sqlite',
-    driver: sqlite3.Database,
-    verbose: true,
-  });
-  await db.migrate({ migrationsPath: './src/contents/migrations' });
-  return db;
-}
-const dbConn = init();
+// initializes the database client
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
 // finds user by id from database
 export async function findUser(id) {
-  const db = await dbConn;
-  const user = db.get('SELECT * FROM users WHERE user_id = ?', id);
-  return user;
+  const result = await db.execute({ sql: 'SELECT * FROM users WHERE user_id = ?', args: [id] });
+  return result.rows[0];
 }
 
 // finds user by email from database
 export async function findUserByEmail(email, password) {
-  const db = await dbConn;
-  const row = await db.get('SELECT * FROM users WHERE email = ?', email);
+  const result = await db.execute({ sql: 'SELECT * FROM users WHERE email = ?', args: [email] });
+  const row = result.rows[0];
 
   if (!row) {
     throw new Error('User not found');
@@ -42,36 +29,39 @@ export async function findUserByEmail(email, password) {
 
 // adds user to database
 export async function addUser(email, username, password) {
-  const db = await dbConn;
-  const existingUser = await db.get('SELECT email FROM users WHERE email = ?', email);
-  if (existingUser) {
+  const existing = await db.execute({ sql: 'SELECT email FROM users WHERE email = ?', args: [email] });
+  if (existing.rows[0]) {
     throw new Error('Email already exists');
   }
   try {
     const id = uuid();
-    await db.run('INSERT INTO users (user_id, username, email, password, theme_color) VALUES (?, ?, ?, ?, ?)', [id, username, email, password, "#6883BA"]);
+    await db.execute({
+      sql: 'INSERT INTO users (user_id, username, email, password, theme_color) VALUES (?, ?, ?, ?, ?)',
+      args: [id, username, email, password, '#6883BA'],
+    });
     return findUser(id);
   } catch (error) {
-    console.error("Error adding user to DB:", error);
+    console.error('Error adding user to DB:', error);
     throw error;
   }
 }
 
 // updates app settings according to the user id from database
 export async function editAppSettings(id, themeColor) {
-  const db = await dbConn;
-
-  const statement = await db.run('UPDATE users SET theme_color = ? WHERE user_id = ?', [themeColor, id]);
-  if (statement.changes === 0) throw new Error('user not found');
+  const result = await db.execute({
+    sql: 'UPDATE users SET theme_color = ? WHERE user_id = ?',
+    args: [themeColor, id],
+  });
+  if (result.rowsAffected === 0) throw new Error('user not found');
 }
 
 // updates user settings according to the user id from database
 export async function editUserSettings(userID, oldPassword, newPassword) {
-  const db = await dbConn;
   try {
-    const row = await db.get('SELECT password FROM users WHERE user_id = ?', userID);
+    const result = await db.execute({ sql: 'SELECT password FROM users WHERE user_id = ?', args: [userID] });
+    const row = result.rows[0];
     if (!row) {
-      return "User not found";
+      return 'User not found';
     }
 
     if (row.password !== oldPassword) {
@@ -79,75 +69,88 @@ export async function editUserSettings(userID, oldPassword, newPassword) {
     }
 
     if (oldPassword === newPassword) {
-      return "New password should not be same with the old one";
+      return 'New password should not be same with the old one';
     }
 
-    const result = await db.run('UPDATE users SET password = ? WHERE user_id = ?', [newPassword, userID]);
-    if (result.changes === 0) {
-      return "No changes were made";
+    const update = await db.execute({
+      sql: 'UPDATE users SET password = ? WHERE user_id = ?',
+      args: [newPassword, userID],
+    });
+    if (update.rowsAffected === 0) {
+      return 'No changes were made';
     }
-    return "Password changed successfully";
+    return 'Password changed successfully';
   } catch (error) {
-    return "Server error";
+    return 'Server error';
   }
 }
 
 // lists the exercises data from database
 export async function listExercises() {
-  const db = await dbConn;
-  const exercises = await db.all('SELECT name, url, duration FROM exercises');
-  return exercises;
+  const result = await db.execute('SELECT name, url, duration FROM exercises');
+  return result.rows;
 }
 
 // finds exercise by id from database
 export async function findExercise(exerciseName) {
-  const db = await dbConn;
-  const exercise = db.get('SELECT * FROM exercises WHERE name = ?', exerciseName);
-  return exercise;
+  const result = await db.execute({ sql: 'SELECT * FROM exercises WHERE name = ?', args: [exerciseName] });
+  return result.rows[0];
 }
 
 // lists workouts by user id from database
 export async function listWorkoutsByUserID(userID) {
-  const db = await dbConn;
-  const workouts = await db.all('SELECT workout_id, name, times_finished FROM workouts WHERE user_id = ? AND is_deleted = 0', [userID]);
-  return workouts;
+  const result = await db.execute({
+    sql: 'SELECT workout_id, name, times_finished FROM workouts WHERE user_id = ? AND is_deleted = 0',
+    args: [userID],
+  });
+  return result.rows;
 }
 
 // finds workout by id from database
 export async function findWorkout(id) {
-  const db = await dbConn;
-  const workout = await db.get('SELECT * FROM workouts WHERE workout_id = ? AND is_deleted = FALSE', id);
-  return workout;
+  const result = await db.execute({
+    sql: 'SELECT * FROM workouts WHERE workout_id = ? AND is_deleted = FALSE',
+    args: [id],
+  });
+  return result.rows[0];
 }
 
 // adds workout to database
 export async function addWorkout(workoutName, userID) {
-  const db = await dbConn;
   const workoutID = uuid();
-  await db.run('INSERT INTO workouts (workout_id, name, times_finished, user_id) VALUES (?, ?, ?, ?)', [workoutID, workoutName, 0, userID]);
+  await db.execute({
+    sql: 'INSERT INTO workouts (workout_id, name, times_finished, user_id) VALUES (?, ?, ?, ?)',
+    args: [workoutID, workoutName, 0, userID],
+  });
   return findWorkout(workoutID);
 }
 
 // updates workout by id from database
 export async function editWorkout(workoutName, id, exerciseList, restTimeList, timesFinished) {
-  const db = await dbConn;
-
-  let statement;
+  let result;
   if (exerciseList) {
     const exerciseListJson = JSON.stringify(exerciseList);
     const restTimeListJson = JSON.stringify(restTimeList);
-    statement = await db.run('UPDATE workouts SET name = ? , exercise_list = ?, rest_time_list = ? WHERE workout_id = ? AND is_deleted = FALSE', [workoutName, exerciseListJson, restTimeListJson, id]);
+    result = await db.execute({
+      sql: 'UPDATE workouts SET name = ? , exercise_list = ?, rest_time_list = ? WHERE workout_id = ? AND is_deleted = FALSE',
+      args: [workoutName, exerciseListJson, restTimeListJson, id],
+    });
   } else if (timesFinished) {
-    statement = await db.run('UPDATE workouts SET times_finished = ? WHERE workout_id = ? AND is_deleted = FALSE', [timesFinished, id]);
+    result = await db.execute({
+      sql: 'UPDATE workouts SET times_finished = ? WHERE workout_id = ? AND is_deleted = FALSE',
+      args: [timesFinished, id],
+    });
   } else {
-    statement = await db.run('UPDATE workouts SET name = ? WHERE workout_id = ? AND is_deleted = FALSE', [workoutName, id]);
+    result = await db.execute({
+      sql: 'UPDATE workouts SET name = ? WHERE workout_id = ? AND is_deleted = FALSE',
+      args: [workoutName, id],
+    });
   }
-  if (statement.changes === 0) throw new Error('workout not found');
+  if (result.rowsAffected === 0) throw new Error('workout not found');
 }
 
 // deletes workout by user and workout id from database
 export async function deleteWorkout(workoutID, userID) {
-  const db = await dbConn;
-  await db.run('UPDATE workouts SET is_deleted = ? WHERE workout_id = ?', [1, workoutID]);
+  await db.execute({ sql: 'UPDATE workouts SET is_deleted = ? WHERE workout_id = ?', args: [1, workoutID] });
   return listWorkoutsByUserID(userID);
 }
